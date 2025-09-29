@@ -5,26 +5,33 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
 <title>Invitación de Grecia — Minecraft</title>
 <style>
-  :root{ --btn:#22c55e; --btnh:#16a34a; --blue:#3b82f6; --blueh:#2563eb;
-         --lime:#7bd23c; --grass:#3fa731; }
-  *{box-sizing:border-box} html,body{margin:0;height:100%}
-  body{display:grid;place-items:center;background:#0b0f17;font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;color:#fff}
+  :root{
+    --btn:#22c55e; --btnh:#16a34a;
+    --blue:#3b82f6; --blueh:#2563eb;
+    --lime:#7bd23c; --grass:#3fa731;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{
+    display:grid;place-items:center;background:#0b0f17;
+    font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;color:#fff;
+  }
 
-  .scene{width:min(92vw,780px);aspect-ratio:636/900;position:relative;border-radius:14px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.45);background:#000}
-  .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+  .scene{
+    width:min(92vw,780px); aspect-ratio:636/900;
+    position:relative; border-radius:14px; overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,.45); background:#000;
+  }
+  .bg{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center}
 
-  /* 📍 Área del texto solo sobre el café */
+  /* SOLO el área café */
   .content{
     position:absolute;
-    top:44%;        /* antes ~36–37% */
-    left:9%;
-    right:9%;
-    bottom:10%;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;
-    text-align:center;padding:10px;gap:10px;
+    top:44%; left:9%; right:9%; bottom:10%;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:10px; gap:10px;
     background:radial-gradient(transparent, rgba(0,0,0,.10) 70%);
   }
-  /* pantallas más estrechas/altas */
   @media (max-width:430px){ .content{ top:46%; left:9.5%; right:9.5%; bottom:11.5%; } }
   @media (max-aspect-ratio:9/16){ .content{ top:47.5%; bottom:12.5%; } }
 
@@ -32,14 +39,38 @@
   .name{font-weight:900;font-size:clamp(26px,7.2vw,56px);background:linear-gradient(180deg,var(--lime),var(--grass));color:#fff}
   .age{font-weight:800;font-size:clamp(15px,4.6vw,26px);background:linear-gradient(180deg,#6366f1,#3b82f6);color:#fff;box-shadow:0 4px 0 #213b7a,0 10px 16px rgba(0,0,0,.25)}
 
-  .per-letter .ch{display:inline-block;opacity:1;transform:translateY(0) scale(1)}
-  .per-letter.ready .ch{animation:pop .55s cubic-bezier(.2,.7,.2,1) forwards, wave 2.8s ease-in-out infinite;animation-delay:calc(var(--i)*55ms),calc(var(--i)*110ms)}
+  /* animación por letra */
+  .per-letter .ch{
+    display:inline-block; opacity:1; transform:translateY(0) scale(1);
+    white-space:pre; /* mantiene espacios */
+  }
+  .per-letter.ready .ch{
+    animation:pop .55s cubic-bezier(.2,.7,.2,1) forwards, wave 2.8s ease-in-out infinite;
+    animation-delay:calc(var(--i)*55ms), calc(var(--i)*110ms);
+  }
+
+  /* título con color animado + “respiración” */
+  .color-cycle{
+    background:linear-gradient(90deg,#ff6b6b,#ffd166,#06d6a0,#118ab2,#a78bfa,#ff6b6b);
+    background-size:600% 100%;
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    text-shadow:0 0 10px rgba(255,255,255,.15);
+  }
+  .breathe{ animation: colorShift 8s linear infinite, breathe 3.2s ease-in-out infinite; }
+
   h1{margin:.15em 0 .05em;font-size:clamp(22px,5.2vw,40px);letter-spacing:.6px}
-  h2{margin:0 0 .35em;font-size:clamp(18px,3.8vw,28px);background:linear-gradient(90deg,#fff,#d6fff8,#fff);-webkit-background-clip:text;background-clip:text;color:transparent}
+  h2{margin:0 0 .35em;font-size:clamp(18px,3.8vw,28px);
+     background:linear-gradient(90deg,#fff,#d6fff8,#fff);
+     -webkit-background-clip:text;background-clip:text;color:transparent}
   .info{font-size:clamp(15px,3.1vw,19px);line-height:1.35;text-wrap:balance}
 
   .btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
-  .btn{appearance:none;border:0;border-radius:12px;padding:12px 16px;font-weight:700;color:#fff;background:var(--btn);text-decoration:none;display:inline-flex;align-items:center;gap:8px;cursor:pointer;transition:transform .15s ease, background .2s ease, box-shadow .2s ease;box-shadow:0 8px 18px rgba(0,0,0,.25);font-size:clamp(14px,2.6vw,16px)}
+  .btn{
+    appearance:none;border:0;border-radius:12px;padding:12px 16px;font-weight:700;color:#fff;
+    background:var(--btn);text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+    cursor:pointer;transition:transform .15s ease, background .2s ease, box-shadow .2s ease;
+    box-shadow:0 8px 18px rgba(0,0,0,.25); font-size:clamp(14px,2.6vw,16px)
+  }
   .btn:hover{background:var(--btnh);transform:translateY(-2px)}
   .sub{font-size:12px;opacity:.9;margin-top:6px}
 
@@ -48,104 +79,90 @@
 
   @keyframes pop{0%{opacity:0;transform:translateY(10px) scale(.9)}60%{opacity:1;transform:translateY(-3px) scale(1.05)}100%{opacity:1;transform:translateY(0) scale(1)}}
   @keyframes wave{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-  /* donde ya tienes .per-letter .ch */
-.per-letter .ch{
-  display:inline-block;
-  opacity:1;
-  transform:translateY(0) scale(1);
-  white-space: pre;            /* 👈 evita que se colapsen los espacios */
-}
-
+  @keyframes colorShift{from{background-position:0% 50%}to{background-position:100% 50%}}
+  @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+  @media (prefers-reduced-motion:reduce){ .per-letter.ready .ch,.breathe{animation:none} }
 </style>
 </head>
 <body>
   <div class="scene" role="img" aria-label="Invitación temática Minecraft">
-    <img id="tpl" class="bg"
+    <!-- Fondo (Drive) -->
+    <img class="bg"
          src="https://drive.google.com/thumbnail?id=1ImdQCYxQzGx1a9RED9PQCGjlqWvv9KUq&sz=w2000"
          alt="Plantilla Minecraft">
 
     <div class="content" aria-live="polite">
       <div class="chip name per-letter">Grecia</div>
       <div class="chip age per-letter">Cumpleaños</div>
-      <div class="chip age per-letter">7</div>
+      <div class="chip age per-letter" style="margin-top:4px">7</div>
 
-      <h1 class="per-letter">¡Acompáñanos a celebrar!</h1>
+      <h1 class="per-letter color-cycle breathe">¡Acompáñanos a celebrar!</h1>
       <h2 class="per-letter">El cumpleaños de Grecia 🎂</h2>
 
-     <div class="info">
-  📅 <strong>8 de noviembre</strong><br/>
-  🕓 <strong>4:00–8:00 p.m.</strong><br/>
-  📍 <strong>Pinocchio Salón de Fiestas Infantiles</strong>
-</div>
+      <!-- mejor SIN animación por letra aquí para evitar “pegados” -->
+      <div class="info">
+        📅 <strong>8 de noviembre</strong><br/>
+        🕓 <strong>4:00–8:00 p.m.</strong><br/>
+        📍 <strong>Pinocchio Salón de Fiestas Infantiles</strong>
+      </div>
 
       <div class="btns">
         <a class="btn" href="https://maps.app.goo.gl/VBHEYq9buCPKmp9m6" target="_blank" rel="noopener">📍 Ver ubicación</a>
         <a class="btn" href="https://wa.me/526143811528?text=Confirmo%20mi%20asistencia%20al%20cumplea%C3%B1os%20de%20Grecia%20🎉" target="_blank" rel="noopener">✅ Confirmar asistencia</a>
       </div>
 
-      <p class="sub">La música se activa al primer toque (o usa el botón). </p>
+      <p class="sub">La música se activa al primer toque (o usa el botón).</p>
     </div>
 
-    <!-- Arranca muted (permitido); se desmutea al primer gesto global -->
-    <audio id="bgm" autoplay muted loop playsinline preload="auto" crossorigin="anonymous">
+    <!-- AUDIO: usa el MP3 subido al repo (Minecraft.mp3) + respaldo de Drive -->
+    <audio id="bgm" autoplay muted loop playsinline preload="auto">
+      <source src="Minecraft.mp3" type="audio/mpeg">
       <source src="https://drive.google.com/uc?export=download&id=1VZ_vhAwGanqgR9nl2W5rV2KB8_I4zugH" type="audio/mpeg">
-      <source src="https://vgmsite.com/soundtracks/minecraft-volume-alpha/uwshxmdq/02.%20Minecraft.mp3" type="audio/mpeg">
     </audio>
     <div id="musicBar"><button class="btn" id="playBtn">🔊 Activar música</button></div>
   </div>
 
 <script>
-  /* animación letra por letra */
- function splitLetters(el){
-  const t = el.textContent; el.textContent='';
-  [...t].forEach((ch,i)=>{
-    const s = document.createElement('span');
-    s.className = 'ch';
-    s.style.setProperty('--i', i);
-    s.textContent = (ch === ' ') ? '\u00A0' : ch;  // 👈 espacio duro (no-break)
-    el.appendChild(s);
+  /* animación por letra (con espacios correctos) */
+  function splitLetters(el){
+    const t = el.textContent; el.textContent='';
+    [...t].forEach((ch,i)=>{
+      const s=document.createElement('span');
+      s.className='ch'; s.style.setProperty('--i',i);
+      s.textContent = (ch===' ')? '\u00A0' : ch; // mantiene espacios
+      el.appendChild(s);
+    });
+    requestAnimationFrame(()=> el.classList.add('ready'));
+  }
+  document.querySelectorAll('.per-letter').forEach(splitLetters);
+
+  /* AUDIO: inicia muteado; se desmutea al primer gesto o con el botón */
+  const audio = document.getElementById('bgm');
+  const bar   = document.getElementById('musicBar');
+  const btn   = document.getElementById('playBtn');
+
+  // intento autoplay silencioso
+  window.addEventListener('load', () => {
+    audio.play().catch(()=>{});
+    setTimeout(()=>{ if(audio.muted) bar.style.display='flex'; }, 1500);
   });
-  requestAnimationFrame(()=> el.classList.add('ready'));
-}
 
-  // Intento de autoplay en silencio
-  async function tryMutedAutoplay(){
-    try{ await audio.play(); }catch{ /* algunos navegadores bloquean incluso muted */ }
-  }
-
-  // Desmutear y reproducir al primer gesto en cualquier parte
-  let armed = true;
   async function enableSound(){
-    if(!armed) return; armed = false;
     try{
-      audio.muted = false;
+      audio.muted=false;
       await audio.play();
-      bar.style.display = 'none';
-    }catch{
-      // si aún falla, deja el botón visible
-      bar.style.display = 'flex';
+      bar.style.display='none';
+    }catch(e){
+      bar.style.display='flex';
     }
-    // quitar listeners para no repetir
-    ['pointerdown','touchstart','click','keydown','scroll','visibilitychange'].forEach(ev =>
-      document.removeEventListener(ev, enableSound, {passive:true})
-    );
   }
 
-  // Botón de respaldo
-  btn.addEventListener('pointerup', enableSound, {passive:true});
+  // cualquier gesto del usuario habilita el sonido (una sola vez)
+  ['pointerdown','touchstart','click','keydown'].forEach(ev=>{
+    document.addEventListener(ev, enableSound, {once:true, passive:true});
+  });
 
-  // Si el navegador bloquea, muestra botón
-  audio.addEventListener('error', ()=>{ bar.style.display='flex'; });
-
-  // Mostrar botón si seguimos en mute tras 1.5s
-  setTimeout(()=>{ if(audio.muted) bar.style.display='flex'; }, 1500);
-
-  // Armar listeners globales: cualquier gesto activa el audio
-  ['pointerdown','touchstart','click','keydown','scroll','visibilitychange'].forEach(ev =>
-    document.addEventListener(ev, enableSound, {passive:true})
-  );
-
-  window.addEventListener('load', tryMutedAutoplay);
+  btn?.addEventListener('click', enableSound);
 </script>
 </body>
 </html>
