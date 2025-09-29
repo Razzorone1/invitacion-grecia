@@ -48,7 +48,14 @@
 
   @keyframes pop{0%{opacity:0;transform:translateY(10px) scale(.9)}60%{opacity:1;transform:translateY(-3px) scale(1.05)}100%{opacity:1;transform:translateY(0) scale(1)}}
   @keyframes wave{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-  .per-letter .ch{ white-space: pre; }
+  /* donde ya tienes .per-letter .ch */
+.per-letter .ch{
+  display:inline-block;
+  opacity:1;
+  transform:translateY(0) scale(1);
+  white-space: pre;            /* 👈 evita que se colapsen los espacios */
+}
+
 </style>
 </head>
 <body>
@@ -64,11 +71,11 @@
       <h1 class="per-letter">¡Acompáñanos a celebrar!</h1>
       <h2 class="per-letter">El cumpleaños de Grecia 🎂</h2>
 
-      <div class="info per-letter">
-        📅 <strong>8 de noviembre</strong><br/>
-        🕓 <strong>4:00–8:00 p.m.</strong><br/>
-        📍 <strong>Pinocchio Salón de Fiestas Infantiles</strong>
-      </div>
+     <div class="info">
+  📅 <strong>8 de noviembre</strong><br/>
+  🕓 <strong>4:00–8:00 p.m.</strong><br/>
+  📍 <strong>Pinocchio Salón de Fiestas Infantiles</strong>
+</div>
 
       <div class="btns">
         <a class="btn" href="https://maps.app.goo.gl/VBHEYq9buCPKmp9m6" target="_blank" rel="noopener">📍 Ver ubicación</a>
@@ -88,12 +95,13 @@
 
 <script>
   /* animación letra por letra */
-  function splitLetters(el){
+ function splitLetters(el){
   const t = el.textContent; el.textContent='';
   [...t].forEach((ch,i)=>{
-    const s=document.createElement('span');
-    s.className='ch'; s.style.setProperty('--i',i);
-    s.textContent = (ch === ' ') ? '\u00A0' : ch;  // <-- aquí
+    const s = document.createElement('span');
+    s.className = 'ch';
+    s.style.setProperty('--i', i);
+    s.textContent = (ch === ' ') ? '\u00A0' : ch;  // 👈 espacio duro (no-break)
     el.appendChild(s);
   });
   requestAnimationFrame(()=> el.classList.add('ready'));
