@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>Invitación de Grecia — Minecraft</title>
+<style>
+  :root{ --btn:#22c55e; --btnh:#16a34a; --blue:#3b82f6; --blueh:#2563eb;
+         --shine1:#00ffd5; --shine2:#ffee00; --shine3:#ff4dff; --lime:#7bd23c; --grass:#3fa731; }
+  *{box-sizing:border-box} html,body{margin:0;height:100%}
+  body{display:grid;place-items:center;background:#0b0f17;font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;color:#fff}
+  .scene{width:min(92vw,780px);aspect-ratio:636/900;position:relative;border-radius:14px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.45);background:#000}
+  .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+  .content{position:absolute;top:36%;left:8.2%;right:8.2%;bottom:9%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:10px;gap:10px;background:radial-gradient(transparent,rgba(0,0,0,.12) 70%)}
+  @media (max-width:420px){.content{top:37%;left:8.5%;right:8.5%;bottom:9.5%}}
+  .chip{border-radius:12px;padding:8px 14px;box-shadow:0 6px 0 #2a6b22,0 10px 18px rgba(0,0,0,.35)}
+  .name{font-weight:900;font-size:clamp(26px,7.2vw,56px);background:linear-gradient(180deg,var(--lime),var(--grass));color:#fff}
+  .age{font-weight:800;font-size:clamp(15px,4.6vw,26px);background:linear-gradient(180deg,#6366f1,#3b82f6);color:#fff;box-shadow:0 4px 0 #213b7a,0 10px 16px rgba(0,0,0,.25)}
+  .per-letter .ch{display:inline-block;opacity:1;transform:translateY(0) scale(1)}
+  .per-letter.ready .ch{animation:pop .55s cubic-bezier(.2,.7,.2,1) forwards, wave 2.8s ease-in-out infinite;animation-delay:calc(var(--i)*55ms),calc(var(--i)*110ms)}
+  h1{margin:.2em 0 .05em;font-size:clamp(22px,5.2vw,40px);letter-spacing:.6px}
+  h2{margin:0 0 .4em;font-size:clamp(18px,3.8vw,28px);background:linear-gradient(90deg,#fff,#d6fff8,#fff);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .info{font-size:clamp(15px,3.2vw,19px);line-height:1.35;text-wrap:balance}
+  .btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+  .btn{appearance:none;border:0;border-radius:12px;padding:12px 16px;font-weight:700;color:#fff;background:var(--btn);text-decoration:none;display:inline-flex;align-items:center;gap:8px;cursor:pointer;transition:transform .15s ease, background .2s ease, box-shadow .2s ease;box-shadow:0 8px 18px rgba(0,0,0,.25);font-size:clamp(14px,2.6vw,16px)}
+  .btn:hover{background:var(--btnh);transform:translateY(-2px)}
+  .sub{font-size:12px;opacity:.9;margin-top:6px}
+  .picker{position:absolute;top:10px;left:10px;z-index:3;display:flex;gap:8px}
+  .hint{position:absolute;top:54px;left:10px;font-size:12px;opacity:.85;display:none}
+  #musicBar{position:absolute;left:0;right:0;bottom:10px;display:flex;justify-content:center;z-index:3}
+  #musicBar .btn{background:var(--blue)} #musicBar .btn:hover{background:var(--blueh)}
+  @keyframes pop{0%{opacity:0;transform:translateY(10px) scale(.9)}60%{opacity:1;transform:translateY(-3px) scale(1.05)}100%{opacity:1;transform:translateY(0) scale(1)}}
+  @keyframes wave{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+</style>
+</head>
+<body>
+  <div class="scene" role="img" aria-label="Invitación temática Minecraft">
+    <!-- Fondo: Drive thumbnail (directo) -->
+    <img id="tpl" class="bg"
+         src="https://drive.google.com/thumbnail?id=1ImdQCYxQzGx1a9RED9PQCGjlqWvv9KUq&sz=w2000"
+         alt="Plantilla Minecraft">
+
+    <!-- Pickers visibles si algo falla -->
+    <div class="picker" id="pickers" style="display:none">
+      <label class="btn" for="imgFile">🖼️ Fondo</label>
+      <input id="imgFile" type="file" accept="image/*" style="display:none">
+      <label class="btn" for="audFile">🎵 Música</label>
+      <input id="audFile" type="file" accept="audio/*" style="display:none">
+    </div>
+    <div class="hint" id="hint">No se pudo cargar desde Drive. Elige archivos locales.</div>
+
+    <div class="content" aria-live="polite">
+      <div class="chip name per-letter">Grecia</div>
+      <div class="chip age per-letter">Cumple 7</div>
+
+      <h1 class="per-letter">¡Acompáñanos a celebrar!</h1>
+      <h2 class="per-letter">Cumpleaños de Grecia 🎂</h2>
+
+      <div class="info per-letter">
+        📅 <strong>8 de noviembre</strong><br/>
+        🕓 <strong>4:00–8:00 p.m.</strong><br/>
+        📍 <strong>Pinocchio Salón de Fiestas Infantiles</strong>
+      </div>
+
+      <div class="btns">
+        <a class="btn" href="https://maps.app.goo.gl/VBHEYq9buCPKmp9m6" target="_blank" rel="noopener">📍 Ver ubicación</a>
+        <a class="btn" href="https://wa.me/526143811528?text=Confirmo%20mi%20asistencia%20al%20cumplea%C3%B1os%20de%20Grecia%20🎉" target="_blank" rel="noopener">✅ Confirmar asistencia</a>
+      </div>
+
+      <p class="sub">Si no escuchas música, usa el botón de abajo para iniciarla.</p>
+    </div>
+
+    <!-- Audio: Drive (primero) + respaldo público (segundo) -->
+    <audio id="bgm" loop playsinline preload="auto" crossorigin="anonymous">
+      <source src="https://drive.google.com/uc?export=download&id=1VZ_vhAwGanqgR9nl2W5rV2KB8_I4zugH" type="audio/mpeg">
+      <source src="https://vgmsite.com/soundtracks/minecraft-volume-alpha/uwshxmdq/02.%20Minecraft.mp3" type="audio/mpeg">
+    </audio>
+    <div id="musicBar"><button class="btn" id="playBtn">🔊 Activar música</button></div>
+  </div>
+
+<script>
+  /* animación por letra */
+  function splitLetters(el){
+    const t = el.textContent; el.textContent='';
+    [...t].forEach((ch,i)=>{ const s=document.createElement('span'); s.className='ch'; s.style.setProperty('--i',i); s.textContent=ch; el.appendChild(s); });
+    requestAnimationFrame(()=> el.classList.add('ready'));
+  }
+  document.querySelectorAll('.per-letter').forEach(splitLetters);
+
+  const bg = document.getElementById('tpl');
+  const pickers = document.getElementById('pickers');
+  const hint = document.getElementById('hint');
+  const imgFile = document.getElementById('imgFile');
+  const audFile = document.getElementById('audFile');
+  const audio = document.getElementById('bgm');
+  const bar   = document.getElementById('musicBar');
+  const btn   = document.getElementById('playBtn');
+
+  // Si la imagen de Drive falla, muestra pickers
+  bg.addEventListener('error', ()=>{ pickers.style.display='flex'; hint.style.display='block'; });
+
+  imgFile.addEventListener('change', e=>{
+    const f = e.target.files && e.target.files[0]; if(!f) return;
+    const r = new FileReader(); r.onload = ev => { bg.src = ev.target.result; };
+    r.readAsDataURL(f);
+  });
+
+  audFile.addEventListener('change', e=>{
+    const f = e.target.files && e.target.files[0]; if(!f) return;
+    const r = new FileReader(); r.onload = ev => { audio.src = ev.target.result; bar.style.display='flex'; };
+    r.readAsDataURL(f);
+  });
+
+  // Música: botón para móviles / bloqueos
+  function playMusic(){ audio.muted=false; audio.play().then(()=>{ bar.style.display='none'; }).catch(()=>{ bar.style.display='flex'; }); }
+  btn.addEventListener('pointerup', playMusic, {passive:true});
+  // Si el primer <source> (Drive) falla, intentará el segundo; en todo caso muestra el botón
+  audio.addEventListener('error', ()=>{ bar.style.display='flex'; });
+
+  // Intento suave en carga (algunos navegadores lo permiten si está muteado)
+  window.addEventListener('load', async ()=>{
+    try{ audio.muted = true; await audio.play(); setTimeout(()=> audio.muted=false,150); }
+    catch{ bar.style.display='flex'; }
+  });
+</script>
+</body>
+</html>
+
+
