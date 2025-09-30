@@ -5,73 +5,35 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
 <title>Invitación de Grecia — Minecraft</title>
 <style>
-  :root{
-    --btn:#22c55e; --btnh:#16a34a;
-    --blue:#3b82f6; --blueh:#2563eb;
-    --lime:#7bd23c; --grass:#3fa731;
-  }
+  :root{ --btn:#22c55e; --btnh:#16a34a; --blue:#3b82f6; --blueh:#2563eb; --lime:#7bd23c; --grass:#3fa731; }
   *{box-sizing:border-box}
   html,body{margin:0;height:100%}
-  body{
-    display:grid;place-items:center;background:#0b0f17;
-    font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;color:#fff;
-  }
+  body{display:grid;place-items:center;background:#0b0f17;font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;color:#fff}
+  .scene{width:min(92vw,780px);aspect-ratio:636/900;position:relative;border-radius:14px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.45);background:#000;isolation:isolate}
+  .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;pointer-events:none}
 
-  /* Contenedor principal — crea su propio “stack” para z-index */
-  .scene{
-    width:min(92vw,780px); aspect-ratio:636/900;
-    position:relative; border-radius:14px; overflow:hidden;
-    box-shadow:0 20px 60px rgba(0,0,0,.45); background:#000;
-    isolation:isolate;                 /* 👈 importante para que z-index funcione limpio */
-  }
-
-  /* Fondo SIEMPRE abajo */
-  .bg{
-    position:absolute; inset:0; width:100%; height:100%;
-    object-fit:cover; object-position:center;
-    z-index:0;                          /* 👈 fondo */
-    pointer-events:none;
-  }
-
-  /* Área del recuadro café (encima de todo) */
   .content{
-    position:absolute;
-    top:44.5%; left:9%; right:9%; bottom:10.5%;
+    position:absolute; top:44.5%; left:9%; right:9%; bottom:10.5%;
     display:flex; flex-direction:column; align-items:center; justify-content:center;
-    text-align:center; padding:10px; gap:10px;
-    z-index:3;                          /* 👈 por ENCIMA del fondo o cualquier otra imagen */
+    text-align:center; padding:10px; gap:10px; z-index:3;
   }
   @media (max-width:430px){ .content{ top:46.5%; left:9.5%; right:9.5%; bottom:12%; } }
 
-  /* Tarjetas */
   .chip{border-radius:12px;padding:8px 14px;box-shadow:0 6px 0 #2a6b22,0 10px 18px rgba(0,0,0,.35); position:relative; z-index:4;}
   .name{font-weight:900;font-size:clamp(26px,7.2vw,56px);background:linear-gradient(180deg,var(--lime),var(--grass));color:#fff}
   .age{font-weight:800;font-size:clamp(15px,4.6vw,26px);background:linear-gradient(180deg,#6366f1,#3b82f6);color:#fff;box-shadow:0 4px 0 #213b7a,0 10px 16px rgba(0,0,0,.25)}
 
-  /* Animación por letra — mantiene espacios */
-  .per-letter .ch{
-    display:inline-block; white-space:pre; opacity:1; transform:translateY(0) scale(1);
-  }
-  .per-letter.ready .ch{
-    animation:pop .55s cubic-bezier(.2,.7,.2,1) forwards, wave 2.8s ease-in-out infinite;
-    animation-delay:calc(var(--i)*55ms), calc(var(--i)*110ms);
-  }
-
-  /* Título con degradado animado letra por letra */
-  .title-anim{ position:relative; z-index:5; }   /* 👈 por encima de todo */
+  .per-letter .ch{display:inline-block;white-space:pre}
   .title-anim .ch{
     background:linear-gradient(90deg,#ff6b6b,#ffd166,#06d6a0,#118ab2,#a78bfa,#ff6b6b);
     background-size:600% 100%;
-    -webkit-background-clip:text; background-clip:text; color:transparent;
+    -webkit-background-clip:text;background-clip:text;color:transparent;
     animation: colorShift 8s linear infinite, wave 2.8s ease-in-out infinite;
-    animation-delay: calc(var(--i)*0ms), calc(var(--i)*110ms); /* color sin desfase, wave escalonado */
+    animation-delay: calc(var(--i)*0ms), calc(var(--i)*110ms);
     text-shadow:0 0 10px rgba(0,0,0,.15);
   }
-
-  h1{margin:.15em 0 .05em;font-size:clamp(22px,5.2vw,40px);letter-spacing:.6px;font-weight:900}
-  h2{margin:0 0 .35em;font-size:clamp(18px,3.8vw,28px);
-     background:linear-gradient(90deg,#fff,#d6fff8,#fff);
-     -webkit-background-clip:text;background-clip:text;color:transparent}
+  h1{margin:.15em 0 .05em;font-size:clamp(22px,5.2vw,40px);letter-spacing:.6px;font-weight:900;position:relative;z-index:5}
+  h2{margin:0 0 .35em;font-size:clamp(18px,3.8vw,28px);background:linear-gradient(90deg,#fff,#d6fff8,#fff);-webkit-background-clip:text;background-clip:text;color:transparent}
   .info{font-size:clamp(15px,3.1vw,19px);line-height:1.35}
 
   .btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
@@ -85,27 +47,33 @@
   #musicBar{position:absolute;left:0;right:0;bottom:10px;display:none;justify-content:center;z-index:6}
   #musicBar .btn{background:var(--blue)} #musicBar .btn:hover{background:var(--blueh)}
 
-  /* Keyframes */
-  @keyframes pop{0%{opacity:0;transform:translateY(10px) scale(.9)}60%{opacity:1;transform:translateY(-3px) scale(1.05)}100%{opacity:1;transform:translateY(0) scale(1)}}
+  /* Overlay para captar el primer toque */
+  .tap-overlay{
+    position:absolute; inset:0; z-index:7; display:flex; align-items:center; justify-content:center;
+    background:rgba(0,0,0,.25); backdrop-filter:blur(1px);
+    font-weight:700; letter-spacing:.3px; text-align:center; padding:16px; cursor:pointer;
+  }
+  .tap-badge{background:#2563eb;color:#fff;padding:10px 14px;border-radius:12px;box-shadow:0 8px 18px rgba(0,0,0,.25)}
+  .tap-overlay.hide{display:none}
+
   @keyframes wave{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
   @keyframes colorShift{from{background-position:0% 50%}to{background-position:100% 50%}}
-  @media (prefers-reduced-motion:reduce){ .per-letter.ready .ch,.title-anim .ch{animation:none} }
 </style>
 </head>
 <body>
   <div class="scene" role="img" aria-label="Invitación temática Minecraft">
-    <!-- Fondo (Drive o local si cambias la ruta) -->
-    <img class="bg"
-         src="https://drive.google.com/thumbnail?id=1ImdQCYxQzGx1a9RED9PQCGjlqWvv9KUq&sz=w2000"
-         alt="Plantilla Minecraft">
+    <img class="bg" src="https://drive.google.com/thumbnail?id=1ImdQCYxQzGx1a9RED9PQCGjlqWvv9KUq&sz=w2000" alt="Plantilla Minecraft">
 
-    <!-- CONTENIDO sobre el recuadro café -->
+    <!-- overlay: cualquier toque activa el audio -->
+    <div id="tapOverlay" class="tap-overlay">
+      <div class="tap-badge">🔊 Toca para activar la música</div>
+    </div>
+
     <div class="content" aria-live="polite">
       <div class="chip name per-letter">Grecia</div>
       <div class="chip age per-letter">Cumpleaños</div>
       <div class="chip age per-letter" style="margin-top:4px">7</div>
 
-      <!-- Título animado: color degradado letra por letra -->
       <h1 class="per-letter title-anim">¡Acompáñanos a celebrar!</h1>
 
       <h2 class="per-letter">El cumpleaños de Grecia 🎂</h2>
@@ -121,11 +89,11 @@
         <a class="btn" href="https://wa.me/526143811528?text=Confirmo%20mi%20asistencia%20al%20cumplea%C3%B1os%20de%20Grecia%20🎉" target="_blank" rel="noopener">✅ Confirmar asistencia</a>
       </div>
 
-      <p style="font-size:12px;opacity:.9;margin-top:6px">La música se activa al primer toque (o usa el botón).</p>
+      <p style="font-size:12px;opacity:.85;margin-top:6px">Si no se oye, usa el botón de abajo.</p>
     </div>
 
-    <!-- AUDIO (pon Minecraft.mp3 en el repo para máxima fiabilidad) -->
-    <audio id="bgm" autoplay muted loop playsinline preload="auto">
+    <!-- Fuente local opcional: sube Minecraft.mp3 al repo para mayor fiabilidad -->
+    <audio id="bgm" loop playsinline preload="auto">
       <source src="Minecraft.mp3" type="audio/mpeg">
       <source src="https://vgmsite.com/soundtracks/minecraft-volume-alpha/uwshxmdq/02.%20Minecraft.mp3" type="audio/mpeg">
     </audio>
@@ -133,52 +101,81 @@
   </div>
 
 <script>
-  /* Divide en letras (conserva espacios) y activa animación */
+  /* animación por letra */
   function splitLetters(el){
     const t = el.textContent; el.textContent='';
     [...t].forEach((ch,i)=>{
-      const s = document.createElement('span');
-      s.className='ch';
-      s.style.setProperty('--i', i);
-      s.textContent = (ch===' ')? '\u00A0' : ch;   // espacio duro
+      const s=document.createElement('span');
+      s.className='ch'; s.style.setProperty('--i',i);
+      s.textContent = (ch===' ')? '\u00A0' : ch;
       el.appendChild(s);
     });
-    requestAnimationFrame(()=> el.classList.add('ready'));
   }
   document.querySelectorAll('.per-letter').forEach(splitLetters);
 
-  /* AUDIO: autoplay suave + botón de respaldo */
   const audio = document.getElementById('bgm');
   const bar   = document.getElementById('musicBar');
   const btn   = document.getElementById('playBtn');
+  const tapOverlay = document.getElementById('tapOverlay');
 
-  // intenta reproducir en silencio y desmutear después (algunos móviles lo permiten)
+  // Si llega a reproducirse en silencio, ocultamos el botón
   window.addEventListener('load', async ()=>{
     try{
       audio.muted = true;
-      await audio.play();
-      setTimeout(()=> audio.muted=false, 200);
+      await audio.play();            // algunos navegadores lo permiten si está muteado
+      setTimeout(()=> audio.muted=false, 150);
       bar.style.display='none';
     }catch{
       bar.style.display='flex';
     }
   });
 
-  async function enableSound(){
+  async function startSound(){
     try{
-      audio.muted=false;
+      // Reanuda contexto WebAudio si existiera (algunos navegadores lo exigen)
+      if(window.AudioContext || window.webkitAudioContext){
+        const AC = window.AudioContext || window.webkitAudioContext;
+        const ctx = new AC();
+        await ctx.resume().catch(()=>{});
+      }
+      audio.muted = false;
       await audio.play();
       bar.style.display='none';
-    }catch{
+      tapOverlay.classList.add('hide');
+      // retirar listeners para no repetir
+      detachFirstGesture();
+    }catch(e){
+      // si falla, dejamos el botón visible
       bar.style.display='flex';
     }
   }
 
-  // cualquier gesto del usuario habilita el audio (una sola vez)
-  ['pointerdown','touchstart','click','keydown'].forEach(ev=>{
-    document.addEventListener(ev, enableSound, {once:true, passive:true});
+  // primer gesto en CUALQUIER parte
+  function attachFirstGesture(){
+    ['pointerdown','touchstart','click','keydown'].forEach(ev=>{
+      document.addEventListener(ev, startSound, {once:true, passive:true});
+    });
+  }
+  function detachFirstGesture(){
+    ['pointerdown','touchstart','click','keydown'].forEach(ev=>{
+      document.removeEventListener(ev, startSound, {passive:true});
+    });
+  }
+  attachFirstGesture();
+
+  // El overlay también sirve como botón gigante
+  tapOverlay.addEventListener('click', startSound);
+
+  // Botón azul de respaldo
+  btn.addEventListener('click', startSound);
+
+  // Si el usuario vuelve desde otra pestaña, intentamos continuar
+  document.addEventListener('visibilitychange', ()=>{
+    if(!document.hidden && !audio.paused){
+      audio.play().catch(()=>{});
+    }
   });
-  btn?.addEventListener('click', enableSound);
 </script>
 </body>
 </html>
+
