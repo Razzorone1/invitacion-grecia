@@ -9,11 +9,11 @@
     /* ====== AJUSTES RÁPIDOS ====== */
     --logo-visible: 1;        /* 1=mostrar, 0=ocultar */
     --logo-dy: 170px;         /* mueve verticalmente el LOGO */
-    --logo-w: 100%;           /* ancho del logo (ej. 86%, 100%) */
+    --logo-w: 100%;           /* ancho del logo (86%, 100%, etc.) */
 
     --content-dy: 100px;      /* mueve verticalmente textos/botones */
 
-    /* Caja “café” del fondo (porcentajes relativos) */
+    /* Caja “café” del fondo (porcentajes relativos al lienzo) */
     --cafe-top: 37.5%;
     --cafe-left: 7.5%;
     --cafe-right: 7.5%;
@@ -49,8 +49,8 @@
   /* ===== LOGO flotante ===== */
   .logo{
     position:absolute; left:50%;
-    width:var(--logo-w);               /* << ahora ocupa todo lo ancho si pones 100% */
-    max-width:none;                    /* sin límite de ancho */
+    width:var(--logo-w);          /* ahora puede ir a lo ancho */
+    max-width:none;
     transform:translate(-50%, 0) translateY(var(--logo-dy));
     top: 12.5%;
     pointer-events:none; user-select:none;
@@ -79,14 +79,35 @@
     animation: titleFloat 4.5s ease-in-out infinite, titleGlow 3.8s ease-in-out infinite;
   }
 
-  /* ===== NUEVO: imagen "CUMPLEAÑOS 7" animada ===== */
+  /* ===== RÓTULO "CUMPLEAÑOS 7" con rebote + brillo barrido ===== */
+  .age-wrap{
+    position: relative;
+    display: inline-block;
+    isolation: isolate;
+  }
   .age-img{
-    width:min(75%, 560px);             /* ajusta el tamaño del rótulo azul */
+    width:min(75%, 560px);      /* ajusta tamaño del rótulo */
     max-width:100%;
     user-select:none; pointer-events:none;
     filter: drop-shadow(0 8px 14px rgba(0,0,0,.4));
     animation: ageFloat 4.2s ease-in-out infinite, ageShine 3.6s ease-in-out infinite;
     image-rendering: -webkit-optimize-contrast;
+  }
+  .age-wrap::after{
+    content:"";
+    position:absolute; inset:0;
+    pointer-events:none;
+    background: linear-gradient(75deg,
+      transparent 0%,
+      rgba(255,255,255,0.00) 35%,
+      rgba(255,255,255,0.65) 50%,
+      rgba(255,255,255,0.00) 65%,
+      transparent 100%);
+    transform: translateX(-120%) skewX(-10deg);
+    mix-blend-mode: screen;
+    filter: blur(1px);
+    opacity: .85;
+    animation: sweep 3.2s ease-in-out infinite;
   }
 
   /* Subtítulo animado (texto) */
@@ -135,7 +156,6 @@
     50%{filter: drop-shadow(0 12px 20px rgba(0,0,0,.55)) brightness(1.07);}
   }
 
-  /* Animación del rótulo "Cumpleaños 7" */
   @keyframes ageFloat{
     0%,100%{ transform: translateY(0); }
     50%{ transform: translateY(-3px) scale(1.01); }
@@ -145,9 +165,16 @@
     50%{ filter: drop-shadow(0 12px 20px rgba(0,0,0,.55)) brightness(1.06); }
   }
 
+  @keyframes sweep{
+    0%   { transform: translateX(-120%) skewX(-10deg); }
+    48%  { transform: translateX(120%)  skewX(-10deg); }
+    100% { transform: translateX(120%)  skewX(-10deg); }
+  }
+
   /* Respeta “reducir movimiento” del sistema */
   @media (prefers-reduced-motion: reduce){
-    .logo,.title-img,.age-img{ animation:none !important; }
+    .logo,.title-img,.age-img,.age-wrap::after{ animation:none !important; }
+    .age-wrap::after{ opacity:0; }
   }
 </style>
 </head>
@@ -156,7 +183,7 @@
     <!-- Fondo -->
     <img class="bg" src="./Plantilla.jpg" alt="Plantilla">
 
-    <!-- Logo flotante (ahora a lo ancho según --logo-w) -->
+    <!-- Logo flotante (ancho controlado por --logo-w) -->
     <img class="logo" src="./minecraft.png" alt="Minecraft">
 
     <!-- Contenido -->
@@ -164,9 +191,11 @@
       <!-- Título con imagen “GRECIA LIRA” -->
       <img class="title-img" src="./grecia-lira-minecraft.png" alt="Grecia Lira">
 
-      <!-- NUEVO: rótulo animado CUMPLEAÑOS 7 -->
-      <!-- Si renombraste: usa src="./cumpleanos-7.png" -->
-      <img class="age-img" src="./CUMPLEAÑOS 7.png" alt="Cumpleaños 7">
+      <!-- Rótulo animado CUMPLEAÑOS 7 (con brillo barrido) -->
+      <div class="age-wrap">
+        <!-- Si renombraste el archivo, cambia el src aquí -->
+        <img class="age-img" src="./CUMPLEAÑOS 7.png" alt="Cumpleaños 7">
+      </div>
 
       <h1 class="anim-gradient">¡Acompáñanos a celebrar!</h1>
 
@@ -174,7 +203,6 @@
         📅 <strong>8 de noviembre</strong><br>
         ⏰ <strong>4:00–8:00 p.m.</strong><br>
         📍 <strong>Pinocchio Salón de Fiestas Infantiles</strong>
-           <strong>C. Mercurio 3742, Satélite, 31140 Chihuahua, Chih.</strong>
       </div>
 
       <div class="btns">
@@ -222,5 +250,3 @@
 </script>
 </body>
 </html>
-
-
