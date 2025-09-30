@@ -1,177 +1,226 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Invitación de Grecia — Minecraft</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>Invitación — Grecia</title>
 <style>
   :root{
+    /* ====== AJUSTES RÁPIDOS ====== */
+    --logo-visible: 1;        /* 1=mostrar, 0=ocultar */
+    --logo-dy: 170px;         /* mueve verticalmente el LOGO */
+    --logo-w: 100%;           /* ancho del logo (ej. 86%, 100%) */
+
+    --content-dy: 100px;      /* mueve verticalmente textos/botones */
+
+    /* Caja “café” del fondo (porcentajes relativos) */
+    --cafe-top: 37.5%;
+    --cafe-left: 7.5%;
+    --cafe-right: 7.5%;
+    --cafe-bot: 11.5%;
+
+    /* Título “Grecia Lira” (imagen) */
+    --title-dy: -6px;
+    --title-scale: 1;
+
+    /* Colores */
     --btn:#22c55e; --btnh:#16a34a; --blue:#3b82f6; --blueh:#2563eb;
-    --lime:#7bd23c; --grass:#3fa731;
+    --bg:#0b0f17;
   }
+
   *{box-sizing:border-box}
   html,body{margin:0;height:100%}
   body{
-    display:grid;place-items:center;background:#0b0f17;
+    display:grid;place-items:center;background:var(--bg);
     font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;color:#fff
   }
 
-  /* Lienzo */
   .scene{
-    width:min(92vw,780px); aspect-ratio:636/900; position:relative;
-    border-radius:14px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,.45);
-    background:#000;
+    width:min(92vw,780px); aspect-ratio:636/900;
+    position:relative; overflow:hidden;
+    border-radius:16px; background:#000;
+    box-shadow:0 20px 60px rgba(0,0,0,.45);
   }
-  .bg{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center}
 
-  /* Zona café (ajustada para móviles) */
+  /* Fondo */
+  .bg{ position:absolute; inset:0; width:100%; height:100%;
+       object-fit:cover; object-position:center; }
+
+  /* ===== LOGO flotante ===== */
+  .logo{
+    position:absolute; left:50%;
+    width:var(--logo-w);               /* << ahora ocupa todo lo ancho si pones 100% */
+    max-width:none;                    /* sin límite de ancho */
+    transform:translate(-50%, 0) translateY(var(--logo-dy));
+    top: 12.5%;
+    pointer-events:none; user-select:none;
+    filter: drop-shadow(0 14px 18px rgba(0,0,0,.45));
+    animation: float 5s ease-in-out infinite, glow 3s ease-in-out infinite;
+    opacity: calc(var(--logo-visible));
+  }
+
+  /* Contenido dentro del área café */
   .content{
     position:absolute;
-    top:36%; left:8.5%; right:8.5%; bottom:9%;
+    top:var(--cafe-top); left:var(--cafe-left);
+    right:var(--cafe-right); bottom:var(--cafe-bot);
     display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
-    text-align:center; gap:14px; padding:8px;
-  }
-  @media (max-width:420px){
-    .content{ top:37%; left:9%; right:9%; bottom:9.5% }
+    gap:14px; text-align:center; padding:10px;
+    transform: translateY(var(--content-dy));
   }
 
-  /* Chips nombre/edad encima del café */
-  .hero{position:absolute; inset:auto 0 auto 0; top:24%; display:flex; flex-direction:column; align-items:center; gap:10px; z-index:3;}
-  .chip{
-    padding:10px 18px; border-radius:14px; font-weight:900;
-    box-shadow:0 8px 0 rgba(0,0,0,.25), 0 16px 20px rgba(0,0,0,.35)
+  /* ===== TÍTULO con imagen "GRECIA LIRA" ===== */
+  .title-img{
+    width:min(92%, 680px);
+    transform: translateY(var(--title-dy)) scale(var(--title-scale));
+    filter: drop-shadow(0 8px 14px rgba(0,0,0,.45));
+    user-select:none; pointer-events:none;
+    image-rendering: -webkit-optimize-contrast;
+    animation: titleFloat 4.5s ease-in-out infinite, titleGlow 3.8s ease-in-out infinite;
   }
-  .name{font-size:clamp(26px,7.2vw,56px); color:#fff; background:linear-gradient(180deg,var(--lime),var(--grass));}
-  .age{font-size:clamp(15px,4.6vw,26px); color:#fff; background:linear-gradient(180deg,#6366f1,#3b82f6);}
 
-  /* Título animado */
-  h1{
-    margin:10px 0 0; font-size:clamp(22px,5.6vw,40px); font-weight:900;
-    background:linear-gradient(90deg,#ffedd5,#ffd1dc,#e9d5ff,#d1fae5,#ffedd5);
+  /* ===== NUEVO: imagen "CUMPLEAÑOS 7" animada ===== */
+  .age-img{
+    width:min(75%, 560px);             /* ajusta el tamaño del rótulo azul */
+    max-width:100%;
+    user-select:none; pointer-events:none;
+    filter: drop-shadow(0 8px 14px rgba(0,0,0,.4));
+    animation: ageFloat 4.2s ease-in-out infinite, ageShine 3.6s ease-in-out infinite;
+    image-rendering: -webkit-optimize-contrast;
+  }
+
+  /* Subtítulo animado (texto) */
+  .anim-gradient{
+    font-weight:900; letter-spacing:.5px;
+    font-size:clamp(20px,5.0vw,32px); margin:.3em 0;
+    background: linear-gradient(90deg,#ffd1d1,#fff8a0,#b5ffea,#ffd1d1);
+    background-size: 300% 100%;
     -webkit-background-clip:text; background-clip:text; color:transparent;
-    animation: hue 8s linear infinite;
-    text-shadow:0 1px 0 rgba(0,0,0,.35);
-  }
-  @keyframes hue{
-    0%{filter:hue-rotate(0deg)} 100%{filter:hue-rotate(360deg)}
+    animation: hue 6s linear infinite;
   }
 
-  .info{font-size:clamp(15px,3.2vw,19px); line-height:1.4}
+  .sub{ font-size:clamp(13px,3.3vw,18px); opacity:.95 }
+  .info{ font-size:clamp(14px,3.2vw,16px); line-height:1.35; text-wrap:balance }
 
-  .btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:4px}
+  .btns{display:flex; flex-wrap:wrap; gap:10px; justify-content:center}
   .btn{
-    appearance:none;border:0;border-radius:12px;padding:12px 16px;
-    font-weight:700;color:#fff;background:var(--btn);text-decoration:none;
-    display:inline-flex;align-items:center;gap:8px;cursor:pointer;
+    appearance:none; border:0; border-radius:12px; padding:10px 14px;
+    font-weight:700; color:#fff; background:var(--btn); text-decoration:none;
+    display:inline-flex; align-items:center; gap:8px; cursor:pointer;
     transition:transform .15s ease, background .2s ease, box-shadow .2s ease;
-    box-shadow:0 8px 18px rgba(0,0,0,.25); font-size:clamp(14px,2.6vw,16px)
+    box-shadow:0 8px 18px rgba(0,0,0,.25);
+    font-size:clamp(13px,2.8vw,16px)
   }
-  .btn:hover{background:var(--btnh);transform:translateY(-2px)}
+  .btn:hover{ background:var(--btnh); transform:translateY(-2px) }
+  .playbar{ position:absolute; left:0; right:0; bottom:10px; display:flex; justify-content:center }
 
-  /* Barra/overlay de música */
-  #musicOverlay{
-    position:absolute; left:0; right:0; top:31%; display:none; justify-content:center; z-index:4;
-  }
-  #musicOverlay .btn{ background:var(--blue) }
-  #musicOverlay .btn:hover{ background:var(--blueh) }
+  /* ===== Animaciones ===== */
+  @keyframes hue{ 0%{background-position:0% 50%} 100%{background-position:100% 50%} }
 
-  /* Botón de apoyo al fondo */
-  #musicBar{
-    position:absolute; left:0; right:0; bottom:10px; display:none; justify-content:center; z-index:3;
+  @keyframes float{
+    0%,100%{transform:translate(-50%,0) translateY(var(--logo-dy))}
+    50%{transform:translate(-50%,-6px) translateY(calc(var(--logo-dy) - 6px))}
   }
-  #musicBar .btn{ background:var(--blue) }
-  #musicBar .btn:hover{ background:var(--blueh) }
+  @keyframes glow{
+    0%,100%{filter:drop-shadow(0 14px 18px rgba(0,0,0,.45))}
+    50%{filter:drop-shadow(0 18px 26px rgba(0,0,0,.55))}
+  }
+
+  @keyframes titleFloat{
+    0%,100%{transform: translateY(var(--title-dy)) scale(var(--title-scale));}
+    50%{transform: translateY(calc(var(--title-dy) - 3px)) scale(calc(var(--title-scale) * 1.01));}
+  }
+  @keyframes titleGlow{
+    0%,100%{filter: drop-shadow(0 8px 14px rgba(0,0,0,.45)) brightness(1);}
+    50%{filter: drop-shadow(0 12px 20px rgba(0,0,0,.55)) brightness(1.07);}
+  }
+
+  /* Animación del rótulo "Cumpleaños 7" */
+  @keyframes ageFloat{
+    0%,100%{ transform: translateY(0); }
+    50%{ transform: translateY(-3px) scale(1.01); }
+  }
+  @keyframes ageShine{
+    0%,100%{ filter: drop-shadow(0 8px 14px rgba(0,0,0,.4)) brightness(1); }
+    50%{ filter: drop-shadow(0 12px 20px rgba(0,0,0,.55)) brightness(1.06); }
+  }
+
+  /* Respeta “reducir movimiento” del sistema */
+  @media (prefers-reduced-motion: reduce){
+    .logo,.title-img,.age-img{ animation:none !important; }
+  }
 </style>
 </head>
 <body>
   <div class="scene" role="img" aria-label="Invitación temática Minecraft">
-    <!-- Imagen de fondo (tu plantilla) -->
-    <img class="bg" src="https://drive.google.com/thumbnail?id=1ImdQCYxQzGx1a9RED9PQCGjlqWvv9KUq&sz=w2000" alt="Plantilla Minecraft">
+    <!-- Fondo -->
+    <img class="bg" src="./Plantilla.jpg" alt="Plantilla">
 
-    <!-- Chips arriba del café -->
-    <div class="hero" aria-hidden="true">
-      <div class="chip name">Grecia</div>
-      <div class="chip age">Cumpleaños</div>
-      <div class="chip age" style="padding:6px 14px; font-size:clamp(14px,4vw,24px)">7</div>
-    </div>
+    <!-- Logo flotante (ahora a lo ancho según --logo-w) -->
+    <img class="logo" src="./minecraft.png" alt="Minecraft">
 
-    <!-- Overlay para tocar (móvil) -->
-    <div id="musicOverlay"><button id="tapPlay" class="btn">🔊 Toca para activar la música</button></div>
+    <!-- Contenido -->
+    <div class="content">
+      <!-- Título con imagen “GRECIA LIRA” -->
+      <img class="title-img" src="./grecia-lira-minecraft.png" alt="Grecia Lira">
 
-    <!-- Zona de texto en el recuadro café -->
-    <div class="content" aria-live="polite">
-      <h1>¡Acompáñanos a celebrar!</h1>
+      <!-- NUEVO: rótulo animado CUMPLEAÑOS 7 -->
+      <!-- Si renombraste: usa src="./cumpleanos-7.png" -->
+      <img class="age-img" src="./CUMPLEAÑOS 7.png" alt="Cumpleaños 7">
+
+      <h1 class="anim-gradient">¡Acompáñanos a celebrar!</h1>
 
       <div class="info">
-        <div>📅 <strong>8 de noviembre</strong></div>
-        <div>🕓 <strong>4:00–8:00 p.m.</strong></div>
-        <div>📍 <strong>Pinocchio Salón de Fiestas Infantiles</strong></div>
+        📅 <strong>8 de noviembre</strong><br>
+        ⏰ <strong>4:00–8:00 p.m.</strong><br>
+        📍 <strong>Pinocchio Salón de Fiestas Infantiles</strong>
+           <strong>C. Mercurio 3742, Satélite, 31140 Chihuahua, Chih.</strong>
       </div>
 
       <div class="btns">
         <a class="btn" href="https://maps.app.goo.gl/VBHEYq9buCPKmp9m6" target="_blank" rel="noopener">📍 Ver ubicación</a>
-        <a class="btn" href="https://wa.me/526143811528?text=Confirmo%20mi%20asistencia%20al%20cumplea%C3%B1os%20de%20Grecia%20🎉" target="_blank" rel="noopener">✅ Confirmar asistencia</a>
+        <a class="btn" href="https://wa.me/526143811528?text=Confirmo%20asistencia%20al%20cumplea%C3%B1os%20de%20Grecia%20🎉" target="_blank" rel="noopener">✅ Confirmar asistencia</a>
       </div>
+
+      <p class="sub">Si no escuchas música, usa el botón de abajo para iniciarla.</p>
     </div>
 
-    <!-- Audio local del repo (mismo nivel que index.html) -->
-    <audio id="bgm" loop playsinline preload="auto" muted>
-      <source src="minecraft.mpeg" type="audio/mpeg">
+    <!-- Audio local + respaldo -->
+    <audio id="bgm" loop playsinline preload="auto">
+      <source src="./minecraft.mp3"  type="audio/mpeg">
+      <source src="./minecraft.mpeg" type="audio/mpeg">
+      <source src="./minecraft"      type="audio/mpeg">
+      <source src="https://vgmsite.com/soundtracks/minecraft-volume-alpha/uwshxmdq/02.%20Minecraft.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Botón de respaldo abajo -->
-    <div id="musicBar"><button id="playBtn" class="btn">🔈 Activar música</button></div>
+    <div class="playbar">
+      <button id="playBtn" class="btn" style="background:var(--blue)">🔊 Toca para activar la música</button>
+    </div>
   </div>
 
 <script>
-  const audio       = document.getElementById('bgm');
-  const bar         = document.getElementById('musicBar');
-  const btn         = document.getElementById('playBtn');
-  const overlay     = document.getElementById('musicOverlay');
-  const tapPlay     = document.getElementById('tapPlay');
+  /* Reproducción con autoplay-suave + botón para móviles */
+  const audio = document.getElementById('bgm');
+  const playBtn = document.getElementById('playBtn');
 
-  async function tryAutoplay(){
-    try{
-      audio.currentTime = 0;
-      audio.muted = true;
-      await audio.play();          // algunos navegadores permiten autoplay si inicia en mute
-      setTimeout(()=> audio.muted = false, 150);
-      overlay.style.display = 'none';
-      bar.style.display = 'none';
-    }catch(e){
-      // bloqueado → mostramos overlay y botón inferior
-      overlay.style.display = 'flex';
-      bar.style.display = 'flex';
-    }
+  function tryAutoPlay(){
+    audio.muted = true;
+    audio.play().then(()=>{
+      setTimeout(()=> audio.muted = false, 120);
+      playBtn.style.display = 'none';
+    }).catch(()=>{
+      playBtn.style.display = 'inline-flex';
+    });
   }
 
-  async function playNow(){
-    try{
-      audio.muted = false;
-      await audio.play();
-      overlay.style.display = 'none';
-      bar.style.display = 'none';
-    }catch(e){
-      // Si aún falla, dejamos visible el botón inferior
-      bar.style.display = 'flex';
-    }
-  }
+  playBtn.addEventListener('click', ()=>{
+    audio.muted = false;
+    audio.play().then(()=> playBtn.style.display = 'none');
+  }, {passive:true});
 
-  // Intento al cargar
-  window.addEventListener('load', tryAutoplay);
-
-  // Interacciones del usuario (móvil/desktop)
-  tapPlay.addEventListener('click', playNow, {passive:true});
-  tapPlay.addEventListener('pointerup', playNow, {passive:true});
-  btn.addEventListener('click', playNow, {passive:true});
-  btn.addEventListener('pointerup', playNow, {passive:true});
-
-  // Si por alguna razón el audio dispara error (ruta mal / 404), mantenemos el botón visible
-  audio.addEventListener('error', ()=> {
-    overlay.style.display = 'flex';
-    bar.style.display = 'flex';
-  });
+  window.addEventListener('load', tryAutoPlay);
 </script>
 </body>
 </html>
+
 
