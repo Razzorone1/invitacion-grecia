@@ -1,4 +1,186 @@
 <!doctype html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>Invitación — Grecia</title>
+<style>
+  :root{
+    /* ====== AJUSTES RÁPIDOS ====== */
+    --logo-visible: 1;        /* 1=mostrar, 0=ocultar */
+    --logo-dy: 80px;         /* mueve verticalmente el LOGO */
+    --logo-w: 100%;           /* ancho del logo (86%, 100%, etc.) */
+
+```
+--content-dy: 20px;      /* mueve verticalmente textos/botones */
+
+/* Caja “café” del fondo (porcentajes relativos al lienzo) */
+--cafe-top: 37.5%;
+--cafe-left: 7.5%;
+--cafe-right: 7.5%;
+--cafe-bot: 11.5%;
+
+/* Título “Grecia Lira” (imagen) */
+--title-dy: -6px;
+--title-scale: 1;
+
+/* Colores */
+--btn:#22c55e; --btnh:#16a34a; --blue:#3b82f6; --blueh:#2563eb;
+--bg:#0b0f17;
+```
+
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{
+display:grid;place-items:center;background:var(--bg);
+font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;color:#fff
+}
+
+.scene{
+width:min(92vw,780px); aspect-ratio:636/900;
+position:relative; overflow:hidden;
+border-radius:16px; background:#000;
+box-shadow:0 20px 60px rgba(0,0,0,.45);
+}
+
+/* Fondo */
+.bg{ position:absolute; inset:0; width:100%; height:100%;
+object-fit:cover; object-position:center; }
+
+/* ===== LOGO flotante ===== */
+.logo{
+position:absolute; left:50%;
+width:var(--logo-w);          /* ahora puede ir a lo ancho */
+max-width:none;
+transform:translate(-50%, 0) translateY(var(--logo-dy));
+top: 12.5%;
+pointer-events:none; user-select:none;
+filter: drop-shadow(0 14px 18px rgba(0,0,0,.45));
+animation: float 5s ease-in-out infinite, glow 3s ease-in-out infinite;
+opacity: calc(var(--logo-visible));
+}
+
+/* Contenido dentro del área café */
+.content{
+position:absolute;
+top:var(--cafe-top); left:var(--cafe-left);
+right:var(--cafe-right); bottom:var(--cafe-bot);
+display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
+gap:14px; text-align:center; padding:10px;
+transform: translateY(var(--content-dy));
+}
+
+/* ===== TÍTULO con imagen "GRECIA LIRA" ===== */
+.title-img{
+width:min(92%, 680px);
+transform: translateY(var(--title-dy)) scale(var(--title-scale));
+filter: drop-shadow(0 8px 14px rgba(0,0,0,.45));
+user-select:none; pointer-events:none;
+image-rendering: -webkit-optimize-contrast;
+animation: titleFloat 4.5s ease-in-out infinite, titleGlow 3.8s ease-in-out infinite;
+}
+
+/* ===== RÓTULO "CUMPLEAÑOS 7" con rebote + brillo barrido ===== */
+.age-wrap{
+position: relative;
+display: inline-block;
+isolation: isolate;
+}
+.age-img{
+width:min(75%, 560px);      /* ajusta tamaño del rótulo */
+max-width:100%;
+user-select:none; pointer-events:none;
+filter: drop-shadow(0 8px 14px rgba(0,0,0,.4));
+animation: ageFloat 4.2s ease-in-out infinite, ageShine 3.6s ease-in-out infinite;
+image-rendering: -webkit-optimize-contrast;
+}
+.age-wrap::after{
+content:"";
+position:absolute; inset:0;
+pointer-events:none;
+background: linear-gradient(75deg,
+transparent 0%,
+rgba(255,255,255,0.00) 35%,
+rgba(255,255,255,0.65) 50%,
+rgba(255,255,255,0.00) 65%,
+transparent 100%);
+transform: translateX(-120%) skewX(-10deg);
+mix-blend-mode: screen;
+filter: blur(1px);
+opacity: .85;
+animation: sweep 3.2s ease-in-out infinite;
+}
+
+/* Subtítulo animado (texto) */
+.anim-gradient{
+font-weight:900; letter-spacing:.5px;
+font-size:clamp(20px,5.0vw,32px); margin:.3em 0;
+background: linear-gradient(90deg,#ffd1d1,#fff8a0,#b5ffea,#ffd1d1);
+background-size: 300% 100%;
+-webkit-background-clip:text; background-clip:text; color:transparent;
+animation: hue 6s linear infinite;
+}
+
+.sub{ font-size:clamp(13px,3.3vw,18px); opacity:.95 }
+.info{ font-size:clamp(14px,3.2vw,16px); line-height:1.35; text-wrap:balance }
+
+.btns{display:flex; flex-wrap:wrap; gap:10px; justify-content:center}
+.btn{
+appearance:none; border:0; border-radius:12px; padding:10px 14px;
+font-weight:700; color:#fff; background:var(--btn); text-decoration:none;
+display:inline-flex; align-items:center; gap:8px; cursor:pointer;
+transition:transform .15s ease, background .2s ease, box-shadow .2s ease;
+box-shadow:0 8px 18px rgba(0,0,0,.25);
+font-size:clamp(13px,2.8vw,16px)
+}
+.btn:hover{ background:var(--btnh); transform:translateY(-2px) }
+.playbar{ position:absolute; left:0; right:0; bottom:10px; display:flex; justify-content:center }
+
+/* ===== Animaciones ===== */
+@keyframes hue{ 0%{background-position:0% 50%} 100%{background-position:100% 50%} }
+
+@keyframes float{
+0%,100%{transform:translate(-50%,0) translateY(var(--logo-dy))}
+50%{transform:translate(-50%,-6px) translateY(calc(var(--logo-dy) - 6px))}
+}
+@keyframes glow{
+0%,100%{filter:drop-shadow(0 14px 18px rgba(0,0,0,.45))}
+50%{filter:drop-shadow(0 18px 26px rgba(0,0,0,.55))}
+}
+
+@keyframes titleFloat{
+0%,100%{transform: translateY(var(--title-dy)) scale(var(--title-scale));}
+50%{transform: translateY(calc(var(--title-dy) - 3px)) scale(calc(var(--title-scale) * 1.01));}
+}
+@keyframes titleGlow{
+0%,100%{filter: drop-shadow(0 8px 14px rgba(0,0,0,.45)) brightness(1);}
+50%{filter: drop-shadow(0 12px 20px rgba(0,0,0,.55)) brightness(1.07);}
+}
+
+@keyframes ageFloat{
+0%,100%{ transform: translateY(0); }
+50%{ transform: translateY(-3px) scale(1.01); }
+}
+@keyframes ageShine{
+0%,100%{ filter: drop-shadow(0 8px 14px rgba(0,0,0,.4)) brightness(1); }
+50%{ filter: drop-shadow(0 12px 20px rgba(0,0,0,.55)) brightness(1.06); }
+}
+
+@keyframes sweep{
+0%   { transform: translateX(-120%) skewX(-10deg); }
+48%  { transform: translateX(120%)  skewX(-10deg); }
+100% { transform: translateX(120%)  skewX(-10deg); }
+}
+
+/* Respeta “reducir movimiento” del sistema */
+@media (prefers-reduced-motion: reduce){
+.logo,.title-img,.age-img,.age-wrap::after{ animation:none !important; }
+.age-wrap::after{ opacity:0; }
+} 
+<!doctype html>
 <html lang="es">
 <head>
 <meta charset="utf-8"/>
@@ -11,7 +193,7 @@
     --logo-dy: 80px;         /* mueve verticalmente el LOGO */
     --logo-w: 100%;          /* ancho del logo (86%, 100%, etc.) */
 
-    --content-dy: 50px;      /* mueve verticalmente textos/botones */
+    --content-dy: 20px;      /* mueve verticalmente textos/botones */
 
     /* Caja “café” del fondo (porcentajes relativos al lienzo) */
     --cafe-top: 37.5%;
@@ -203,43 +385,6 @@
     .logo,.title-img,.age-img,.age-wrap::after{ animation:none !important; }
     .age-wrap::after{ opacity:0; }
   }
- /* === Compactar espacios verticales === */
-.content{
-  gap:8px;                 /* antes 14px */
-}
-.title-img{ margin-bottom:4px; }
-.age-wrap{ margin-top:-2px; margin-bottom:2px; }
-.anim-gradient{ margin:.15em 0; }
-.info{
-  line-height:1.18;        /* antes ~1.35 */
-  margin:2px 0 0;
-}
-.sub{ margin:4px 0 0; }
-
-/* === Botones en UNA sola línea === */
-.btns{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:8px;
-  flex-wrap:nowrap;        /* 🔒 no permitir salto de línea */
-  white-space:nowrap;      /* 🔒 evitar quiebres internos */
-  overflow:hidden;         /* ocultar si algo se sale por 1–2px */
-}
-.btn{
-  padding:10px 12px;
-  font-size:clamp(12px,3.2vw,15px);
-}
-
-/* ===== Ajuste extra para pantallas pequeñas ===== */
-@media (max-width:480px){
-  .btns{ gap:6px; }
-  .btn{ padding:9px 10px; font-size:clamp(11px,3vw,14px); }
-  .anim-gradient{ font-size:clamp(18px,4.4vw,26px); }
-  .info{ font-size:clamp(12.5px,3.4vw,14.5px); line-height:1.16; }
-}
-
-  
 </style>
 </head>
 <body>
@@ -315,3 +460,84 @@
 </body>
 </html>
 
+
+
+</style>
+
+</head>
+<body>
+  <div class="scene" role="img" aria-label="Invitación temática Minecraft">
+    <!-- Fondo -->
+    <img class="bg" src="./Plantilla.jpg" alt="Plantilla">
+
+```
+<!-- Logo flotante (ancho controlado por --logo-w) -->
+<img class="logo" src="./minecraft.png" alt="Minecraft">
+
+<!-- Contenido -->
+<div class="content">
+  <!-- Título con imagen “GRECIA LIRA” -->
+  <img class="title-img" src="./grecia-lira-minecraft.png" alt="Grecia Lira">
+
+  <!-- Rótulo animado CUMPLEAÑOS 7 (con brillo barrido) -->
+  <div class="age-wrap">
+    <!-- Si renombraste el archivo, cambia el src aquí -->
+    <img class="age-img" src="./CUMPLEAÑOS 7.png" alt="Cumpleaños 7">
+  </div>
+
+  <h1 class="anim-gradient">¡Acompáñanos a celebrar!</h1>
+
+  <div class="info">
+    📅 <strong>8 de noviembre</strong><br>
+    ⏰ <strong>4:00–8:00 p.m.</strong><br>
+    📍 <strong>Pinocchio Salón de Fiestas Infantiles, C. Mercurio 3742, Satélite, 31140 Chihuahua, Chih.</strong>
+  </div>
+
+  <div class="btns">
+    <a class="btn" href="https://maps.app.goo.gl/VBHEYq9buCPKmp9m6" target="_blank" rel="noopener">📍 Ver ubicación</a>
+    <a class="btn" href="https://wa.me/526143811528?text=Confirmo%20asistencia%20al%20cumplea%C3%B1os%20de%20Grecia%20🎉" target="_blank" rel="noopener">✅ Confirmar asistencia</a>
+  </div>
+
+  <p class="sub">Si no escuchas música, usa el botón de abajo para iniciarla.</p>
+</div>
+
+<!-- Audio local + respaldo -->
+<audio id="bgm" loop playsinline preload="auto">
+  <source src="./minecraft.mp3"  type="audio/mpeg">
+  <source src="./minecraft.mpeg" type="audio/mpeg">
+  <source src="./minecraft"      type="audio/mpeg">
+  <source src="https://vgmsite.com/soundtracks/minecraft-volume-alpha/uwshxmdq/02.%20Minecraft.mp3" type="audio/mpeg">
+</audio>
+
+<div class="playbar">
+  <button id="playBtn" class="btn" style="background:var(--blue)">🔊 Toca para activar la música</button>
+</div>
+```
+
+  </div>
+
+<script>
+  /* Reproducción con autoplay-suave + botón para móviles */
+  const audio = document.getElementById('bgm');
+  const playBtn = document.getElementById('playBtn');
+
+  function tryAutoPlay(){
+    audio.muted = true;
+    audio.play().then(()=>{
+      setTimeout(()=> audio.muted = false, 120);
+      playBtn.style.display = 'none';
+    }).catch(()=>{
+      playBtn.style.display = 'inline-flex';
+    });
+  }
+
+  playBtn.addEventListener('click', ()=>{
+    audio.muted = false;
+    audio.play().then(()=> playBtn.style.display = 'none');
+  }, {passive:true});
+
+  window.addEventListener('load', tryAutoPlay);
+</script>
+
+</body>
+</html>
