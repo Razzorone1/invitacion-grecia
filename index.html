@@ -24,7 +24,7 @@
   }
   .bg{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center}
 
-  /* SOLO el área café */
+  /* Área limitada al rectángulo café */
   .content{
     position:absolute;
     top:44%; left:9%; right:9%; bottom:10%;
@@ -39,35 +39,26 @@
   .name{font-weight:900;font-size:clamp(26px,7.2vw,56px);background:linear-gradient(180deg,var(--lime),var(--grass));color:#fff}
   .age{font-weight:800;font-size:clamp(15px,4.6vw,26px);background:linear-gradient(180deg,#6366f1,#3b82f6);color:#fff;box-shadow:0 4px 0 #213b7a,0 10px 16px rgba(0,0,0,.25)}
 
-  /* animación por letra */
+  /* Animación por letra (mantiene espacios) */
   .per-letter .ch{
     display:inline-block; opacity:1; transform:translateY(0) scale(1);
-    white-space:pre; /* mantiene espacios */
+    white-space:pre;
   }
   .per-letter.ready .ch{
     animation:pop .55s cubic-bezier(.2,.7,.2,1) forwards, wave 2.8s ease-in-out infinite;
     animation-delay:calc(var(--i)*55ms), calc(var(--i)*110ms);
   }
 
- /* El contenedor ya no hace el clip ni deja el color transparente */
-.color-cycle{
-  text-shadow: 0 0 10px rgba(255,255,255,.15);
-}
-
-/* El degradado animado va en cada letra (.ch) */
-.color-cycle .ch{
-  background: linear-gradient(90deg,
-    #ff6b6b, #ffd166, #06d6a0, #118ab2, #a78bfa, #ff6b6b);
-  background-size: 600% 100%;
-  -webkit-background-clip: text;
-          background-clip: text;
-  color: transparent;
-  animation: colorShift 8s linear infinite;
-}
-
-/* “Respiración” sigue aplicándose al h1 */
-.breathe{ animation: colorShift 8s linear infinite, breathe 3.2s ease-in-out infinite; }
-
+  /* Título con degradado animado + “respiración”
+     -> el degradado VA en cada letra (.ch) para que se vea correctamente */
+  .color-cycle{ text-shadow:0 0 10px rgba(255,255,255,.15); }
+  .color-cycle .ch{
+    background:linear-gradient(90deg,#ff6b6b,#ffd166,#06d6a0,#118ab2,#a78bfa,#ff6b6b);
+    background-size:600% 100%;
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    animation: colorShift 8s linear infinite;
+  }
+  .breathe{ animation: breathe 3.2s ease-in-out infinite; }
 
   h1{margin:.15em 0 .05em;font-size:clamp(22px,5.2vw,40px);letter-spacing:.6px}
   h2{margin:0 0 .35em;font-size:clamp(18px,3.8vw,28px);
@@ -110,7 +101,7 @@
       <h1 class="per-letter color-cycle breathe">¡Acompáñanos a celebrar!</h1>
       <h2 class="per-letter">El cumpleaños de Grecia 🎂</h2>
 
-      <!-- mejor SIN animación por letra aquí para evitar “pegados” -->
+      <!-- Sin animación por letra aquí para evitar pegados -->
       <div class="info">
         📅 <strong>8 de noviembre</strong><br/>
         🕓 <strong>4:00–8:00 p.m.</strong><br/>
@@ -125,7 +116,7 @@
       <p class="sub">La música se activa al primer toque (o usa el botón).</p>
     </div>
 
-    <!-- AUDIO: usa el MP3 subido al repo (Minecraft.mp3) + respaldo de Drive -->
+    <!-- AUDIO: primero el MP3 que subes al repo (Minecraft.mp3), luego Drive como respaldo -->
     <audio id="bgm" autoplay muted loop playsinline preload="auto">
       <source src="Minecraft.mp3" type="audio/mpeg">
       <source src="https://drive.google.com/uc?export=download&id=1VZ_vhAwGanqgR9nl2W5rV2KB8_I4zugH" type="audio/mpeg">
@@ -134,13 +125,13 @@
   </div>
 
 <script>
-  /* animación por letra (con espacios correctos) */
+  /* animación por letra (respetando espacios) */
   function splitLetters(el){
     const t = el.textContent; el.textContent='';
     [...t].forEach((ch,i)=>{
       const s=document.createElement('span');
       s.className='ch'; s.style.setProperty('--i',i);
-      s.textContent = (ch===' ')? '\u00A0' : ch; // mantiene espacios
+      s.textContent = (ch===' ')? '\u00A0' : ch; // espacio duro
       el.appendChild(s);
     });
     requestAnimationFrame(()=> el.classList.add('ready'));
