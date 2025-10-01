@@ -11,36 +11,35 @@
     --logo-dy: -60px;  /* sube/baja el logo */
     --logo-w: 100%;
 
-    /* ===== ZONAS DE LA PLANTILLA (ajústalas si cambias la imagen) ===== */
-    /* Zona superior para títulos (debajo del logo) */
+    /* ===== ZONAS DE LA PLANTILLA ===== */
+    /* Títulos (debajo del logo) */
     --header-top: 14%;
     --header-left: 7.5%;
     --header-right: 7.5%;
-    --header-bot: 65%;  /* ↑ aumenta para subir, ↓ para bajar */
+    --header-bot: 57%;
 
-    /* Zona del panel verde (texto principal) */
-    --panel-top: 73.5%;   /* ↓ baja todo el bloque dentro del verde */
+    /* Panel verde (textos + botones) */
+    --panel-top: 73.5%;
     --panel-left: 10%;
     --panel-right: 10%;
     --panel-bot: 8%;
 
-    /* Separaciones internas */
+    /* separaciones internas */
     --title-gap: 8px;
     --panel-gap: 10px;
 
-    /* Dennis (perrito sobre el piso rosa) */
+    /* Dennis sobre el piso rosa */
     --dennis-w: 36%;
     --dennis-right: -2.5%;
-    --dennis-bottom: 11.5%; /* altura del piso rosa */
+    --dennis-bottom: 11.5%;
     --dennis-beat: 1.35s;
 
-    /* Recortes corazones (del PNG) */
+    /* Recortes corazones */
     --L-top: 8%;  --L-right: 66%; --L-bottom: 72%; --L-left: 19%;
     --R-top: 14%; --R-right: 19%; --R-bottom: 79%; --R-left: 73%;
 
-    /* Colores botones */
+    /* Colores */
     --btn:#22c55e; --btnh:#16a34a; --blue:#3b82f6; --blueh:#2563eb;
-
     --bg:#0b0f17;
   }
 
@@ -108,7 +107,7 @@
 
   .anim-gradient{
     font-weight:900; letter-spacing:.5px;
-    font-size:clamp(26px,6.2vw,42px); /* grande para aprovechar el verde */
+    font-size:clamp(26px,6.2vw,42px);
     margin:0 0 2px;
     background:linear-gradient(90deg,#ffd1d1,#fff8a0,#b5ffea,#ffd1d1);
     background-size:300% 100%;
@@ -137,12 +136,12 @@
   }
   .btn:hover{ background:var(--btnh); transform:translateY(-2px) }
 
-  /* ===== Botón de música vertical, bien visible ===== */
+  /* ===== Botón de música vertical ===== */
   .playbar-left{
     position:absolute; left:6px; top:50%;
     transform: translateY(-50%) rotate(-90deg);
     transform-origin: left center;
-    z-index:4;  /* por encima de todo */
+    z-index:4;
   }
   .playbar-left .btn{
     background:var(--blue);
@@ -152,19 +151,18 @@
   }
   .playbar-left .btn:hover{ background:var(--blueh); }
 
-  /* ===== Dennis: entra y “camina” sobre el piso rosa ===== */
+  /* ===== Dennis sobre el piso rosa ===== */
   .dennis{
     position:absolute; right:var(--dennis-right); bottom:var(--dennis-bottom);
     width:var(--dennis-w); aspect-ratio:1/1; z-index:3; pointer-events:none;
     image-rendering:pixelated;
     transform:translateX(120%) translateY(0);
-    /* 1) entra desde la derecha hasta su sitio  2) patrulla corto */
     animation: dennisEnter 1.2s cubic-bezier(.18,.8,.25,1) forwards,
                dennisPatrol 3.4s ease-in-out infinite 1.25s;
   }
   .dennis .wolf{ position:absolute; inset:0; width:100%; height:100%; object-fit:contain; }
   .dennis .hearts{
-    position:absolute; inset:0; background:url('./DENNIS.png') center/contain no-repeat;
+    position:absolute; inset:0; background:url('./DENNIS.png?v=2') center/contain no-repeat;
     animation: heartbeat var(--dennis-beat) ease-in-out infinite;
   }
   .dennis .h-left{  clip-path: inset(var(--L-top) var(--L-right) var(--L-bottom) var(--L-left)); }
@@ -176,7 +174,6 @@
     0%{transform:translateX(120%) translateY(0)}
     100%{transform:translateX(0) translateY(0)}
   }
-  /* patrulla horizontal corta para que parezca que camina en el piso rosa */
   @keyframes dennisPatrol{
     0%  { transform:translateX(0) translateY(0) }
     25% { transform:translateX(-6%) translateY(-1px) }
@@ -186,7 +183,7 @@
   }
   @keyframes heartbeat{0%{transform:scale(1)}15%{transform:scale(1.12)}30%{transform:scale(1)}45%{transform:scale(1.06)}60%{transform:scale(1)}100%{transform:scale(1)}}
 
-  /* ===== utilidades/animaciones ===== */
+  /* ===== Animaciones varias ===== */
   @keyframes hue{0%{background-position:0% 50%}100%{background-position:100% 50%}}
   @keyframes float{0%,100%{transform:translate(-50%,0) translateY(var(--logo-dy))}50%{transform:translate(-50%,-6px) translateY(calc(var(--logo-dy) - 6px))}}
   @keyframes glow{0%,100%{filter:drop-shadow(0 14px 18px rgba(0,0,0,.45))}50%{filter:drop-shadow(0 18px 26px rgba(0,0,0,.55))}}
@@ -196,7 +193,7 @@
   @keyframes ageShine{0%,100%{ filter: drop-shadow(0 8px 14px rgba(0,0,0,.4)) brightness(1);}50%{ filter: drop-shadow(0 12px 20px rgba(0,0,0,.55)) brightness(1.06);}}
   @keyframes sweep{0%{transform:translateX(-120%) skewX(-10deg);}48%{transform:translateX(120%) skewX(-10deg);}100%{transform:translateX(120%) skewX(-10deg);}}
 
-  /* ===== Ajustes móviles finos ===== */
+  /* ===== Móvil ===== */
   @media (max-width:500px){
     :root{
       --header-top: 15%;
@@ -211,7 +208,6 @@
     .info{ font-size:clamp(15px,4.8vw,18px); line-height:1.2; }
   }
 
-  /* Respeta “reducir movimiento” */
   @media (prefers-reduced-motion: reduce){
     .logo,.title-img,.age-img,.age-wrap::after,.dennis{ animation:none !important; }
     .dennis{ transform:none !important; }
@@ -222,21 +218,21 @@
 <body>
   <div class="scene" role="img" aria-label="Invitación temática Minecraft">
     <!-- Fondo -->
-    <img class="bg" src="./Plantilla.jpg" alt="Plantilla">
+    <img class="bg" src="./Plantilla.jpg?v=2" alt="Plantilla">
     <!-- Logo -->
-    <img class="logo" src="./minecraft.png" alt="Minecraft">
+    <img class="logo" src="./minecraft.png?v=2" alt="Minecraft">
 
     <!-- TÍTULOS (debajo del logo) -->
     <div class="header">
-      <img class="title-img" src="./grecia-lira-minecraft.png" alt="Grecia Lira">
+      <img class="title-img" src="./grecia-lira-minecraft.png?v=2" alt="Grecia Lira">
       <div class="age-wrap">
-        <img class="age-img" src="./CUMPLEAÑOS 7.png" alt="Cumpleaños 7">
+        <img class="age-img" src="./CUMPLEAÑOS%207.png?v=2" alt="Cumpleaños 7">
       </div>
     </div>
 
     <!-- Dennis (sobre el piso rosa, caminando) -->
     <div class="dennis" aria-hidden="true">
-      <img class="wolf" src="./DENNIS.png" alt="">
+      <img class="wolf" src="./DENNIS.png?v=2" alt="">
       <div class="hearts h-left"></div>
       <div class="hearts h-center"></div>
       <div class="hearts h-right"></div>
@@ -265,9 +261,9 @@
 
 <!-- Audio -->
 <audio id="bgm" loop playsinline preload="auto">
-  <source src="./minecraft.mp3"  type="audio/mpeg">
-  <source src="./minecraft"      type="audio/mpeg">
-  <source src="https://vgmsite.com/soundtracks/minecraft-volume-alpha/uwshxmdq/02.%20Minecraft.mp3" type="audio/mpeg">
+  <source src="./minecraft.mp3?v=2"  type="audio/mpeg">
+  <source src="./minecraft?v=2"      type="audio/mpeg">
+  <source src="https://vgmsite.com/soundtracks/minecraft-volume-alpha/uwshxmdq/02.%20Minecraft.mp3?v=2" type="audio/mpeg">
 </audio>
 
 <script>
