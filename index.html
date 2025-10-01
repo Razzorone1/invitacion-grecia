@@ -259,17 +259,15 @@
   @keyframes ageShine{0%,100%{ filter: drop-shadow(0 8px 14px rgba(0,0,0,.4)) brightness(1);}50%{ filter: drop-shadow(0 12px 20px rgba(0,0,0,.55)) brightness(1.06);}}
   @keyframes sweep{0%{transform:translateX(-120%) skewX(-10deg);}48%{transform:translateX(120%) skewX(-10deg);}100%{transform:translateX(120%) skewX(-10deg);}}
 
-  /* Móvil */
-  @media (max-width:500px){
-    :root{
-      --title-img-w: 96%;
-      --age-img-w:   74%;
-      --actors-bottom: 34%;
-      --alex-size: 28%;
-      --steve-size: 30%;
-      --cake-size: 34%;
-    }
-  }
+/* Móvil: solo tipografías/espaciados, NO tocar tamaños de personajes */
+@media (max-width:500px){
+  /* no sobreescribimos --alex-size/--steve-size/--cake-size */
+  .btns{ gap:10px; }
+  .btn{ padding:10px 12px; font-size:clamp(13px,3.8vw,16px); }
+  .anim-gradient{ font-size:clamp(24px,7vw,36px); }
+  .info{ font-size:clamp(15px,4.8vw,18px); line-height:1.2; }
+}
+
 
   @media (prefers-reduced-motion: reduce){
     .logo,.title-img,.age-img,.age-wrap::after,.dennis,.alex,.steve,.cake{ animation:none !important; }
