@@ -31,7 +31,7 @@
     --size-title: clamp(28px, 7.2vw, 32px);
     --size-info:  clamp(15px, 4.8vw, 22px);
     --size-btn:   clamp(14px, 4.8vw, 18px);
-    --lh-info:    1.22;
+    --lh-info:    1.28; /* ↑ un poco para evitar recortes */
 
     /* Títulos (IMÁGENES) */
     --title-img-w: 95%;
@@ -125,15 +125,28 @@
     right:var(--panel-right); bottom:var(--panel-bot);
     display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
     gap:var(--panel-gap); z-index:2; text-align:center;
+
+    /* 👇 aire extra y evitar recortes del título con gradiente */
+    padding: 4px 10px 0;
+    overflow: visible;
   }
 
+  /* Título con gradiente — FIX anti recorte en Android/WebKit */
   .anim-gradient{
     font-weight:900; letter-spacing:.5px;
     font-size:var(--size-title);
     margin:0 0 2px;
+
+    display:inline-block;              /* evita cortes laterales */
+    padding:2px 4px;                   /* respiración a los bordes */
+    line-height:1.15;                  /* evita corte vertical */
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;     /* duplicado a propósito */
+    background-clip: text;
+
     background:linear-gradient(90deg,#ffd1d1,#fff8a0,#b5ffea,#ffd1d1);
     background-size:300% 100%;
-    -webkit-background-clip:text; background-clip:text; color:transparent;
+    color:transparent;
     animation:hue 6s linear infinite;
   }
 
@@ -261,13 +274,11 @@
 
 /* Móvil: solo tipografías/espaciados, NO tocar tamaños de personajes */
 @media (max-width:500px){
-  /* no sobreescribimos --alex-size/--steve-size/--cake-size */
   .btns{ gap:10px; }
   .btn{ padding:10px 12px; font-size:clamp(13px,3.8vw,16px); }
   .anim-gradient{ font-size:clamp(24px,7vw,36px); }
-  .info{ font-size:clamp(15px,4.8vw,18px); line-height:1.2; }
+  .info{ font-size:clamp(15px,4.8vw,18px); line-height:1.25; }
 }
-
 
   @media (prefers-reduced-motion: reduce){
     .logo,.title-img,.age-img,.age-wrap::after,.dennis,.alex,.steve,.cake{ animation:none !important; }
@@ -325,14 +336,12 @@
     </div>
   </div>
 
-  <!-- ===== AUDIO (local primero, web después, respaldo RAW) ===== -->
+  <!-- ===== AUDIO (local primero, web después) ===== -->
   <audio id="bgm" loop playsinline preload="auto">
-    <!-- Local (file://) — NO usar ?v=… aquí -->
     <source src="./minecraft.mp3" type="audio/mpeg">
-    <!-- Web (GitHub Pages) con cache-busting -->
     <source src="./minecraft.mp3?v=3" type="audio/mpeg">
-    <!-- Respaldo: pon aquí TU URL RAW de GitHub si quieres -->
-    <!-- <source src="https://raw.githubusercontent.com/TU_USUARIO/TU_REPO/main/minecraft.mp3" type="audio/mpeg"> -->
+    <!-- Respaldo opcional RAW:
+    <source src="https://raw.githubusercontent.com/TU_USUARIO/TU_REPO/main/minecraft.mp3" type="audio/mpeg"> -->
   </audio>
 
 <script>
@@ -357,3 +366,4 @@
 </script>
 </body>
 </html>
+
