@@ -6,20 +6,31 @@
 <title>Invitación — Grecia</title>
 <style>
   :root{
+    /* ====== LOGO (arriba) ====== */
     --logo-visible: 1;
-    --logo-dy: -60px;
+    --logo-dy: -60px;          /* sube/baja el logo */
     --logo-w: 100%;
 
-    --content-dy: 11px; /* NEG = sube, POS = baja */
+    /* ====== ZONAS DE LA PLANTILLA ======
+       AJUSTA ESTOS % SI CAMBIAS LA IMAGEN DE FONDO */
+    /* Zona superior (bajo el logo) para los títulos */
+    --header-top: 12%;
+    --header-left: 7.5%;
+    --header-right: 7.5%;
+    --header-bot: 54%; /* cuanto “baja” la zona de títulos */
 
-    /* Caja “café” */
-    --cafe-top: 37.5%;
-    --cafe-left: 7.5%;
-    --cafe-right: 7.5%;
-    --cafe-bot: 11.5%;
+    /* Zona inferior verde para info/dirección/botones */
+    --panel-top: 63%;
+    --panel-left: 10%;
+    --panel-right: 10%;
+    --panel-bot: 8%;
 
-    /* Título */
-    --title-dy: -6px;
+    /* Escalas finas dentro de cada zona */
+    --title-gap: 6px;          /* separación entre Grecia Lira y Cumpleaños 7 */
+    --panel-gap: 6px;          /* separación vertical dentro del panel verde */
+
+    /* Título (imagen) */
+    --title-dy: 0px;
     --title-scale: 1;
 
     /* Dennis */
@@ -28,11 +39,14 @@
     --dennis-bottom: 3.5%;
     --dennis-beat: 1.35s;
 
-    /* Corazones */
+    /* Corazones (recortes del PNG) */
     --L-top: 8%;  --L-right: 66%; --L-bottom: 72%; --L-left: 19%;
     --R-top: 14%; --R-right: 19%; --R-bottom: 79%; --R-left: 73%;
 
+    /* Colores botones */
     --btn:#22c55e; --btnh:#16a34a; --blue:#3b82f6; --blueh:#2563eb;
+
+    /* Fondo de la página */
     --bg:#0b0f17;
   }
 
@@ -50,8 +64,11 @@
     box-shadow:0 20px 60px rgba(0,0,0,.45);
   }
 
-  .bg{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; z-index:0; }
+  /* ===== FONDO ===== */
+  .bg{ position:absolute; inset:0; width:100%; height:100%;
+       object-fit:cover; object-position:center; z-index:0; }
 
+  /* ===== LOGO flotante ===== */
   .logo{
     position:absolute; left:50%; width:var(--logo-w); max-width:none;
     transform:translate(-50%, 0) translateY(var(--logo-dy)); top:12.5%;
@@ -61,7 +78,7 @@
     opacity: calc(var(--logo-visible)); z-index:2;
   }
 
-  /* ==== Dennis: entra caminando + idle ==== */
+  /* ===== DENNIS (abajo-derecha) ===== */
   .dennis{
     position:absolute; right:var(--dennis-right); bottom:var(--dennis-bottom);
     width:var(--dennis-w); aspect-ratio:1/1; z-index:1; pointer-events:none;
@@ -72,8 +89,7 @@
   }
   .dennis .wolf{ position:absolute; inset:0; width:100%; height:100%; object-fit:contain; }
   .dennis .hearts{
-    position:absolute; inset:0;
-    background:url('./DENNIS.png') center/contain no-repeat;
+    position:absolute; inset:0; background:url('./DENNIS.png') center/contain no-repeat;
     animation: heartbeat var(--dennis-beat) ease-in-out infinite;
   }
   .dennis .h-left{  clip-path: inset(var(--L-top) var(--L-right) var(--L-bottom) var(--L-left)); }
@@ -93,46 +109,61 @@
   @keyframes dennisIdle{0%,100%{transform:translateX(0) translateY(0)}50%{transform:translateX(0) translateY(-2px)}}
   @keyframes heartbeat{0%{transform:scale(1)}15%{transform:scale(1.12)}30%{transform:scale(1)}45%{transform:scale(1.06)}60%{transform:scale(1)}100%{transform:scale(1)}}
 
-  /* Contenido (fijo) */
-  .content{ position:absolute; top:var(--cafe-top); left:var(--cafe-left); right:var(--cafe-right); bottom:var(--cafe-bot); display:flex; justify-content:flex-start; overflow:hidden; z-index:2; }
-  .content-shift{ margin:auto; display:flex; flex-direction:column; align-items:center; text-align:center; gap:8px; padding:8px; transform:translateY(var(--content-dy)); }
-
-  /* Título Grecia Lira */
+  /* ===== ZONA DE TÍTULOS (arriba) ===== */
+  .header{
+    position:absolute;
+    top:var(--header-top); left:var(--header-left);
+    right:var(--header-right); bottom:var(--header-bot);
+    display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
+    gap:var(--title-gap); z-index:2; pointer-events:none;
+  }
   .title-img{
     width:min(92%,680px);
-    transform:translateY(var(--title-dy)) scale(var(--title-scale));
-    filter:drop-shadow(0 8px 14px rgba(0,0,0,.45));
-    animation:titleFloat 4.5s ease-in-out infinite, titleGlow 3.8s ease-in-out infinite;
-    margin-bottom:2px;
+    transform: translateY(var(--title-dy)) scale(var(--title-scale));
+    filter: drop-shadow(0 8px 14px rgba(0,0,0,.45));
+    user-select:none; image-rendering:-webkit-optimize-contrast;
+    animation: titleFloat 4.5s ease-in-out infinite, titleGlow 3.8s ease-in-out infinite;
   }
-
-  /* Rótulo Cumpleaños 7 + brillo */
-  .age-wrap{ position:relative; display:inline-block; isolation:isolate; margin-top:-4px; margin-bottom:0; }
-  .age-img{ width:min(75%,560px); filter:drop-shadow(0 8px 14px rgba(0,0,0,.4)); animation:ageFloat 4.2s ease-in-out infinite, ageShine 3.6s ease-in-out infinite; image-rendering:-webkit-optimize-contrast; }
+  .age-wrap{ position:relative; display:inline-block; isolation:isolate; }
+  .age-img{
+    width:min(66%,520px);
+    filter: drop-shadow(0 8px 14px rgba(0,0,0,.4));
+    animation: ageFloat 4.2s ease-in-out infinite, ageShine 3.6s ease-in-out infinite;
+    image-rendering:-webkit-optimize-contrast;
+  }
   .age-wrap::after{
     content:""; position:absolute; inset:0; pointer-events:none;
     background:linear-gradient(75deg,transparent 0%,rgba(255,255,255,0) 35%,rgba(255,255,255,.65) 50%,rgba(255,255,255,0) 65%,transparent 100%);
     transform:translateX(-120%) skewX(-10deg); mix-blend-mode:screen; filter:blur(1px); opacity:.85; animation:sweep 3.2s ease-in-out infinite;
   }
 
-  /* Título verde */
+  /* ===== ZONA PANEL VERDE (info, botones) ===== */
+  .panel{
+    position:absolute;
+    top:var(--panel-top); left:var(--panel-left);
+    right:var(--panel-right); bottom:var(--panel-bot);
+    display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
+    gap:var(--panel-gap); z-index:2; text-align:center;
+  }
+
   .anim-gradient{
     font-weight:900; letter-spacing:.5px;
-    font-size:clamp(20px,5.0vw,32px);
-    margin:4px 0 2px;              /* más compacto */
+    font-size:clamp(19px,4.6vw,28px);
+    margin:0 0 2px;
     background:linear-gradient(90deg,#ffd1d1,#fff8a0,#b5ffea,#ffd1d1);
     background-size:300% 100%;
     -webkit-background-clip:text; background-clip:text; color:transparent;
     animation:hue 6s linear infinite;
   }
 
-  /* ====== BLOQUE INFO – súper compacto ====== */
-  .info{ font-size:clamp(14px,3.0vw,16px); line-height:1.1; margin:0; text-wrap:balance; }
-  .info .row{ margin:2px 0; }     /* fecha + hora en una línea */
+  .info{
+    font-size:clamp(14px,3.0vw,16px);
+    line-height:1.12; margin:0; text-wrap:balance;
+  }
+  .info .row{ margin:2px 0; }
   .info .addr{ margin:2px 0 0; }
 
-  /* Botones en una fila */
-  .btns{ display:flex; justify-content:center; align-items:center; gap:8px; flex-wrap:nowrap; white-space:nowrap; overflow:hidden; }
+  .btns{ display:flex; justify-content:center; align-items:center; gap:10px; flex-wrap:nowrap; white-space:nowrap; }
   .btn{
     appearance:none; border:0; border-radius:12px; padding:10px 14px;
     font-weight:700; color:#fff; background:var(--btn); text-decoration:none;
@@ -143,9 +174,20 @@
   }
   .btn:hover{ background:var(--btnh); transform:translateY(-2px) }
 
-  .playbar{ position:absolute; left:0; right:0; bottom:10px; display:flex; justify-content:center; z-index:3; }
+  /* ===== Botón de música VERTICAL a la izquierda ===== */
+  .playbar-left{
+    position:absolute; left:6px; top:50%;
+    transform: translateY(-50%) rotate(-90deg);
+    transform-origin: left center;
+    z-index:3;
+  }
+  .playbar-left .btn{
+    background:var(--blue);
+    white-space:nowrap;
+  }
+  .playbar-left .btn:hover{ background:var(--blueh); }
 
-  /* Otras animaciones existentes */
+  /* ==== Animaciones ya existentes ==== */
   @keyframes hue{0%{background-position:0% 50%}100%{background-position:100% 50%}}
   @keyframes float{0%,100%{transform:translate(-50%,0) translateY(var(--logo-dy))}50%{transform:translate(-50%,-6px) translateY(calc(var(--logo-dy) - 6px))}}
   @keyframes glow{0%,100%{filter:drop-shadow(0 14px 18px rgba(0,0,0,.45))}50%{filter:drop-shadow(0 18px 26px rgba(0,0,0,.55))}}
@@ -155,10 +197,16 @@
   @keyframes ageShine{0%,100%{ filter: drop-shadow(0 8px 14px rgba(0,0,0,.4)) brightness(1);}50%{ filter: drop-shadow(0 12px 20px rgba(0,0,0,.55)) brightness(1.06);}}
   @keyframes sweep{0%{transform:translateX(-120%) skewX(-10deg);}48%{transform:translateX(120%) skewX(-10deg);}100%{transform:translateX(120%) skewX(-10deg);}}
 
-  /* Móvil: fino */
+  /* ===== Mobile fine-tuning ===== */
   @media (max-width:500px){
-    :root{ --dennis-w: 38vw; --dennis-right: -2.5%; --dennis-bottom: 11%; }
-    .btns{ gap:6px; }
+    :root{
+      --header-top: 13%;
+      --header-bot: 56%;
+      --panel-top: 64%;
+      --panel-bot: 8.5%;
+      --dennis-w: 38vw; --dennis-right: -2.5%; --dennis-bottom: 11%;
+    }
+    .btns{ gap:8px; }
     .btn{ padding:9px 10px; font-size:clamp(11px,3vw,14px); }
     .anim-gradient{ font-size:clamp(18px,4.4vw,26px); }
     .info{ font-size:clamp(12.5px,3.4vw,14.5px); line-height:1.12; }
@@ -173,7 +221,9 @@
 </head>
 <body>
   <div class="scene" role="img" aria-label="Invitación temática Minecraft">
+    <!-- Fondo nuevo -->
     <img class="bg" src="./Plantilla.jpg" alt="Plantilla">
+    <!-- Logo -->
     <img class="logo" src="./minecraft.png" alt="Minecraft">
 
     <!-- Dennis -->
@@ -184,45 +234,46 @@
       <div class="hearts h-right"></div>
     </div>
 
-    <!-- Contenido -->
-    <div class="content">
-      <div class="content-shift">
-        <img class="title-img" src="./grecia-lira-minecraft.png" alt="Grecia Lira">
-
-        <div class="age-wrap">
-          <img class="age-img" src="./CUMPLEAÑOS 7.png" alt="Cumpleaños 7">
-        </div>
-
-        <h1 class="anim-gradient">¡Acompáñanos a celebrar!</h1>
-
-        <!-- FECHA + HORA EN UNA SOLA LÍNEA -->
-        <div class="info">
-          <div class="row">📅 <strong>8 de noviembre</strong> &nbsp;•&nbsp; ⏰ <strong>4:00–8:00 p.m.</strong></div>
-          <div class="addr">📍 <strong>Pinocchio Salón de Fiestas Infantiles, C. Mercurio 3742, Satélite, 31140 Chihuahua, Chih.</strong></div>
-        </div>
-
-        <div class="btns">
-          <a class="btn" href="https://maps.app.goo.gl/VBHEYq9buCPKmp9m6" target="_blank" rel="noopener">📍 Ver ubicación</a>
-          <a class="btn" href="https://wa.me/526143811528?text=Confirmo%20asistencia%20al%20cumplea%C3%B1os%20de%20Grecia%20🎉" target="_blank" rel="noopener">✅ Confirmar asistencia</a>
-        </div>
-
-        <p class="sub">Si no escuchas música, usa el botón de abajo para iniciarla.</p>
+    <!-- ===== ZONA TÍTULOS (arriba) ===== -->
+    <div class="header">
+      <img class="title-img" src="./grecia-lira-minecraft.png" alt="Grecia Lira">
+      <div class="age-wrap">
+        <img class="age-img" src="./CUMPLEAÑOS 7.png" alt="Cumpleaños 7">
       </div>
     </div>
 
-    <audio id="bgm" loop playsinline preload="auto">
-      <source src="./minecraft.mp3"  type="audio/mpeg">
-      <source src="./minecraft.mpeg" type="audio/mpeg">
-      <source src="./minecraft"      type="audio/mpeg">
-      <source src="https://vgmsite.com/soundtracks/minecraft-volume-alpha/uwshxmdq/02.%20Minecraft.mp3" type="audio/mpeg">
-    </audio>
+    <!-- ===== ZONA PANEL VERDE ===== -->
+    <div class="panel">
+      <h1 class="anim-gradient">¡Acompáñanos a celebrar!</h1>
 
-    <div class="playbar">
-      <button id="playBtn" class="btn" style="background:var(--blue)">🔊 Toca para activar la música</button>
+      <!-- Fecha + hora en un renglón -->
+      <div class="info">
+        <div class="row">📅 <strong>8 de noviembre</strong> &nbsp;•&nbsp; ⏰ <strong>4:00–8:00 p.m.</strong></div>
+        <div class="addr">📍 <strong>Pinocchio Salón de Fiestas Infantiles, C. Mercurio 3742, Satélite, 31140 Chihuahua, Chih.</strong></div>
+      </div>
+
+      <div class="btns">
+        <a class="btn" href="https://maps.app.goo.gl/VBHEYq9buCPKmp9m6" target="_blank" rel="noopener">📍 Ver ubicación</a>
+        <a class="btn" href="https://wa.me/526143811528?text=Confirmo%20asistencia%20al%20cumplea%C3%B1os%20de%20Grecia%20🎉" target="_blank" rel="noopener">✅ Confirmar asistencia</a>
+      </div>
+    </div>
+
+    <!-- Botón música VERTICAL izquierda -->
+    <div class="playbar-left">
+      <button id="playBtn" class="btn">🔊 Toca para activar la música</button>
     </div>
   </div>
 
+<!-- Audio -->
+<audio id="bgm" loop playsinline preload="auto">
+  <source src="./minecraft.mp3"  type="audio/mpeg">
+  <source src="./minecraft.mpeg" type="audio/mpeg">
+  <source src="./minecraft"      type="audio/mpeg">
+  <source src="https://vgmsite.com/soundtracks/minecraft-volume-alpha/uwshxmdq/02.%20Minecraft.mp3" type="audio/mpeg">
+</audio>
+
 <script>
+  /* Autoplay suave + botón móviles */
   const audio = document.getElementById('bgm');
   const playBtn = document.getElementById('playBtn');
 
@@ -243,4 +294,5 @@
 </script>
 </body>
 </html>
+
 
