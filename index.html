@@ -11,18 +11,18 @@
     --logo-dy: -60px;  /* sube/baja el logo */
     --logo-w: 100%;
 
-    /* ===== ZONAS DE LA PLANTILLA ===== */
+    /* ===== ZONAS DE LA PLANTILLA (MISMAS EN WEB Y MÓVIL) ===== */
     /* Títulos (debajo del logo) */
     --header-top: 14%;
     --header-left: 7.5%;
     --header-right: 7.5%;
-    --header-bot: 65%;
+    --header-bot: 58%;     /* igual que en móvil */
 
     /* Panel verde (textos + botones) */
-    --panel-top: 73.5%;
+    --panel-top: 74.5%;    /* igual que en móvil */
     --panel-left: 10%;
     --panel-right: 10%;
-    --panel-bot: 8%;
+    --panel-bot: 8.5%;     /* igual que en móvil */
 
     /* separaciones internas */
     --title-gap: 8px;
@@ -31,7 +31,7 @@
     /* Dennis sobre el piso rosa */
     --dennis-w: 36%;
     --dennis-right: -2.5%;
-    --dennis-bottom: 11.5%;
+    --dennis-bottom: 12%;  /* igual que en móvil */
     --dennis-beat: 1.35s;
 
     /* Recortes corazones */
@@ -162,7 +162,7 @@
   }
   .dennis .wolf{ position:absolute; inset:0; width:100%; height:100%; object-fit:contain; }
   .dennis .hearts{
-    position:absolute; inset:0; background:url('./DENNIS.png?v=2') center/contain no-repeat;
+    position:absolute; inset:0; background:url('./DENNIS.png?v=3') center/contain no-repeat;
     animation: heartbeat var(--dennis-beat) ease-in-out infinite;
   }
   .dennis .h-left{  clip-path: inset(var(--L-top) var(--L-right) var(--L-bottom) var(--L-left)); }
@@ -193,15 +193,8 @@
   @keyframes ageShine{0%,100%{ filter: drop-shadow(0 8px 14px rgba(0,0,0,.4)) brightness(1);}50%{ filter: drop-shadow(0 12px 20px rgba(0,0,0,.55)) brightness(1.06);}}
   @keyframes sweep{0%{transform:translateX(-120%) skewX(-10deg);}48%{transform:translateX(120%) skewX(-10deg);}100%{transform:translateX(120%) skewX(-10deg);}}
 
-  /* ===== Móvil ===== */
+  /* ===== Móvil: solo fuentes/espacios, NO posiciones ===== */
   @media (max-width:500px){
-    :root{
-      --header-top: 15%;
-      --header-bot: 58%;
-      --panel-top: 74.5%;
-      --panel-bot: 8.5%;
-      --dennis-w: 40vw; --dennis-right: -2.5%; --dennis-bottom: 12%;
-    }
     .btns{ gap:10px; }
     .btn{ padding:10px 12px; font-size:clamp(13px,3.8vw,16px); }
     .anim-gradient{ font-size:clamp(24px,7vw,36px); }
@@ -218,21 +211,21 @@
 <body>
   <div class="scene" role="img" aria-label="Invitación temática Minecraft">
     <!-- Fondo -->
-    <img class="bg" src="./Plantilla.jpg?v=2" alt="Plantilla">
+    <img class="bg" src="./Plantilla.jpg?v=3" alt="Plantilla">
     <!-- Logo -->
-    <img class="logo" src="./minecraft.png?v=2" alt="Minecraft">
+    <img class="logo" src="./minecraft.png?v=3" alt="Minecraft">
 
     <!-- TÍTULOS (debajo del logo) -->
     <div class="header">
-      <img class="title-img" src="./grecia-lira-minecraft.png?v=2" alt="Grecia Lira">
+      <img class="title-img" src="./grecia-lira-minecraft.png?v=3" alt="Grecia Lira">
       <div class="age-wrap">
-        <img class="age-img" src="./CUMPLEAÑOS%207.png?v=2" alt="Cumpleaños 7">
+        <img class="age-img" src="./CUMPLEAÑOS%207.png?v=3" alt="Cumpleaños 7">
       </div>
     </div>
 
     <!-- Dennis (sobre el piso rosa, caminando) -->
     <div class="dennis" aria-hidden="true">
-      <img class="wolf" src="./DENNIS.png?v=2" alt="">
+      <img class="wolf" src="./DENNIS.png?v=3" alt="">
       <div class="hearts h-left"></div>
       <div class="hearts h-center"></div>
       <div class="hearts h-right"></div>
@@ -261,9 +254,9 @@
 
 <!-- Audio -->
 <audio id="bgm" loop playsinline preload="auto">
-  <source src="./minecraft.mp3?v=2"  type="audio/mpeg">
-  <source src="./minecraft?v=2"      type="audio/mpeg">
-  <source src="https://vgmsite.com/soundtracks/minecraft-volume-alpha/uwshxmdq/02.%20Minecraft.mp3?v=2" type="audio/mpeg">
+  <source src="./minecraft.mp3?v=3"  type="audio/mpeg">
+  <source src="./minecraft?v=3"      type="audio/mpeg">
+  <source src="https://vgmsite.com/soundtracks/minecraft-volume-alpha/uwshxmdq/02.%20Minecraft.mp3?v=3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -288,4 +281,3 @@
 </script>
 </body>
 </html>
-
