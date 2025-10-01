@@ -27,11 +27,11 @@
     --title-gap: 8px;
     --panel-gap: 10px;
 
-    /* TAMAÑOS de texto */
-    --size-title: clamp(28px, 7.2vw, 32px);
-    --size-info:  clamp(15px, 4.8vw, 22px);
-    --size-btn:   clamp(14px, 4.8vw, 18px);
-    --lh-info:    1.28; /* ↑ un poco para evitar recortes */
+    /* ===== TAMAÑOS DE TEXTO (más chicos) ===== */
+    --size-title: clamp(22px, 6vw, 30px);   /* ¡Acompáñanos a celebrar! */
+    --size-info:  clamp(13px, 4vw, 18px);   /* fecha / hora / dirección */
+    --size-btn:   clamp(13px, 4vw, 16px);   /* botones */
+    --lh-info:    1.25;
 
     /* Títulos (IMÁGENES) */
     --title-img-w: 95%;
@@ -125,28 +125,15 @@
     right:var(--panel-right); bottom:var(--panel-bot);
     display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
     gap:var(--panel-gap); z-index:2; text-align:center;
-
-    /* 👇 aire extra y evitar recortes del título con gradiente */
-    padding: 4px 10px 0;
-    overflow: visible;
   }
 
-  /* Título con gradiente — FIX anti recorte en Android/WebKit */
   .anim-gradient{
     font-weight:900; letter-spacing:.5px;
     font-size:var(--size-title);
     margin:0 0 2px;
-
-    display:inline-block;              /* evita cortes laterales */
-    padding:2px 4px;                   /* respiración a los bordes */
-    line-height:1.15;                  /* evita corte vertical */
-    -webkit-text-fill-color: transparent;
-    -webkit-background-clip: text;     /* duplicado a propósito */
-    background-clip: text;
-
     background:linear-gradient(90deg,#ffd1d1,#fff8a0,#b5ffea,#ffd1d1);
     background-size:300% 100%;
-    color:transparent;
+    -webkit-background-clip:text; background-clip:text; color:transparent;
     animation:hue 6s linear infinite;
   }
 
@@ -272,13 +259,12 @@
   @keyframes ageShine{0%,100%{ filter: drop-shadow(0 8px 14px rgba(0,0,0,.4)) brightness(1);}50%{ filter: drop-shadow(0 12px 20px rgba(0,0,0,.55)) brightness(1.06);}}
   @keyframes sweep{0%{transform:translateX(-120%) skewX(-10deg);}48%{transform:translateX(120%) skewX(-10deg);}100%{transform:translateX(120%) skewX(-10deg);}}
 
-/* Móvil: solo tipografías/espaciados, NO tocar tamaños de personajes */
-@media (max-width:500px){
-  .btns{ gap:10px; }
-  .btn{ padding:10px 12px; font-size:clamp(13px,3.8vw,16px); }
-  .anim-gradient{ font-size:clamp(24px,7vw,36px); }
-  .info{ font-size:clamp(15px,4.8vw,18px); line-height:1.25; }
-}
+  /* Móvil: solo tipografías/espaciados, NO tocar tamaños de personajes */
+  @media (max-width:500px){
+    .anim-gradient{ font-size: clamp(22px, 6.2vw, 28px); }
+    .info{ font-size: clamp(12.5px, 3.8vw, 16px); line-height: 1.24; }
+    .btn{ font-size: clamp(12px, 3.6vw, 15px); padding: 10px 12px; }
+  }
 
   @media (prefers-reduced-motion: reduce){
     .logo,.title-img,.age-img,.age-wrap::after,.dennis,.alex,.steve,.cake{ animation:none !important; }
@@ -336,12 +322,14 @@
     </div>
   </div>
 
-  <!-- ===== AUDIO (local primero, web después) ===== -->
+  <!-- AUDIO -->
   <audio id="bgm" loop playsinline preload="auto">
+    <!-- Local (file://) -->
     <source src="./minecraft.mp3" type="audio/mpeg">
+    <!-- Web (GitHub Pages) con cache-busting -->
     <source src="./minecraft.mp3?v=3" type="audio/mpeg">
-    <!-- Respaldo opcional RAW:
-    <source src="https://raw.githubusercontent.com/TU_USUARIO/TU_REPO/main/minecraft.mp3" type="audio/mpeg"> -->
+    <!-- Respaldo opcional (pon tu URL RAW si quieres) -->
+    <!-- <source src="https://raw.githubusercontent.com/TU_USUARIO/TU_REPO/main/minecraft.mp3" type="audio/mpeg"> -->
   </audio>
 
 <script>
@@ -366,4 +354,5 @@
 </script>
 </body>
 </html>
+
 
