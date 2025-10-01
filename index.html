@@ -7,33 +7,33 @@
 <style>
   :root{
     /* ====== AJUSTES RÁPIDOS ====== */
-    --logo-visible: 1;       /* 1=mostrar, 0=ocultar */
-    --logo-dy: 80px;         /* mueve verticalmente el LOGO */
-    --logo-w: 100%;          /* ancho del logo (86%, 100%, etc.) */
+    --logo-visible: 1;
+    --logo-dy: 80px;
+    --logo-w: 100%;
 
-    --content-dy: 11px;     /* 🔧 mueve VERTICALMENTE textos/botones (NEG = sube, POS = baja) */
+    --content-dy: 11px;   /* NEG = sube, POS = baja */
 
-    /* Caja “café” del fondo (porcentajes relativos al lienzo) */
+    /* Caja “café” */
     --cafe-top: 37.5%;
     --cafe-left: 7.5%;
     --cafe-right: 7.5%;
     --cafe-bot: 11.5%;
 
-    /* Título “Grecia Lira” (imagen) */
+    /* Título “Grecia Lira” */
     --title-dy: -6px;
     --title-scale: 1;
 
-    /* Dennis (tamaño y posición en la esquina) */
-    --dennis-w: 36%;     /* ancho relativo del personaje dentro de la escena */
-    --dennis-right: 2.5%;
-    --dennis-bottom: 2.5%;
-    --dennis-beat: 1.35s;  /* velocidad del latido */
+    /* Dennis (tamaño/posición) */
+    --dennis-w: 34%;        /* antes 36% */
+    --dennis-right: -1.8%;  /* pegado al borde (ligeramente afuera) */
+    --dennis-bottom: 3.5%;  /* sube/baja para apoyar sobre el borde */
+    --dennis-beat: 1.35s;   /* velocidad del latido */
 
-    /* Corazones (recortes) — ajustables si tu PNG cambia */
+    /* Recortes corazones (ajústalos si tu PNG cambia) */
     --L-top: 8%;   --L-right: 66%; --L-bottom: 72%; --L-left: 19%;
     --R-top: 14%;  --R-right: 19%; --R-bottom: 79%; --R-left: 73%;
 
-    /* Colores generales */
+    /* Colores */
     --btn:#22c55e; --btnh:#16a34a; --blue:#3b82f6; --blueh:#2563eb;
     --bg:#0b0f17;
   }
@@ -59,11 +59,10 @@
     z-index:0;
   }
 
-  /* ===== LOGO flotante ===== */
+  /* LOGO */
   .logo{
     position:absolute; left:50%;
-    width:var(--logo-w);
-    max-width:none;
+    width:var(--logo-w); max-width:none;
     transform:translate(-50%, 0) translateY(var(--logo-dy));
     top:12.5%;
     pointer-events:none; user-select:none;
@@ -73,16 +72,22 @@
     z-index:2;
   }
 
-  /* ===== DENNIS (abajo-derecha) ===== */
+  /* ===== DENNIS (abajo-derecha con entrada “caminando”) ===== */
   .dennis{
     position:absolute;
     right: var(--dennis-right);
     bottom: var(--dennis-bottom);
     width: var(--dennis-w);
-    aspect-ratio: 1/1;           /* calculamos recortes sobre un cuadrado */
-    z-index:1;                    /* por encima del fondo, por debajo del contenido */
-    pointer-events:none;          /* no bloquea clics en botones */
-    image-rendering: pixelated;   /* nitidez estilo Minecraft */
+    aspect-ratio: 1/1;
+    z-index:1;                    /* sobre el fondo, bajo el contenido */
+    pointer-events:none;
+    image-rendering: pixelated;
+
+    /* Entrada caminando + idle suave después */
+    transform: translateX(120%) translateY(0);
+    animation:
+      dennisEnter 1.15s cubic-bezier(.18,.8,.25,1) forwards,
+      dennisIdle  3.2s ease-in-out infinite 1.15s;
   }
   .dennis .wolf{
     position:absolute; inset:0; width:100%; height:100%;
@@ -94,11 +99,9 @@
     animation: heartbeat var(--dennis-beat) ease-in-out infinite;
     will-change: transform;
   }
-  /* Recortes — mismas coordenadas del ejemplo */
   .dennis .h-left{  clip-path: inset(var(--L-top) var(--L-right) var(--L-bottom) var(--L-left)); }
   .dennis .h-right{ clip-path: inset(var(--R-top) var(--R-right) var(--R-bottom) var(--R-left)); }
   .dennis .h-center{
-    /* Polígono central (ajústalo si tu PNG cambia) */
     clip-path: polygon(
       1% 1%, 78% 1%,
       78% 50%,
@@ -106,6 +109,23 @@
       1% 35%
     );
   }
+
+  /* “pisaditas” en la entrada */
+  @keyframes dennisEnter{
+    0%   { transform: translateX(120%) translateY(0); }
+    15%  { transform: translateX(90%)  translateY(-2px); }
+    30%  { transform: translateX(65%)  translateY(0); }
+    45%  { transform: translateX(42%)  translateY(-2px); }
+    60%  { transform: translateX(24%)  translateY(0); }
+    80%  { transform: translateX(8%)   translateY(-1px); }
+    100% { transform: translateX(0)    translateY(0); }
+  }
+  @keyframes dennisIdle{
+    0%,100%{ transform: translateX(0) translateY(0); }
+    50%    { transform: translateX(0) translateY(-2px); }
+  }
+
+  /* Latido */
   @keyframes heartbeat{
     0%   { transform: scale(1); }
     15%  { transform: scale(1.12); }
@@ -115,26 +135,25 @@
     100% { transform: scale(1); }
   }
 
-  /* Contenido dentro del área “café” (FIJO) */
+  /* Contenido en el área “café” */
   .content{
     position:absolute;
     top:var(--cafe-top); left:var(--cafe-left);
     right:var(--cafe-right); bottom:var(--cafe-bot);
     display:flex; justify-content:flex-start;
-    overflow:hidden; /* el wrapper interno se moverá dentro */
+    overflow:hidden;
     z-index:2;
   }
-
-  /* Wrapper desplazable (se mueve con --content-dy) */
   .content-shift{
-    margin:auto;              /* centra horizontal si hay espacio */
+    margin:auto;
     display:flex; flex-direction:column; align-items:center; text-align:center;
-    gap:14px; padding:10px;
+    gap:10px;                 /* un poco más compacto */
+    padding:10px;
     transform: translateY(var(--content-dy));
     will-change: transform;
   }
 
-  /* ===== TÍTULO con imagen "GRECIA LIRA" ===== */
+  /* Título “Grecia Lira” */
   .title-img{
     width:min(92%, 680px);
     transform: translateY(var(--title-dy)) scale(var(--title-scale));
@@ -142,46 +161,44 @@
     user-select:none; pointer-events:none;
     image-rendering: -webkit-optimize-contrast;
     animation: titleFloat 4.5s ease-in-out infinite, titleGlow 3.8s ease-in-out infinite;
+    margin-bottom:4px;
   }
 
-  /* ===== RÓTULO "CUMPLEAÑOS 7" con rebote + brillo barrido ===== */
-  .age-wrap{ position: relative; display:inline-block; isolation:isolate; }
+  /* Rótulo “CUMPLEAÑOS 7” */
+  .age-wrap{ position: relative; display:inline-block; isolation:isolate; margin-top:-2px; margin-bottom:2px; }
   .age-img{
-    width:min(75%, 560px);
-    max-width:100%;
+    width:min(75%, 560px); max-width:100%;
     user-select:none; pointer-events:none;
     filter: drop-shadow(0 8px 14px rgba(0,0,0,.4));
     animation: ageFloat 4.2s ease-in-out infinite, ageShine 3.6s ease-in-out infinite;
     image-rendering: -webkit-optimize-contrast;
   }
   .age-wrap::after{
-    content:"";
-    position:absolute; inset:0; pointer-events:none;
-    background: linear-gradient(75deg,
-      transparent 0%,
-      rgba(255,255,255,0.00) 35%,
-      rgba(255,255,255,0.65) 50%,
-      rgba(255,255,255,0.00) 65%,
-      transparent 100%);
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background: linear-gradient(75deg, transparent 0%, rgba(255,255,255,0.0) 35%, rgba(255,255,255,0.65) 50%, rgba(255,255,255,0.0) 65%, transparent 100%);
     transform: translateX(-120%) skewX(-10deg);
     mix-blend-mode: screen; filter: blur(1px); opacity:.85;
     animation: sweep 3.2s ease-in-out infinite;
   }
 
-  /* Subtítulo animado (texto) */
   .anim-gradient{
     font-weight:900; letter-spacing:.5px;
-    font-size:clamp(20px,5.0vw,32px); margin:.3em 0;
+    font-size:clamp(20px,5.0vw,32px); margin:.12em 0;  /* más compacto */
     background: linear-gradient(90deg,#ffd1d1,#fff8a0,#b5ffea,#ffd1d1);
     background-size: 300% 100%;
     -webkit-background-clip:text; background-clip:text; color:transparent;
     animation: hue 6s linear infinite;
   }
 
-  .sub{ font-size:clamp(13px,3.3vw,18px); opacity:.95 }
-  .info{ font-size:clamp(14px,3.2vw,16px); line-height:1.18; text-wrap:balance; margin:2px 0 0; }
+  .info{
+    font-size:clamp(14px,3.1vw,16px);
+    line-height:1.12;            /* 🔧 renglones más juntos */
+    text-wrap:balance;
+    margin:0;
+  }
+  .sub{ font-size:clamp(13px,3.0vw,18px); opacity:.95; margin:4px 0 0; }
 
-  /* Botones (una sola fila) */
+  /* Botones en una fila */
   .btns{ display:flex; justify-content:center; align-items:center; gap:8px; flex-wrap:nowrap; white-space:nowrap; overflow:hidden; }
   .btn{
     appearance:none; border:0; border-radius:12px; padding:10px 14px;
@@ -193,40 +210,40 @@
   }
   .btn:hover{ background:var(--btnh); transform:translateY(-2px) }
 
-  /* Botón música */
+  /* Música */
   .playbar{
     position:absolute; left:0; right:0; bottom:10px;
     display:flex; justify-content:center;
     z-index:3;
   }
 
-  /* ===== Animaciones ===== */
-  @keyframes hue{ 0%{background-position:0% 50%} 100%{background-position:100% 50%} }
-  @keyframes float{ 0%,100%{transform:translate(-50%,0) translateY(var(--logo-dy))} 50%{transform:translate(-50%,-6px) translateY(calc(var(--logo-dy) - 6px))} }
-  @keyframes glow{ 0%,100%{filter:drop-shadow(0 14px 18px rgba(0,0,0,.45))} 50%{filter:drop-shadow(0 18px 26px rgba(0,0,0,.55))} }
-  @keyframes titleFloat{ 0%,100%{transform: translateY(var(--title-dy)) scale(var(--title-scale));} 50%{transform: translateY(calc(var(--title-dy) - 3px)) scale(calc(var(--title-scale) * 1.01));} }
-  @keyframes titleGlow{ 0%,100%{filter: drop-shadow(0 8px 14px rgba(0,0,0,.45)) brightness(1);} 50%{filter: drop-shadow(0 12px 20px rgba(0,0,0,.55)) brightness(1.07);} }
-  @keyframes ageFloat{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-3px) scale(1.01); } }
-  @keyframes ageShine{ 0%,100%{ filter: drop-shadow(0 8px 14px rgba(0,0,0,.4)) brightness(1); } 50%{ filter: drop-shadow(0 12px 20px rgba(0,0,0,.55)) brightness(1.06); } }
-  @keyframes sweep{ 0%{ transform: translateX(-120%) skewX(-10deg);} 48%{ transform: translateX(120%) skewX(-10deg);} 100%{ transform: translateX(120%) skewX(-10deg);} }
+  /* Otras animaciones ya existentes */
+  @keyframes hue{0%{background-position:0% 50%}100%{background-position:100% 50%}}
+  @keyframes float{0%,100%{transform:translate(-50%,0) translateY(var(--logo-dy))}50%{transform:translate(-50%,-6px) translateY(calc(var(--logo-dy) - 6px))}}
+  @keyframes glow{0%,100%{filter:drop-shadow(0 14px 18px rgba(0,0,0,.45))}50%{filter:drop-shadow(0 18px 26px rgba(0,0,0,.55))}}
+  @keyframes titleFloat{0%,100%{transform: translateY(var(--title-dy)) scale(var(--title-scale));}50%{transform: translateY(calc(var(--title-dy) - 3px)) scale(calc(var(--title-scale) * 1.01));}}
+  @keyframes titleGlow{0%,100%{filter: drop-shadow(0 8px 14px rgba(0,0,0,.45)) brightness(1);}50%{filter: drop-shadow(0 12px 20px rgba(0,0,0,.55)) brightness(1.07);}}
+  @keyframes ageFloat{0%,100%{ transform: translateY(0);}50%{ transform: translateY(-3px) scale(1.01);}}
+  @keyframes ageShine{0%,100%{ filter: drop-shadow(0 8px 14px rgba(0,0,0,.4)) brightness(1);}50%{ filter: drop-shadow(0 12px 20px rgba(0,0,0,.55)) brightness(1.06);}}
+  @keyframes sweep{0%{transform:translateX(-120%) skewX(-10deg);}48%{transform:translateX(120%) skewX(-10deg);}100%{transform:translateX(120%) skewX(-10deg);}}
 
-  /* ===== Ajustes móviles ===== */
+  /* Móviles: evitar que tape el botón */
   @media (max-width:500px){
-    /* Dennis un poco más pequeño y alto para no tapar botón */
     :root{
-      --dennis-w: 37vw;
-      --dennis-right: 2.5%;
-      --dennis-bottom: 10%;
+      --dennis-w: 38vw;
+      --dennis-right: -2.5%;
+      --dennis-bottom: 11%; /* despega del botón de música */
     }
     .btns{ gap:6px; }
     .btn{ padding:9px 10px; font-size:clamp(11px,3vw,14px); }
     .anim-gradient{ font-size:clamp(18px,4.4vw,26px); }
-    .info{ font-size:clamp(12.5px,3.4vw,14.5px); line-height:1.16; }
+    .info{ font-size:clamp(12.5px,3.4vw,14.5px); line-height:1.14; }
   }
 
-  /* Respeta “reducir movimiento” del sistema */
+  /* Respeta “reducir movimiento” */
   @media (prefers-reduced-motion: reduce){
-    .logo,.title-img,.age-img,.age-wrap::after,.dennis .hearts{ animation:none !important; }
+    .logo,.title-img,.age-img,.age-wrap::after,.dennis{ animation:none !important; }
+    .dennis{ transform:none !important; }
     .age-wrap::after{ opacity:0; }
   }
 </style>
@@ -236,10 +253,10 @@
     <!-- Fondo -->
     <img class="bg" src="./Plantilla.jpg" alt="Plantilla">
 
-    <!-- Logo flotante -->
+    <!-- Logo -->
     <img class="logo" src="./minecraft.png" alt="Minecraft">
 
-    <!-- DENNIS (esquina inferior derecha) -->
+    <!-- DENNIS -->
     <div class="dennis" aria-hidden="true">
       <img class="wolf" src="./DENNIS.png" alt="">
       <div class="hearts h-left"></div>
@@ -247,13 +264,11 @@
       <div class="hearts h-right"></div>
     </div>
 
-    <!-- Contenido fijo + wrapper desplazable -->
+    <!-- Contenido -->
     <div class="content">
       <div class="content-shift">
-        <!-- Título con imagen “GRECIA LIRA” -->
         <img class="title-img" src="./grecia-lira-minecraft.png" alt="Grecia Lira">
 
-        <!-- Rótulo animado CUMPLEAÑOS 7 (con brillo barrido) -->
         <div class="age-wrap">
           <img class="age-img" src="./CUMPLEAÑOS 7.png" alt="Cumpleaños 7">
         </div>
@@ -275,7 +290,7 @@
       </div>
     </div>
 
-    <!-- Audio local + respaldo -->
+    <!-- Audio -->
     <audio id="bgm" loop playsinline preload="auto">
       <source src="./minecraft.mp3"  type="audio/mpeg">
       <source src="./minecraft.mpeg" type="audio/mpeg">
@@ -283,14 +298,14 @@
       <source src="https://vgmsite.com/soundtracks/minecraft-volume-alpha/uwshxmdq/02.%20Minecraft.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Botón de música -->
+    <!-- Botón música -->
     <div class="playbar">
       <button id="playBtn" class="btn" style="background:var(--blue)">🔊 Toca para activar la música</button>
     </div>
   </div>
 
 <script>
-  /* Reproducción con autoplay-suave + botón para móviles */
+  /* Autoplay suave + botón móviles */
   const audio = document.getElementById('bgm');
   const playBtn = document.getElementById('playBtn');
 
@@ -303,13 +318,12 @@
       playBtn.style.display = 'inline-flex';
     });
   }
-
   playBtn.addEventListener('click', ()=>{
     audio.muted = false;
     audio.play().then(()=> playBtn.style.display = 'none');
   }, {passive:true});
-
   window.addEventListener('load', tryAutoPlay);
 </script>
 </body>
 </html>
+
