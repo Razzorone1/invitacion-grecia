@@ -11,7 +11,7 @@
     --logo-dy: 80px;         /* mueve verticalmente el LOGO */
     --logo-w: 100%;          /* ancho del logo (86%, 100%, etc.) */
 
-    --content-dy: 10px;     /* mueve VERTICALMENTE textos/botones (NEG = sube, POS = baja) */
+    --content-dy: -90px;     /* 🔧 mueve VERTICALMENTE textos/botones (NEG = sube, POS = baja) */
 
     /* Caja “café” del fondo (porcentajes relativos al lienzo) */
     --cafe-top: 37.5%;
@@ -23,7 +23,17 @@
     --title-dy: -6px;
     --title-scale: 1;
 
-    /* Colores */
+    /* Dennis (tamaño y posición en la esquina) */
+    --dennis-w: 36%;     /* ancho relativo del personaje dentro de la escena */
+    --dennis-right: 2.5%;
+    --dennis-bottom: 2.5%;
+    --dennis-beat: 1.35s;  /* velocidad del latido */
+
+    /* Corazones (recortes) — ajustables si tu PNG cambia */
+    --L-top: 8%;   --L-right: 66%; --L-bottom: 72%; --L-left: 19%;
+    --R-top: 14%;  --R-right: 19%; --R-bottom: 79%; --R-left: 73%;
+
+    /* Colores generales */
     --btn:#22c55e; --btnh:#16a34a; --blue:#3b82f6; --blueh:#2563eb;
     --bg:#0b0f17;
   }
@@ -43,8 +53,11 @@
   }
 
   /* Fondo */
-  .bg{ position:absolute; inset:0; width:100%; height:100%;
-       object-fit:cover; object-position:center; }
+  .bg{
+    position:absolute; inset:0; width:100%; height:100%;
+    object-fit:cover; object-position:center;
+    z-index:0;
+  }
 
   /* ===== LOGO flotante ===== */
   .logo{
@@ -57,6 +70,49 @@
     filter: drop-shadow(0 14px 18px rgba(0,0,0,.45));
     animation: float 5s ease-in-out infinite, glow 3s ease-in-out infinite;
     opacity: calc(var(--logo-visible));
+    z-index:2;
+  }
+
+  /* ===== DENNIS (abajo-derecha) ===== */
+  .dennis{
+    position:absolute;
+    right: var(--dennis-right);
+    bottom: var(--dennis-bottom);
+    width: var(--dennis-w);
+    aspect-ratio: 1/1;           /* calculamos recortes sobre un cuadrado */
+    z-index:1;                    /* por encima del fondo, por debajo del contenido */
+    pointer-events:none;          /* no bloquea clics en botones */
+    image-rendering: pixelated;   /* nitidez estilo Minecraft */
+  }
+  .dennis .wolf{
+    position:absolute; inset:0; width:100%; height:100%;
+    object-fit:contain; user-select:none;
+  }
+  .dennis .hearts{
+    position:absolute; inset:0;
+    background:url('./DENNIS.png') center / contain no-repeat;
+    animation: heartbeat var(--dennis-beat) ease-in-out infinite;
+    will-change: transform;
+  }
+  /* Recortes — mismas coordenadas del ejemplo */
+  .dennis .h-left{  clip-path: inset(var(--L-top) var(--L-right) var(--L-bottom) var(--L-left)); }
+  .dennis .h-right{ clip-path: inset(var(--R-top) var(--R-right) var(--R-bottom) var(--R-left)); }
+  .dennis .h-center{
+    /* Polígono central (ajústalo si tu PNG cambia) */
+    clip-path: polygon(
+      1% 1%, 78% 1%,
+      78% 50%,
+      60% 25%, 28% 21%, 30% 31%, 32% 29%,
+      1% 35%
+    );
+  }
+  @keyframes heartbeat{
+    0%   { transform: scale(1); }
+    15%  { transform: scale(1.12); }
+    30%  { transform: scale(1); }
+    45%  { transform: scale(1.06); }
+    60%  { transform: scale(1); }
+    100% { transform: scale(1); }
   }
 
   /* Contenido dentro del área “café” (FIJO) */
@@ -66,6 +122,7 @@
     right:var(--cafe-right); bottom:var(--cafe-bot);
     display:flex; justify-content:flex-start;
     overflow:hidden; /* el wrapper interno se moverá dentro */
+    z-index:2;
   }
 
   /* Wrapper desplazable (se mueve con --content-dy) */
@@ -137,7 +194,11 @@
   .btn:hover{ background:var(--btnh); transform:translateY(-2px) }
 
   /* Botón música */
-  .playbar{ position:absolute; left:0; right:0; bottom:10px; display:flex; justify-content:center }
+  .playbar{
+    position:absolute; left:0; right:0; bottom:10px;
+    display:flex; justify-content:center;
+    z-index:3;
+  }
 
   /* ===== Animaciones ===== */
   @keyframes hue{ 0%{background-position:0% 50%} 100%{background-position:100% 50%} }
@@ -149,15 +210,14 @@
   @keyframes ageShine{ 0%,100%{ filter: drop-shadow(0 8px 14px rgba(0,0,0,.4)) brightness(1); } 50%{ filter: drop-shadow(0 12px 20px rgba(0,0,0,.55)) brightness(1.06); } }
   @keyframes sweep{ 0%{ transform: translateX(-120%) skewX(-10deg);} 48%{ transform: translateX(120%) skewX(-10deg);} 100%{ transform: translateX(120%) skewX(-10deg);} }
 
-  /* ===== Compactar espacios ===== */
-  .content-shift{ gap:5px; }
-  .title-img{ margin-bottom:4px; }
-  .age-wrap{ margin-top:-2px; margin-bottom:2px; }
-  .anim-gradient{ margin:.15em 0; }
-  .sub{ margin:4px 0 0; }
-
   /* ===== Ajustes móviles ===== */
   @media (max-width:480px){
+    /* Dennis un poco más pequeño y alto para no tapar botón */
+    :root{
+      --dennis-w: 42vw;
+      --dennis-right: 2.5%;
+      --dennis-bottom: 10%;
+    }
     .btns{ gap:6px; }
     .btn{ padding:9px 10px; font-size:clamp(11px,3vw,14px); }
     .anim-gradient{ font-size:clamp(18px,4.4vw,26px); }
@@ -166,7 +226,7 @@
 
   /* Respeta “reducir movimiento” del sistema */
   @media (prefers-reduced-motion: reduce){
-    .logo,.title-img,.age-img,.age-wrap::after{ animation:none !important; }
+    .logo,.title-img,.age-img,.age-wrap::after,.dennis .hearts{ animation:none !important; }
     .age-wrap::after{ opacity:0; }
   }
 </style>
@@ -178,6 +238,14 @@
 
     <!-- Logo flotante -->
     <img class="logo" src="./minecraft.png" alt="Minecraft">
+
+    <!-- DENNIS (esquina inferior derecha) -->
+    <div class="dennis" aria-hidden="true">
+      <img class="wolf" src="./DENNIS.png" alt="">
+      <div class="hearts h-left"></div>
+      <div class="hearts h-center"></div>
+      <div class="hearts h-right"></div>
+    </div>
 
     <!-- Contenido fijo + wrapper desplazable -->
     <div class="content">
@@ -200,7 +268,7 @@
 
         <div class="btns">
           <a class="btn" href="https://maps.app.goo.gl/VBHEYq9buCPKmp9m6" target="_blank" rel="noopener">📍 Ver ubicación</a>
-          <button id="btnConfirm" class="btn">✅ Confirmar asistencia</button>
+          <a class="btn" href="https://wa.me/526143811528?text=Confirmo%20asistencia%20al%20cumplea%C3%B1os%20de%20Grecia%20🎉" target="_blank" rel="noopener">✅ Confirmar asistencia</a>
         </div>
 
         <p class="sub">Si no escuchas música, usa el botón de abajo para iniciarla.</p>
@@ -242,38 +310,6 @@
   }, {passive:true});
 
   window.addEventListener('load', tryAutoPlay);
-
-  // === Confirmar por WhatsApp preguntando cuántas personas irán ===
-  (function(){
-    const btn = document.getElementById('btnConfirm');
-    if (!btn) return;
-    const WA_BASE = 'https://wa.me/526143811528';
-
-    btn.addEventListener('click', () => {
-      // Preguntar número de asistentes
-      let raw = prompt('¿Cuántas personas asistirán?', '1');
-      if (raw === null) return; // cancelado
-
-      // Normalizar a entero válido (1–20)
-      let n = parseInt(String(raw).trim(), 10);
-      if (!Number.isFinite(n) || n < 1) n = 1;
-      if (n > 20) n = 20;
-
-      // (Opcional) pregunta por nombres
-      // const nombres = prompt('Opcional: escribe los nombres (separados por comas):', '');
-      // const extra = nombres && nombres.trim() ? `\nNombres: ${nombres.trim()}` : '';
-
-      const msg =
-        `Confirmo asistencia al cumpleaños de Grecia.\n` +
-        `Personas que asistirán: ${n}.\n` +
-        `¡Gracias! 🎉`;
-        // + extra;
-
-      const url = WA_BASE + '?text=' + encodeURIComponent(msg);
-      window.open(url, '_blank', 'noopener');
-    }, {passive:true});
-  })();
 </script>
 </body>
 </html>
-
