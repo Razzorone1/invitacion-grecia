@@ -79,7 +79,7 @@
     bottom: var(--dennis-bottom);
     width: var(--dennis-w);
     aspect-ratio: 1/1;
-    z-index:1;                    /* sobre el fondo, bajo el contenido */
+    z-index:-1;                    /* sobre el fondo, bajo el contenido */
     pointer-events:none;
     image-rendering: pixelated;
 
@@ -155,7 +155,7 @@
 
   /* Título “Grecia Lira” */
   .title-img{
-    width:min(92%, 680px);
+    width:min(99%, 680px);
     transform: translateY(var(--title-dy)) scale(var(--title-scale));
     filter: drop-shadow(0 8px 14px rgba(0,0,0,.45));
     user-select:none; pointer-events:none;
@@ -167,7 +167,7 @@
   /* Rótulo “CUMPLEAÑOS 7” */
   .age-wrap{ position: relative; display:inline-block; isolation:isolate; margin-top:-2px; margin-bottom:2px; }
   .age-img{
-    width:min(75%, 560px); max-width:100%;
+    width:min(80%, 560px); max-width:100%;
     user-select:none; pointer-events:none;
     filter: drop-shadow(0 8px 14px rgba(0,0,0,.4));
     animation: ageFloat 4.2s ease-in-out infinite, ageShine 3.6s ease-in-out infinite;
@@ -191,7 +191,7 @@
   }
 
   .info{
-    font-size:clamp(9px,3.1vw,16px);
+    font-size:clamp(9px,3.1vw,8px);
     line-height:1;            /* 🔧 renglones más juntos */
     text-wrap:balance;
     margin:0;
