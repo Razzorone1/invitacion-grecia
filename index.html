@@ -8,33 +8,55 @@
   :root{
     /* ===== LOGO ===== */
     --logo-visible: 1;
-    --logo-dy: -60px;  /* sube/baja el logo */
+    --logo-dy: -60px;
     --logo-w: 100%;
 
-    /* ===== ZONAS DE LA PLANTILLA (MISMAS EN WEB Y MÓVIL) ===== */
+    /* ===== POSICIONES ===== */
     /* Títulos (debajo del logo) */
     --header-top: 14%;
     --header-left: 7.5%;
     --header-right: 7.5%;
-    --header-bot: 58%;     /* igual que en móvil */
+    --header-bot: 65%;
 
     /* Panel verde (textos + botones) */
-    --panel-top: 74.5%;    /* igual que en móvil */
+    --panel-top: 72%;
     --panel-left: 10%;
     --panel-right: 10%;
-    --panel-bot: 8.5%;     /* igual que en móvil */
+    --panel-bot: 8.5%;
 
-    /* separaciones internas */
     --title-gap: 8px;
     --panel-gap: 10px;
 
-    /* Dennis sobre el piso rosa */
-    --dennis-w: 36%;
-    --dennis-right: -2.5%;
-    --dennis-bottom: 12%;  /* igual que en móvil */
+    /* TAMAÑOS de texto */
+    --size-title: clamp(28px, 7.2vw, 32px);
+    --size-info:  clamp(15px, 4.8vw, 22px);
+    --size-btn:   clamp(14px, 4.8vw, 18px);
+    --lh-info:    1.22;
+
+    /* Títulos (IMÁGENES) */
+    --title-img-w: 95%;
+    --age-img-w:   72%;
+
+    /* Dennis (piso rosa) */
+    --dennis-w: 32%;
+    --dennis-right: 8%;
+    --dennis-bottom: 32%;
     --dennis-beat: 1.35s;
 
-    /* Recortes corazones */
+    /* Alex + Steve (césped) */
+    --actors-bottom: 36%;
+    --alex-size: 19%;
+    --steve-size: 26%;
+    --walk-time: 2.6s;
+    --meet-x: 30%;
+    --meet-x-steve: 45%;
+
+    /* Pastel */
+    --cake-bottom: 35%;
+    --cake-left: 50%;
+    --cake-size: 20%;
+
+    /* Corazones (Dennis) */
     --L-top: 8%;  --L-right: 66%; --L-bottom: 72%; --L-left: 19%;
     --R-top: 14%; --R-right: 19%; --R-bottom: 79%; --R-left: 73%;
 
@@ -57,11 +79,11 @@
     box-shadow:0 20px 60px rgba(0,0,0,.45);
   }
 
-  /* ===== Fondo ===== */
+  /* Fondo */
   .bg{ position:absolute; inset:0; width:100%; height:100%;
        object-fit:cover; object-position:center; z-index:0; }
 
-  /* ===== Logo ===== */
+  /* Logo */
   .logo{
     position:absolute; left:50%; width:var(--logo-w); max-width:none;
     transform:translate(-50%, 0) translateY(var(--logo-dy)); top:12.5%;
@@ -71,7 +93,7 @@
     opacity: calc(var(--logo-visible)); z-index:2;
   }
 
-  /* ===== Títulos (debajo del logo) ===== */
+  /* Títulos */
   .header{
     position:absolute;
     top:var(--header-top); left:var(--header-left);
@@ -80,13 +102,13 @@
     gap:var(--title-gap); z-index:2; pointer-events:none;
   }
   .title-img{
-    width:min(92%,680px);
+    width:min(var(--title-img-w), 720px);
     filter: drop-shadow(0 8px 14px rgba(0,0,0,.45));
     animation: titleFloat 4.5s ease-in-out infinite, titleGlow 3.8s ease-in-out infinite;
   }
-  .age-wrap{ position:relative; display:inline-block; isolation:isolate; }
+  .age-wrap{ position:relative; display:flex; justify-content:center; width:100%; isolation:isolate; }
   .age-img{
-    width:min(67%,540px);
+    width:min(var(--age-img-w), 600px);
     filter: drop-shadow(0 8px 14px rgba(0,0,0,.4));
     animation: ageFloat 4.2s ease-in-out infinite, ageShine 3.6s ease-in-out infinite;
   }
@@ -96,7 +118,7 @@
     transform:translateX(-120%) skewX(-10deg); mix-blend-mode:screen; filter:blur(1px); opacity:.85; animation:sweep 3.2s ease-in-out infinite;
   }
 
-  /* ===== Panel verde (textos + botones) ===== */
+  /* Panel verde */
   .panel{
     position:absolute;
     top:var(--panel-top); left:var(--panel-left);
@@ -107,7 +129,7 @@
 
   .anim-gradient{
     font-weight:900; letter-spacing:.5px;
-    font-size:clamp(26px,6.2vw,42px);
+    font-size:var(--size-title);
     margin:0 0 2px;
     background:linear-gradient(90deg,#ffd1d1,#fff8a0,#b5ffea,#ffd1d1);
     background-size:300% 100%;
@@ -116,8 +138,9 @@
   }
 
   .info{
-    font-size:clamp(16px,4.4vw,20px);
-    line-height:1.22; margin:0; text-wrap:balance;
+    font-size:var(--size-info);
+    line-height:var(--lh-info);
+    margin:0; text-wrap:balance;
   }
   .info .row{ margin:2px 0 6px; }
   .info .addr{ margin:0; }
@@ -132,11 +155,11 @@
     display:inline-flex; align-items:center; gap:8px; cursor:pointer;
     transition:transform .15s ease, background .2s ease, box-shadow .2s ease;
     box-shadow:0 8px 18px rgba(0,0,0,.25);
-    font-size:clamp(15px,4.3vw,18px);
+    font-size:var(--size-btn);
   }
   .btn:hover{ background:var(--btnh); transform:translateY(-2px) }
 
-  /* ===== Botón de música vertical ===== */
+  /* Botón música vertical */
   .playbar-left{
     position:absolute; left:6px; top:50%;
     transform: translateY(-50%) rotate(-90deg);
@@ -151,7 +174,7 @@
   }
   .playbar-left .btn:hover{ background:var(--blueh); }
 
-  /* ===== Dennis sobre el piso rosa ===== */
+  /* Dennis */
   .dennis{
     position:absolute; right:var(--dennis-right); bottom:var(--dennis-bottom);
     width:var(--dennis-w); aspect-ratio:1/1; z-index:3; pointer-events:none;
@@ -162,28 +185,71 @@
   }
   .dennis .wolf{ position:absolute; inset:0; width:100%; height:100%; object-fit:contain; }
   .dennis .hearts{
-    position:absolute; inset:0; background:url('./DENNIS.png?v=3') center/contain no-repeat;
-    animation: heartbeat var(--dennis-beat) ease-in-out infinite;
+    position:absolute; inset:0; background:url('./DENNIS.png') center/contain no-repeat;
+    animation: heartbeat 1.35s ease-in-out infinite;
   }
   .dennis .h-left{  clip-path: inset(var(--L-top) var(--L-right) var(--L-bottom) var(--L-left)); }
   .dennis .h-right{ clip-path: inset(var(--R-top) var(--R-right) var(--R-bottom) var(--R-left)); }
   .dennis .h-center{
     clip-path: polygon(1% 1%,78% 1%,78% 50%,60% 25%,28% 21%,30% 31%,32% 29%,1% 35%);
   }
-  @keyframes dennisEnter{
-    0%{transform:translateX(120%) translateY(0)}
-    100%{transform:translateX(0) translateY(0)}
+
+  /* Alex + Steve */
+  .actors{ position:absolute; inset:0; z-index:3; pointer-events:none; }
+  .alex,.steve{
+    position:absolute; bottom:var(--actors-bottom);
+    transform-origin:50% 100%;
+    image-rendering:pixelated;
+    filter: drop-shadow(0 8px 10px rgba(0,0,0,.35));
   }
-  @keyframes dennisPatrol{
-    0%  { transform:translateX(0) translateY(0) }
-    25% { transform:translateX(-6%) translateY(-1px) }
-    50% { transform:translateX(0) translateY(0) }
-    75% { transform:translateX(4%) translateY(-1px) }
-    100%{ transform:translateX(0) translateY(0) }
+  .alex{
+    width:var(--alex-size); left:-28%;
+    animation: walkLeft var(--walk-time) ease-out forwards,
+               bob 1.2s ease-in-out infinite var(--walk-time);
   }
+  .steve{
+    width:var(--steve-size); left:110%;
+    animation: walkRight var(--walk-time) ease-out forwards,
+               bob 1.2s ease-in-out infinite var(--walk-time);
+  }
+
+  /* Pastel */
+  .cake{
+    position:absolute;
+    left:var(--cake-left); bottom:var(--cake-bottom);
+    width:var(--cake-size); z-index:3; pointer-events:none;
+    transform:translate(-50%, 6%) scale(.1);
+    opacity:0;
+    filter: drop-shadow(0 14px 18px rgba(0,0,0,.45));
+    animation: cakePop .8s cubic-bezier(.2,1.4,.28,1) forwards;
+    animation-delay: calc(var(--walk-time) + .2s);
+  }
+
+  /* Keyframes */
+  @keyframes walkLeft{
+    0%   { left:-28%; transform:translateY(0) }
+    30%  { left:10%;  transform:translateY(-2px) }
+    60%  { left:22%;  transform:translateY(0) }
+    100% { left:var(--meet-x); transform:translateY(0) }
+  }
+  @keyframes walkRight{
+    0%   { left:110%; transform:translateY(0) }
+    40%  { left:78%;  transform:translateY(-2px) }
+    70%  { left:62%;  transform:translateY(0) }
+    100% { left:var(--meet-x-steve); transform:translateY(0) }
+  }
+  @keyframes bob{ 0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)} }
+
+  @keyframes cakePop{
+    0%{opacity:0; transform:translate(-50%, 12%) scale(.1) rotate(-4deg)}
+    60%{opacity:1; transform:translate(-50%, 0) scale(1.06)}
+    100%{opacity:1; transform:translate(-50%, 0) scale(1)}
+  }
+
+  @keyframes dennisEnter{0%{transform:translateX(120%)}100%{transform:translateX(0)}}
+  @keyframes dennisPatrol{0%{transform:translateX(0)}25%{transform:translateX(-6%)}50%{transform:translateX(0)}75%{transform:translateX(4%)}100%{transform:translateX(0)}}
   @keyframes heartbeat{0%{transform:scale(1)}15%{transform:scale(1.12)}30%{transform:scale(1)}45%{transform:scale(1.06)}60%{transform:scale(1)}100%{transform:scale(1)}}
 
-  /* ===== Animaciones varias ===== */
   @keyframes hue{0%{background-position:0% 50%}100%{background-position:100% 50%}}
   @keyframes float{0%,100%{transform:translate(-50%,0) translateY(var(--logo-dy))}50%{transform:translate(-50%,-6px) translateY(calc(var(--logo-dy) - 6px))}}
   @keyframes glow{0%,100%{filter:drop-shadow(0 14px 18px rgba(0,0,0,.45))}50%{filter:drop-shadow(0 18px 26px rgba(0,0,0,.55))}}
@@ -193,39 +259,48 @@
   @keyframes ageShine{0%,100%{ filter: drop-shadow(0 8px 14px rgba(0,0,0,.4)) brightness(1);}50%{ filter: drop-shadow(0 12px 20px rgba(0,0,0,.55)) brightness(1.06);}}
   @keyframes sweep{0%{transform:translateX(-120%) skewX(-10deg);}48%{transform:translateX(120%) skewX(-10deg);}100%{transform:translateX(120%) skewX(-10deg);}}
 
-  /* ===== Móvil: solo fuentes/espacios, NO posiciones ===== */
+  /* Móvil */
   @media (max-width:500px){
-    .btns{ gap:10px; }
-    .btn{ padding:10px 12px; font-size:clamp(13px,3.8vw,16px); }
-    .anim-gradient{ font-size:clamp(24px,7vw,36px); }
-    .info{ font-size:clamp(15px,4.8vw,18px); line-height:1.2; }
+    :root{
+      --title-img-w: 96%;
+      --age-img-w:   74%;
+      --actors-bottom: 34%;
+      --alex-size: 28%;
+      --steve-size: 30%;
+      --cake-size: 34%;
+    }
   }
 
   @media (prefers-reduced-motion: reduce){
-    .logo,.title-img,.age-img,.age-wrap::after,.dennis{ animation:none !important; }
-    .dennis{ transform:none !important; }
-    .age-wrap::after{ opacity:0; }
+    .logo,.title-img,.age-img,.age-wrap::after,.dennis,.alex,.steve,.cake{ animation:none !important; }
   }
 </style>
 </head>
 <body>
   <div class="scene" role="img" aria-label="Invitación temática Minecraft">
     <!-- Fondo -->
-    <img class="bg" src="./Plantilla.jpg?v=3" alt="Plantilla">
+    <img class="bg" src="./Plantilla.jpg" alt="Plantilla">
     <!-- Logo -->
-    <img class="logo" src="./minecraft.png?v=3" alt="Minecraft">
+    <img class="logo" src="./minecraft.png" alt="Minecraft">
 
-    <!-- TÍTULOS (debajo del logo) -->
+    <!-- TÍTULOS -->
     <div class="header">
-      <img class="title-img" src="./grecia-lira-minecraft.png?v=3" alt="Grecia Lira">
+      <img class="title-img" src="./grecia-lira-minecraft.png" alt="Grecia Lira">
       <div class="age-wrap">
-        <img class="age-img" src="./CUMPLEAÑOS%207.png?v=3" alt="Cumpleaños 7">
+        <img class="age-img" src="./CUMPLEAÑOS 7.png" alt="Cumpleaños 7">
       </div>
     </div>
 
-    <!-- Dennis (sobre el piso rosa, caminando) -->
+    <!-- Alex y Steve + pastel -->
+    <div class="actors" aria-hidden="true">
+      <img class="alex"  src="./ALEX.png"  alt="">
+      <img class="steve" src="./STIVE.png" alt="">
+      <img class="cake"  src="./pastel.png" alt="Pastel">
+    </div>
+
+    <!-- Dennis -->
     <div class="dennis" aria-hidden="true">
-      <img class="wolf" src="./DENNIS.png?v=3" alt="">
+      <img class="wolf" src="./DENNIS.png" alt="">
       <div class="hearts h-left"></div>
       <div class="hearts h-center"></div>
       <div class="hearts h-right"></div>
@@ -252,12 +327,15 @@
     </div>
   </div>
 
-<!-- Audio -->
-<audio id="bgm" loop playsinline preload="auto">
-  <source src="./minecraft.mp3?v=3"  type="audio/mpeg">
-  <source src="./minecraft?v=3"      type="audio/mpeg">
-  <source src="https://vgmsite.com/soundtracks/minecraft-volume-alpha/uwshxmdq/02.%20Minecraft.mp3?v=3" type="audio/mpeg">
-</audio>
+  <!-- ===== AUDIO (local primero, web después, respaldo RAW) ===== -->
+  <audio id="bgm" loop playsinline preload="auto">
+    <!-- Local (file://) — NO usar ?v=… aquí -->
+    <source src="./minecraft.mp3" type="audio/mpeg">
+    <!-- Web (GitHub Pages) con cache-busting -->
+    <source src="./minecraft.mp3?v=3" type="audio/mpeg">
+    <!-- Respaldo: pon aquí TU URL RAW de GitHub si quieres -->
+    <!-- <source src="https://raw.githubusercontent.com/TU_USUARIO/TU_REPO/main/minecraft.mp3" type="audio/mpeg"> -->
+  </audio>
 
 <script>
   /* Autoplay suave + botón móviles */
@@ -267,7 +345,7 @@
   function tryAutoPlay(){
     audio.muted = true;
     audio.play().then(()=>{
-      setTimeout(()=> audio.muted = false, 120);
+      setTimeout(()=> audio.muted = false, 150);
       playBtn.style.display = 'none';
     }).catch(()=>{
       playBtn.style.display = 'inline-flex';
