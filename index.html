@@ -6,12 +6,11 @@
 <title>Invitación — Grecia</title>
 <style>
   :root{
-    /* ====== AJUSTES RÁPIDOS ====== */
     --logo-visible: 1;
     --logo-dy: 80px;
     --logo-w: 100%;
 
-    --content-dy: 11px;   /* NEG = sube, POS = baja */
+    --content-dy: 11px; /* NEG = sube, POS = baja */
 
     /* Caja “café” */
     --cafe-top: 37.5%;
@@ -19,21 +18,20 @@
     --cafe-right: 7.5%;
     --cafe-bot: 11.5%;
 
-    /* Título “Grecia Lira” */
+    /* Título */
     --title-dy: -6px;
     --title-scale: 1;
 
-    /* Dennis (tamaño/posición) */
-    --dennis-w: 34%;        /* antes 36% */
-    --dennis-right: -1.8%;  /* pegado al borde (ligeramente afuera) */
-    --dennis-bottom: 3.5%;  /* sube/baja para apoyar sobre el borde */
-    --dennis-beat: 1.35s;   /* velocidad del latido */
+    /* Dennis */
+    --dennis-w: 34%;
+    --dennis-right: -1.8%;
+    --dennis-bottom: 3.5%;
+    --dennis-beat: 1.35s;
 
-    /* Recortes corazones (ajústalos si tu PNG cambia) */
-    --L-top: 8%;   --L-right: 66%; --L-bottom: 72%; --L-left: 19%;
-    --R-top: 14%;  --R-right: 19%; --R-bottom: 79%; --R-left: 73%;
+    /* Corazones */
+    --L-top: 8%;  --L-right: 66%; --L-bottom: 72%; --L-left: 19%;
+    --R-top: 14%; --R-right: 19%; --R-bottom: 79%; --R-left: 73%;
 
-    /* Colores */
     --btn:#22c55e; --btnh:#16a34a; --blue:#3b82f6; --blueh:#2563eb;
     --bg:#0b0f17;
   }
@@ -52,151 +50,86 @@
     box-shadow:0 20px 60px rgba(0,0,0,.45);
   }
 
-  /* Fondo */
-  .bg{
-    position:absolute; inset:0; width:100%; height:100%;
-    object-fit:cover; object-position:center;
-    z-index:0;
-  }
+  .bg{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; z-index:0; }
 
-  /* LOGO */
   .logo{
-    position:absolute; left:50%;
-    width:var(--logo-w); max-width:none;
-    transform:translate(-50%, 0) translateY(var(--logo-dy));
-    top:12.5%;
+    position:absolute; left:50%; width:var(--logo-w); max-width:none;
+    transform:translate(-50%, 0) translateY(var(--logo-dy)); top:12.5%;
     pointer-events:none; user-select:none;
     filter: drop-shadow(0 14px 18px rgba(0,0,0,.45));
     animation: float 5s ease-in-out infinite, glow 3s ease-in-out infinite;
-    opacity: calc(var(--logo-visible));
-    z-index:2;
+    opacity: calc(var(--logo-visible)); z-index:2;
   }
 
-  /* ===== DENNIS (abajo-derecha con entrada “caminando”) ===== */
+  /* ==== Dennis: entra caminando + idle ==== */
   .dennis{
-    position:absolute;
-    right: var(--dennis-right);
-    bottom: var(--dennis-bottom);
-    width: var(--dennis-w);
-    aspect-ratio: 1/1;
-    z-index:-1;                    /* sobre el fondo, bajo el contenido */
-    pointer-events:none;
-    image-rendering: pixelated;
-
-    /* Entrada caminando + idle suave después */
-    transform: translateX(120%) translateY(0);
-    animation:
-      dennisEnter 1.15s cubic-bezier(.18,.8,.25,1) forwards,
-      dennisIdle  3.2s ease-in-out infinite 1.15s;
+    position:absolute; right:var(--dennis-right); bottom:var(--dennis-bottom);
+    width:var(--dennis-w); aspect-ratio:1/1; z-index:1; pointer-events:none;
+    image-rendering:pixelated;
+    transform:translateX(120%) translateY(0);
+    animation: dennisEnter 1.15s cubic-bezier(.18,.8,.25,1) forwards,
+               dennisIdle 3.2s ease-in-out infinite 1.15s;
   }
-  .dennis .wolf{
-    position:absolute; inset:0; width:100%; height:100%;
-    object-fit:contain; user-select:none;
-  }
+  .dennis .wolf{ position:absolute; inset:0; width:100%; height:100%; object-fit:contain; }
   .dennis .hearts{
     position:absolute; inset:0;
-    background:url('./DENNIS.png') center / contain no-repeat;
+    background:url('./DENNIS.png') center/contain no-repeat;
     animation: heartbeat var(--dennis-beat) ease-in-out infinite;
-    will-change: transform;
   }
   .dennis .h-left{  clip-path: inset(var(--L-top) var(--L-right) var(--L-bottom) var(--L-left)); }
   .dennis .h-right{ clip-path: inset(var(--R-top) var(--R-right) var(--R-bottom) var(--R-left)); }
   .dennis .h-center{
-    clip-path: polygon(
-      1% 1%, 78% 1%,
-      78% 50%,
-      60% 25%, 28% 21%, 30% 31%, 32% 29%,
-      1% 35%
-    );
+    clip-path: polygon(1% 1%,78% 1%,78% 50%,60% 25%,28% 21%,30% 31%,32% 29%,1% 35%);
   }
-
-  /* “pisaditas” en la entrada */
   @keyframes dennisEnter{
-    0%   { transform: translateX(120%) translateY(0); }
-    15%  { transform: translateX(90%)  translateY(-2px); }
-    30%  { transform: translateX(65%)  translateY(0); }
-    45%  { transform: translateX(42%)  translateY(-2px); }
-    60%  { transform: translateX(24%)  translateY(0); }
-    80%  { transform: translateX(8%)   translateY(-1px); }
-    100% { transform: translateX(0)    translateY(0); }
+    0%{transform:translateX(120%) translateY(0)}
+    15%{transform:translateX(90%) translateY(-2px)}
+    30%{transform:translateX(65%) translateY(0)}
+    45%{transform:translateX(42%) translateY(-2px)}
+    60%{transform:translateX(24%) translateY(0)}
+    80%{transform:translateX(8%) translateY(-1px)}
+    100%{transform:translateX(0) translateY(0)}
   }
-  @keyframes dennisIdle{
-    0%,100%{ transform: translateX(0) translateY(0); }
-    50%    { transform: translateX(0) translateY(-2px); }
-  }
+  @keyframes dennisIdle{0%,100%{transform:translateX(0) translateY(0)}50%{transform:translateX(0) translateY(-2px)}}
+  @keyframes heartbeat{0%{transform:scale(1)}15%{transform:scale(1.12)}30%{transform:scale(1)}45%{transform:scale(1.06)}60%{transform:scale(1)}100%{transform:scale(1)}}
 
-  /* Latido */
-  @keyframes heartbeat{
-    0%   { transform: scale(1); }
-    15%  { transform: scale(1.12); }
-    30%  { transform: scale(1); }
-    45%  { transform: scale(1.06); }
-    60%  { transform: scale(1); }
-    100% { transform: scale(1); }
-  }
+  /* Contenido (fijo) */
+  .content{ position:absolute; top:var(--cafe-top); left:var(--cafe-left); right:var(--cafe-right); bottom:var(--cafe-bot); display:flex; justify-content:flex-start; overflow:hidden; z-index:2; }
+  .content-shift{ margin:auto; display:flex; flex-direction:column; align-items:center; text-align:center; gap:8px; padding:8px; transform:translateY(var(--content-dy)); }
 
-  /* Contenido en el área “café” */
-  .content{
-    position:absolute;
-    top:var(--cafe-top); left:var(--cafe-left);
-    right:var(--cafe-right); bottom:var(--cafe-bot);
-    display:flex; justify-content:flex-start;
-    overflow:hidden;
-    z-index:2;
-  }
-  .content-shift{
-    margin:auto;
-    display:flex; flex-direction:column; align-items:center; text-align:center;
-    gap:10px;                 /* un poco más compacto */
-    padding:10px;
-    transform: translateY(var(--content-dy));
-    will-change: transform;
-  }
-
-  /* Título “Grecia Lira” */
+  /* Título Grecia Lira */
   .title-img{
-    width:min(99%, 680px);
-    transform: translateY(var(--title-dy)) scale(var(--title-scale));
-    filter: drop-shadow(0 8px 14px rgba(0,0,0,.45));
-    user-select:none; pointer-events:none;
-    image-rendering: -webkit-optimize-contrast;
-    animation: titleFloat 4.5s ease-in-out infinite, titleGlow 3.8s ease-in-out infinite;
-    margin-bottom:4px;
+    width:min(92%,680px);
+    transform:translateY(var(--title-dy)) scale(var(--title-scale));
+    filter:drop-shadow(0 8px 14px rgba(0,0,0,.45));
+    animation:titleFloat 4.5s ease-in-out infinite, titleGlow 3.8s ease-in-out infinite;
+    margin-bottom:2px;
   }
 
-  /* Rótulo “CUMPLEAÑOS 7” */
-  .age-wrap{ position: relative; display:inline-block; isolation:isolate; margin-top:-2px; margin-bottom:2px; }
-  .age-img{
-    width:min(80%, 560px); max-width:100%;
-    user-select:none; pointer-events:none;
-    filter: drop-shadow(0 8px 14px rgba(0,0,0,.4));
-    animation: ageFloat 4.2s ease-in-out infinite, ageShine 3.6s ease-in-out infinite;
-    image-rendering: -webkit-optimize-contrast;
-  }
+  /* Rótulo Cumpleaños 7 + brillo */
+  .age-wrap{ position:relative; display:inline-block; isolation:isolate; margin-top:-4px; margin-bottom:0; }
+  .age-img{ width:min(75%,560px); filter:drop-shadow(0 8px 14px rgba(0,0,0,.4)); animation:ageFloat 4.2s ease-in-out infinite, ageShine 3.6s ease-in-out infinite; image-rendering:-webkit-optimize-contrast; }
   .age-wrap::after{
     content:""; position:absolute; inset:0; pointer-events:none;
-    background: linear-gradient(75deg, transparent 0%, rgba(255,255,255,0.0) 35%, rgba(255,255,255,0.65) 50%, rgba(255,255,255,0.0) 65%, transparent 100%);
-    transform: translateX(-120%) skewX(-10deg);
-    mix-blend-mode: screen; filter: blur(1px); opacity:.85;
-    animation: sweep 3.2s ease-in-out infinite;
+    background:linear-gradient(75deg,transparent 0%,rgba(255,255,255,0) 35%,rgba(255,255,255,.65) 50%,rgba(255,255,255,0) 65%,transparent 100%);
+    transform:translateX(-120%) skewX(-10deg); mix-blend-mode:screen; filter:blur(1px); opacity:.85; animation:sweep 3.2s ease-in-out infinite;
   }
 
+  /* Título verde */
   .anim-gradient{
     font-weight:900; letter-spacing:.5px;
-    font-size:clamp(20px,5.0vw,32px); margin:.12em 0;  /* más compacto */
-    background: linear-gradient(90deg,#ffd1d1,#fff8a0,#b5ffea,#ffd1d1);
-    background-size: 300% 100%;
+    font-size:clamp(20px,5.0vw,32px);
+    margin:4px 0 2px;              /* más compacto */
+    background:linear-gradient(90deg,#ffd1d1,#fff8a0,#b5ffea,#ffd1d1);
+    background-size:300% 100%;
     -webkit-background-clip:text; background-clip:text; color:transparent;
-    animation: hue 6s linear infinite;
+    animation:hue 6s linear infinite;
   }
 
-  .info{
-    font-size:clamp(9px,3.1vw,8px);
-    line-height:1;            /* 🔧 renglones más juntos */
-    text-wrap:balance;
-    margin:0;
-  }
-  .sub{ font-size:clamp(13px,3.0vw,18px); opacity:.95; margin:4px 0 0; }
+  /* ====== BLOQUE INFO – súper compacto ====== */
+  .info{ font-size:clamp(14px,3.0vw,16px); line-height:1.1; margin:0; text-wrap:balance; }
+  .info .row{ margin:2px 0; }     /* fecha + hora en una línea */
+  .info .addr{ margin:2px 0 0; }
 
   /* Botones en una fila */
   .btns{ display:flex; justify-content:center; align-items:center; gap:8px; flex-wrap:nowrap; white-space:nowrap; overflow:hidden; }
@@ -210,14 +143,9 @@
   }
   .btn:hover{ background:var(--btnh); transform:translateY(-2px) }
 
-  /* Música */
-  .playbar{
-    position:absolute; left:0; right:0; bottom:10px;
-    display:flex; justify-content:center;
-    z-index:3;
-  }
+  .playbar{ position:absolute; left:0; right:0; bottom:10px; display:flex; justify-content:center; z-index:3; }
 
-  /* Otras animaciones ya existentes */
+  /* Otras animaciones existentes */
   @keyframes hue{0%{background-position:0% 50%}100%{background-position:100% 50%}}
   @keyframes float{0%,100%{transform:translate(-50%,0) translateY(var(--logo-dy))}50%{transform:translate(-50%,-6px) translateY(calc(var(--logo-dy) - 6px))}}
   @keyframes glow{0%,100%{filter:drop-shadow(0 14px 18px rgba(0,0,0,.45))}50%{filter:drop-shadow(0 18px 26px rgba(0,0,0,.55))}}
@@ -227,20 +155,15 @@
   @keyframes ageShine{0%,100%{ filter: drop-shadow(0 8px 14px rgba(0,0,0,.4)) brightness(1);}50%{ filter: drop-shadow(0 12px 20px rgba(0,0,0,.55)) brightness(1.06);}}
   @keyframes sweep{0%{transform:translateX(-120%) skewX(-10deg);}48%{transform:translateX(120%) skewX(-10deg);}100%{transform:translateX(120%) skewX(-10deg);}}
 
-  /* Móviles: evitar que tape el botón */
+  /* Móvil: fino */
   @media (max-width:500px){
-    :root{
-      --dennis-w: 28vw;
-      --dennis-right: -2.5%;
-      --dennis-bottom: 11%; /* despega del botón de música */
-    }
+    :root{ --dennis-w: 38vw; --dennis-right: -2.5%; --dennis-bottom: 11%; }
     .btns{ gap:6px; }
     .btn{ padding:9px 10px; font-size:clamp(11px,3vw,14px); }
     .anim-gradient{ font-size:clamp(18px,4.4vw,26px); }
-    .info{ font-size:clamp(12.5px,3.4vw,14.5px); line-height:1.14; }
+    .info{ font-size:clamp(12.5px,3.4vw,14.5px); line-height:1.12; }
   }
 
-  /* Respeta “reducir movimiento” */
   @media (prefers-reduced-motion: reduce){
     .logo,.title-img,.age-img,.age-wrap::after,.dennis{ animation:none !important; }
     .dennis{ transform:none !important; }
@@ -250,13 +173,10 @@
 </head>
 <body>
   <div class="scene" role="img" aria-label="Invitación temática Minecraft">
-    <!-- Fondo -->
     <img class="bg" src="./Plantilla.jpg" alt="Plantilla">
-
-    <!-- Logo -->
     <img class="logo" src="./minecraft.png" alt="Minecraft">
 
-    <!-- DENNIS -->
+    <!-- Dennis -->
     <div class="dennis" aria-hidden="true">
       <img class="wolf" src="./DENNIS.png" alt="">
       <div class="hearts h-left"></div>
@@ -275,10 +195,10 @@
 
         <h1 class="anim-gradient">¡Acompáñanos a celebrar!</h1>
 
+        <!-- FECHA + HORA EN UNA SOLA LÍNEA -->
         <div class="info">
-          📅 <strong>8 de noviembre</strong><br>
-          ⏰ <strong>4:00–8:00 p.m.</strong><br>
-          📍 <strong>Pinocchio Salón de Fiestas Infantiles, C. Mercurio 3742, Satélite, 31140 Chihuahua, Chih.</strong>
+          <div class="row">📅 <strong>8 de noviembre</strong> &nbsp;•&nbsp; ⏰ <strong>4:00–8:00 p.m.</strong></div>
+          <div class="addr">📍 <strong>Pinocchio Salón de Fiestas Infantiles, C. Mercurio 3742, Satélite, 31140 Chihuahua, Chih.</strong></div>
         </div>
 
         <div class="btns">
@@ -290,7 +210,6 @@
       </div>
     </div>
 
-    <!-- Audio -->
     <audio id="bgm" loop playsinline preload="auto">
       <source src="./minecraft.mp3"  type="audio/mpeg">
       <source src="./minecraft.mpeg" type="audio/mpeg">
@@ -298,14 +217,12 @@
       <source src="https://vgmsite.com/soundtracks/minecraft-volume-alpha/uwshxmdq/02.%20Minecraft.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Botón música -->
     <div class="playbar">
       <button id="playBtn" class="btn" style="background:var(--blue)">🔊 Toca para activar la música</button>
     </div>
   </div>
 
 <script>
-  /* Autoplay suave + botón móviles */
   const audio = document.getElementById('bgm');
   const playBtn = document.getElementById('playBtn');
 
