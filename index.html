@@ -6,44 +6,22 @@
 <title>Invitación — Grecia</title>
 <style>
   :root{
-    /* ====== LOGO ====== */
     --logo-visible: 1;
-    --logo-dy: -60px;         /* sube/baja el logo */
+    --logo-dy: -60px;
     --logo-w: 100%;
 
-    /* ====== ZONAS SOBRE LA PLANTILLA ======
-       Ajusta estos porcentajes si cambias Plantilla.jpg */
-    /* Zona de títulos (arriba, bajo el logo) */
-    --header-top: 12%;
-    --header-left: 7.5%;
-    --header-right: 7.5%;
-    --header-bot: 54%;
+    /* Caja verde (área del texto) */
+    --cafe-top: 60%;   /* ahora mucho más abajo */
+    --cafe-left: 7.5%;
+    --cafe-right: 7.5%;
+    --cafe-bot: 5%;
 
-    /* Zona del panel verde (abajo) */
-    --panel-top: 50%;         /* 🔽 más grande = más abajo */
-    --panel-left: 10%;
-    --panel-right: 10%;
-    --panel-bot: 7%;
-
-    /* Separaciones internas */
-    --title-gap: 6px;
-    --panel-gap: 8px;
-
-    /* Escalas de títulos */
-    --title-dy: 0px;
-    --title-scale: 1;
-
-    /* Dennis (perrito) */
+    /* Dennis */
     --dennis-w: 34%;
-    --dennis-right: -1.8%;
-    --dennis-bottom: 3.5%;
+    --dennis-right: -1.5%;
+    --dennis-bottom: 2%;  /* justo sobre el piso rosa */
     --dennis-beat: 1.35s;
 
-    /* Recortes corazones (del PNG) */
-    --L-top: 8%;  --L-right: 66%; --L-bottom: 72%; --L-left: 19%;
-    --R-top: 14%; --R-right: 19%; --R-bottom: 79%; --R-left: 73%;
-
-    /* Colores */
     --btn:#22c55e; --btnh:#16a34a; --blue:#3b82f6; --blueh:#2563eb;
     --bg:#0b0f17;
   }
@@ -62,11 +40,8 @@
     box-shadow:0 20px 60px rgba(0,0,0,.45);
   }
 
-  /* ===== Fondo ===== */
-  .bg{ position:absolute; inset:0; width:100%; height:100%;
-       object-fit:cover; object-position:center; z-index:0; }
+  .bg{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; z-index:0; }
 
-  /* ===== Logo ===== */
   .logo{
     position:absolute; left:50%; width:var(--logo-w); max-width:none;
     transform:translate(-50%, 0) translateY(var(--logo-dy)); top:12.5%;
@@ -76,218 +51,123 @@
     opacity: calc(var(--logo-visible)); z-index:2;
   }
 
-  /* ===== Dennis (entra caminando) ===== */
+  /* ==== Dennis: camina y queda en el piso rosa ==== */
   .dennis{
     position:absolute; right:var(--dennis-right); bottom:var(--dennis-bottom);
-    width:var(--dennis-w); aspect-ratio:1/1; z-index:1; pointer-events:none;
+    width:var(--dennis-w); aspect-ratio:1/1; z-index:2; pointer-events:none;
     image-rendering:pixelated;
     transform:translateX(120%) translateY(0);
-    animation: dennisEnter 1.15s cubic-bezier(.18,.8,.25,1) forwards,
-               dennisIdle 3.2s ease-in-out infinite 1.15s;
+    animation: dennisEnter 1.5s cubic-bezier(.18,.8,.25,1) forwards,
+               dennisIdle 3.2s ease-in-out infinite 1.5s;
   }
   .dennis .wolf{ position:absolute; inset:0; width:100%; height:100%; object-fit:contain; }
   .dennis .hearts{
-    position:absolute; inset:0; background:url('./DENNIS.png') center/contain no-repeat;
+    position:absolute; inset:0;
+    background:url('./DENNIS.png') center/contain no-repeat;
     animation: heartbeat var(--dennis-beat) ease-in-out infinite;
   }
-  .dennis .h-left{  clip-path: inset(var(--L-top) var(--L-right) var(--L-bottom) var(--L-left)); }
-  .dennis .h-right{ clip-path: inset(var(--R-top) var(--R-right) var(--R-bottom) var(--R-left)); }
+  .dennis .h-left{  clip-path: inset(8% 66% 72% 19%); }
+  .dennis .h-right{ clip-path: inset(14% 19% 79% 73%); }
   .dennis .h-center{
     clip-path: polygon(1% 1%,78% 1%,78% 50%,60% 25%,28% 21%,30% 31%,32% 29%,1% 35%);
   }
   @keyframes dennisEnter{
     0%{transform:translateX(120%) translateY(0)}
-    15%{transform:translateX(90%) translateY(-2px)}
-    30%{transform:translateX(65%) translateY(0)}
-    45%{transform:translateX(42%) translateY(-2px)}
-    60%{transform:translateX(24%) translateY(0)}
-    80%{transform:translateX(8%) translateY(-1px)}
     100%{transform:translateX(0) translateY(0)}
   }
-  @keyframes dennisIdle{0%,100%{transform:translateX(0) translateY(0)}50%{transform:translateX(0) translateY(-2px)}}
+  @keyframes dennisIdle{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
   @keyframes heartbeat{0%{transform:scale(1)}15%{transform:scale(1.12)}30%{transform:scale(1)}45%{transform:scale(1.06)}60%{transform:scale(1)}100%{transform:scale(1)}}
 
-  /* ===== Zona de títulos (arriba) ===== */
-  .header{
-    position:absolute;
-    top:var(--header-top); left:var(--header-left);
-    right:var(--header-right); bottom:var(--header-bot);
-    display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
-    gap:var(--title-gap); z-index:2; pointer-events:none;
-  }
-  .title-img{
-    width:min(92%,680px);
-    transform: translateY(var(--title-dy)) scale(var(--title-scale));
-    filter: drop-shadow(0 8px 14px rgba(0,0,0,.45));
-    user-select:none; image-rendering:-webkit-optimize-contrast;
-    animation: titleFloat 4.5s ease-in-out infinite, titleGlow 3.8s ease-in-out infinite;
-  }
-  .age-wrap{ position:relative; display:inline-block; isolation:isolate; }
-  .age-img{
-    width:min(66%,520px);
-    filter: drop-shadow(0 8px 14px rgba(0,0,0,.4));
-    animation: ageFloat 4.2s ease-in-out infinite, ageShine 3.6s ease-in-out infinite;
-    image-rendering:-webkit-optimize-contrast;
-  }
-  .age-wrap::after{
-    content:""; position:absolute; inset:0; pointer-events:none;
-    background:linear-gradient(75deg,transparent 0%,rgba(255,255,255,0) 35%,rgba(255,255,255,.65) 50%,rgba(255,255,255,0) 65%,transparent 100%);
-    transform:translateX(-120%) skewX(-10deg); mix-blend-mode:screen; filter:blur(1px); opacity:.85; animation:sweep 3.2s ease-in-out infinite;
-  }
+  /* Contenido (en el área verde) */
+  .content{ position:absolute; top:var(--cafe-top); left:var(--cafe-left); right:var(--cafe-right); bottom:var(--cafe-bot); display:flex; justify-content:center; align-items:center; text-align:center; z-index:2; }
+  .content-shift{ margin:auto; display:flex; flex-direction:column; align-items:center; text-align:center; gap:10px; padding:8px; }
 
-  /* ===== Zona del panel verde ===== */
-  .panel{
-    position:absolute;
-    top:var(--panel-top); left:var(--panel-left);
-    right:var(--panel-right); bottom:var(--panel-bot);
-    display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
-    gap:var(--panel-gap); z-index:2; text-align:center;
-  }
-
-  /* Título “¡Acompáñanos…” más grande */
   .anim-gradient{
     font-weight:900; letter-spacing:.5px;
-    font-size:clamp(26px,6vw,40px);  /* 🔠 grande para el cuadro verde */
-    margin:2px 0 4px;
+    font-size:clamp(22px,5.2vw,36px);
+    margin:0;
     background:linear-gradient(90deg,#ffd1d1,#fff8a0,#b5ffea,#ffd1d1);
     background-size:300% 100%;
     -webkit-background-clip:text; background-clip:text; color:transparent;
     animation:hue 6s linear infinite;
   }
 
-  /* Info más grande y compacta */
-  .info{
-    font-size:clamp(17px,4.6vw,20px);  /* 🔠 más grande */
-    line-height:1.22; margin:0; text-wrap:balance;
-  }
+  /* Texto de info */
+  .info{ font-size:clamp(16px,3.2vw,20px); line-height:1.2; margin:0; }
   .info .row{ margin:4px 0; }
-  .info .addr{ margin:4px 0 0; }
+  .info .addr{ margin:2px 0 0; }
 
-  /* Botones grandes */
-  .btns{ display:flex; justify-content:center; align-items:center; gap:12px; flex-wrap:nowrap; white-space:nowrap; }
+  /* Botones */
+  .btns{ display:flex; justify-content:center; align-items:center; gap:10px; flex-wrap:wrap; }
   .btn{
     appearance:none; border:0; border-radius:12px; padding:12px 16px;
     font-weight:700; color:#fff; background:var(--btn); text-decoration:none;
     display:inline-flex; align-items:center; gap:8px; cursor:pointer;
     transition:transform .15s ease, background .2s ease, box-shadow .2s ease;
     box-shadow:0 8px 18px rgba(0,0,0,.25);
-    font-size:clamp(15px,4.2vw,18px);
+    font-size:clamp(14px,3vw,18px)
   }
   .btn:hover{ background:var(--btnh); transform:translateY(-2px) }
 
-  /* ===== Botón de música vertical a la izquierda ===== */
-  .playbar-left{
-    position:absolute; left:6px; top:50%;
-    transform: translateY(-50%) rotate(-90deg);
-    transform-origin: left center;
+  /* Botón música vertical */
+  .playbar{
+    position:absolute; top:50%; left:-40px; transform:translateY(-50%) rotate(-90deg);
+    transform-origin:left center;
     z-index:3;
   }
-  .playbar-left .btn{
-    background:var(--blue);
-    padding:8px 12px;
-    font-size:clamp(12px,3.4vw,14px);
-    white-space:nowrap;
-  }
-  .playbar-left .btn:hover{ background:var(--blueh); }
 
-  /* ===== Animaciones auxiliares ===== */
   @keyframes hue{0%{background-position:0% 50%}100%{background-position:100% 50%}}
   @keyframes float{0%,100%{transform:translate(-50%,0) translateY(var(--logo-dy))}50%{transform:translate(-50%,-6px) translateY(calc(var(--logo-dy) - 6px))}}
   @keyframes glow{0%,100%{filter:drop-shadow(0 14px 18px rgba(0,0,0,.45))}50%{filter:drop-shadow(0 18px 26px rgba(0,0,0,.55))}}
-  @keyframes titleFloat{0%,100%{transform: translateY(var(--title-dy)) scale(var(--title-scale));}50%{transform: translateY(calc(var(--title-dy) - 3px)) scale(calc(var(--title-scale) * 1.01));}}
-  @keyframes titleGlow{0%,100%{filter: drop-shadow(0 8px 14px rgba(0,0,0,.45)) brightness(1);}50%{filter: drop-shadow(0 12px 20px rgba(0,0,0,.55)) brightness(1.07);}}
-  @keyframes ageFloat{0%,100%{ transform: translateY(0);}50%{ transform: translateY(-3px) scale(1.01);}}
-  @keyframes ageShine{0%,100%{ filter: drop-shadow(0 8px 14px rgba(0,0,0,.4)) brightness(1);}50%{ filter: drop-shadow(0 12px 20px rgba(0,0,0,.55)) brightness(1.06);}}
-  @keyframes sweep{0%{transform:translateX(-120%) skewX(-10deg);}48%{transform:translateX(120%) skewX(-10deg);}100%{transform:translateX(120%) skewX(-10deg);}}
-
-  /* ===== Ajustes móviles ===== */
-  @media (max-width:500px){
-    :root{
-      --header-top: 13%;
-      --header-bot: 56%;
-      --panel-top: 71.5%;   /* baja aún más en móvil */
-      --panel-bot: 8%;
-      --dennis-w: 38vw; --dennis-right: -2.5%; --dennis-bottom: 11%;
-    }
-    .btns{ gap:10px; }
-    .btn{ padding:10px 12px; font-size:clamp(13px,3.8vw,16px); }
-    .anim-gradient{ font-size:clamp(24px,7vw,34px); }
-    .info{ font-size:clamp(15px,4.8vw,18px); line-height:1.2; }
-  }
-
-  /* Respeta “reducir movimiento” */
-  @media (prefers-reduced-motion: reduce){
-    .logo,.title-img,.age-img,.age-wrap::after,.dennis{ animation:none !important; }
-    .dennis{ transform:none !important; }
-    .age-wrap::after{ opacity:0; }
-  }
 </style>
 </head>
 <body>
-  <div class="scene" role="img" aria-label="Invitación temática Minecraft">
-    <!-- Fondo -->
+  <div class="scene">
     <img class="bg" src="./Plantilla.jpg" alt="Plantilla">
-    <!-- Logo -->
     <img class="logo" src="./minecraft.png" alt="Minecraft">
 
     <!-- Dennis -->
-    <div class="dennis" aria-hidden="true">
+    <div class="dennis">
       <img class="wolf" src="./DENNIS.png" alt="">
       <div class="hearts h-left"></div>
       <div class="hearts h-center"></div>
       <div class="hearts h-right"></div>
     </div>
 
-    <!-- Títulos arriba (junto al logo) -->
-    <div class="header">
-      <img class="title-img" src="./grecia-lira-minecraft.png" alt="Grecia Lira">
-      <div class="age-wrap">
-        <img class="age-img" src="./CUMPLEAÑOS 7.png" alt="Cumpleaños 7">
+    <!-- Contenido en cuadro verde -->
+    <div class="content">
+      <div class="content-shift">
+        <h1 class="anim-gradient">¡Acompáñanos a celebrar!</h1>
+        <div class="info">
+          <div class="row">📅 <strong>8 de noviembre</strong> &nbsp;•&nbsp; ⏰ <strong>4:00–8:00 p.m.</strong></div>
+          <div class="addr">📍 <strong>Pinocchio Salón de Fiestas Infantiles, C. Mercurio 3742,<br>Satélite, 31140 Chihuahua, Chih.</strong></div>
+        </div>
+        <div class="btns">
+          <a class="btn" href="https://maps.app.goo.gl/VBHEYq9buCPKmp9m6" target="_blank">📍 Ver ubicación</a>
+          <a class="btn" href="https://wa.me/526143811528?text=Confirmo%20asistencia%20al%20cumpleaños%20de%20Grecia%20🎉" target="_blank">✅ Confirmar asistencia</a>
+        </div>
       </div>
     </div>
 
-    <!-- Panel verde con textos y botones -->
-    <div class="panel">
-      <h1 class="anim-gradient">¡Acompáñanos a celebrar!</h1>
+    <audio id="bgm" loop playsinline preload="auto">
+      <source src="./minecraft.mp3"  type="audio/mpeg">
+      <source src="https://vgmsite.com/soundtracks/minecraft-volume-alpha/uwshxmdq/02.%20Minecraft.mp3" type="audio/mpeg">
+    </audio>
 
-      <div class="info">
-        <div class="row">📅 <strong>8 de noviembre</strong> &nbsp;•&nbsp; ⏰ <strong>4:00–8:00 p.m.</strong></div>
-        <div class="addr">📍 <strong>Pinocchio Salón de Fiestas Infantiles, C. Mercurio 3742, Satélite, 31140 Chihuahua, Chih.</strong></div>
-      </div>
-
-      <div class="btns">
-        <a class="btn" href="https://maps.app.goo.gl/VBHEYq9buCPKmp9m6" target="_blank" rel="noopener">📍 Ver ubicación</a>
-        <a class="btn" href="https://wa.me/526143811528?text=Confirmo%20asistencia%20al%20cumplea%C3%B1os%20de%20Grecia%20🎉" target="_blank" rel="noopener">✅ Confirmar asistencia</a>
-      </div>
-    </div>
-
-    <!-- Botón música vertical a la izquierda -->
-    <div class="playbar-left">
-      <button id="playBtn" class="btn">🔊 Toca para activar la música</button>
+    <div class="playbar">
+      <button id="playBtn" class="btn" style="background:var(--blue)">🔊 Toca para activar la música</button>
     </div>
   </div>
 
-<!-- Audio -->
-<audio id="bgm" loop playsinline preload="auto">
-  <source src="./minecraft.mp3"  type="audio/mpeg">
-  <source src="./minecraft.mpeg" type="audio/mpeg">
-  <source src="./minecraft"      type="audio/mpeg">
-  <source src="https://vgmsite.com/soundtracks/minecraft-volume-alpha/uwshxmdq/02.%20Minecraft.mp3" type="audio/mpeg">
-</audio>
-
 <script>
-  /* Autoplay suave + botón móviles */
   const audio = document.getElementById('bgm');
   const playBtn = document.getElementById('playBtn');
-
   function tryAutoPlay(){
     audio.muted = true;
     audio.play().then(()=>{
       setTimeout(()=> audio.muted = false, 120);
       playBtn.style.display = 'none';
-    }).catch(()=>{
-      playBtn.style.display = 'inline-flex';
-    });
+    }).catch(()=> playBtn.style.display = 'inline-flex');
   }
   playBtn.addEventListener('click', ()=>{
     audio.muted = false;
@@ -297,3 +177,4 @@
 </script>
 </body>
 </html>
+
