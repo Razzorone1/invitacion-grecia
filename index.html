@@ -12,13 +12,11 @@
     --logo-w: 100%;
 
     /* ===== POSICIONES ===== */
-    /* Títulos (debajo del logo) */
     --header-top: 14%;
     --header-left: 7.5%;
     --header-right: 7.5%;
     --header-bot: 65%;
 
-    /* Panel verde (textos + botones) */
     --panel-top: 72%;
     --panel-left: 10%;
     --panel-right: 10%;
@@ -27,23 +25,23 @@
     --title-gap: 8px;
     --panel-gap: 10px;
 
-    /* ===== TAMAÑOS DE TEXTO (más chicos) ===== */
-    --size-title: clamp(22px, 6vw, 30px);   /* ¡Acompáñanos a celebrar! */
-    --size-info:  clamp(13px, 4vw, 18px);   /* fecha / hora / dirección */
-    --size-btn:   clamp(13px, 4vw, 16px);   /* botones */
-    --lh-info:    1.25;
+    /* ===== TAMAÑOS (afinados para 1 renglón) ===== */
+    --size-title: clamp(20px, 5.6vw, 28px);  /* ¡Acompáñanos a celebrar! */
+    --size-info:  clamp(13px, 3.9vw, 17px);  /* fecha/hora/dirección */
+    --size-btn:   clamp(13px, 3.9vw, 16px);
+    --lh-info:    1.22;
 
-    /* Títulos (IMÁGENES) */
+    /* Títulos imagen */
     --title-img-w: 95%;
     --age-img-w:   72%;
 
-    /* Dennis (piso rosa) */
+    /* Dennis */
     --dennis-w: 32%;
     --dennis-right: 8%;
     --dennis-bottom: 32%;
     --dennis-beat: 1.35s;
 
-    /* Alex + Steve (césped) */
+    /* Alex + Steve */
     --actors-bottom: 36%;
     --alex-size: 19%;
     --steve-size: 26%;
@@ -56,11 +54,10 @@
     --cake-left: 50%;
     --cake-size: 20%;
 
-    /* Corazones (Dennis) */
+    /* Corazones Dennis */
     --L-top: 8%;  --L-right: 66%; --L-bottom: 72%; --L-left: 19%;
     --R-top: 14%; --R-right: 19%; --R-bottom: 79%; --R-left: 73%;
 
-    /* Colores */
     --btn:#22c55e; --btnh:#16a34a; --blue:#3b82f6; --blueh:#2563eb;
     --bg:#0b0f17;
   }
@@ -93,7 +90,7 @@
     opacity: calc(var(--logo-visible)); z-index:2;
   }
 
-  /* Títulos */
+  /* Títulos (debajo del logo) */
   .header{
     position:absolute;
     top:var(--header-top); left:var(--header-left);
@@ -127,10 +124,13 @@
     gap:var(--panel-gap); z-index:2; text-align:center;
   }
 
+  /* ---- TITULAR en 1 renglón ---- */
   .anim-gradient{
-    font-weight:900; letter-spacing:.5px;
+    font-weight:900; letter-spacing:.3px;
     font-size:var(--size-title);
-    margin:0 0 2px;
+    line-height:1.1;
+    margin:0 0 4px;
+    white-space:nowrap;           /* <-- SIN SALTO */
     background:linear-gradient(90deg,#ffd1d1,#fff8a0,#b5ffea,#ffd1d1);
     background-size:300% 100%;
     -webkit-background-clip:text; background-clip:text; color:transparent;
@@ -142,7 +142,12 @@
     line-height:var(--lh-info);
     margin:0; text-wrap:balance;
   }
-  .info .row{ margin:2px 0 6px; }
+
+  /* ---- FECHA + HORA en 1 renglón ---- */
+  .info .row{
+    margin:2px 0 6px;
+    white-space:nowrap;           /* <-- SIN SALTO */
+  }
   .info .addr{ margin:0; }
 
   .btns{
@@ -225,45 +230,28 @@
     animation-delay: calc(var(--walk-time) + .2s);
   }
 
-  /* Keyframes */
-  @keyframes walkLeft{
-    0%   { left:-28%; transform:translateY(0) }
-    30%  { left:10%;  transform:translateY(-2px) }
-    60%  { left:22%;  transform:translateY(0) }
-    100% { left:var(--meet-x); transform:translateY(0) }
-  }
-  @keyframes walkRight{
-    0%   { left:110%; transform:translateY(0) }
-    40%  { left:78%;  transform:translateY(-2px) }
-    70%  { left:62%;  transform:translateY(0) }
-    100% { left:var(--meet-x-steve); transform:translateY(0) }
-  }
-  @keyframes bob{ 0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)} }
-
-  @keyframes cakePop{
-    0%{opacity:0; transform:translate(-50%, 12%) scale(.1) rotate(-4deg)}
-    60%{opacity:1; transform:translate(-50%, 0) scale(1.06)}
-    100%{opacity:1; transform:translate(-50%, 0) scale(1)}
-  }
-
+  /* Keyframes (varios) */
+  @keyframes walkLeft{0%{left:-28%}30%{left:10%}60%{left:22%}100%{left:var(--meet-x)}}
+  @keyframes walkRight{0%{left:110%}40%{left:78%}70%{left:62%}100%{left:var(--meet-x-steve)}}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+  @keyframes cakePop{0%{opacity:0;transform:translate(-50%,12%) scale(.1) rotate(-4deg)}60%{opacity:1;transform:translate(-50%,0) scale(1.06)}100%{opacity:1;transform:translate(-50%,0) scale(1)}}
   @keyframes dennisEnter{0%{transform:translateX(120%)}100%{transform:translateX(0)}}
   @keyframes dennisPatrol{0%{transform:translateX(0)}25%{transform:translateX(-6%)}50%{transform:translateX(0)}75%{transform:translateX(4%)}100%{transform:translateX(0)}}
   @keyframes heartbeat{0%{transform:scale(1)}15%{transform:scale(1.12)}30%{transform:scale(1)}45%{transform:scale(1.06)}60%{transform:scale(1)}100%{transform:scale(1)}}
-
   @keyframes hue{0%{background-position:0% 50%}100%{background-position:100% 50%}}
   @keyframes float{0%,100%{transform:translate(-50%,0) translateY(var(--logo-dy))}50%{transform:translate(-50%,-6px) translateY(calc(var(--logo-dy) - 6px))}}
   @keyframes glow{0%,100%{filter:drop-shadow(0 14px 18px rgba(0,0,0,.45))}50%{filter:drop-shadow(0 18px 26px rgba(0,0,0,.55))}}
-  @keyframes titleFloat{0%,100%{transform: translateY(0) scale(1);}50%{transform: translateY(-3px) scale(1.01);}}
-  @keyframes titleGlow{0%,100%{filter: drop-shadow(0 8px 14px rgba(0,0,0,.45)) brightness(1);}50%{filter: drop-shadow(0 12px 20px rgba(0,0,0,.55)) brightness(1.07);}}
-  @keyframes ageFloat{0%,100%{ transform: translateY(0);}50%{ transform: translateY(-3px) scale(1.01);}}
-  @keyframes ageShine{0%,100%{ filter: drop-shadow(0 8px 14px rgba(0,0,0,.4)) brightness(1);}50%{ filter: drop-shadow(0 12px 20px rgba(0,0,0,.55)) brightness(1.06);}}
-  @keyframes sweep{0%{transform:translateX(-120%) skewX(-10deg);}48%{transform:translateX(120%) skewX(-10deg);}100%{transform:translateX(120%) skewX(-10deg);}}
+  @keyframes titleFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-3px) scale(1.01)}}
+  @keyframes titleGlow{0%,100%{filter:drop-shadow(0 8px 14px rgba(0,0,0,.45)) brightness(1)}50%{filter:drop-shadow(0 12px 20px rgba(0,0,0,.55)) brightness(1.07)}}
+  @keyframes ageFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px) scale(1.01)}}
+  @keyframes ageShine{0%,100%{filter:drop-shadow(0 8px 14px rgba(0,0,0,.4)) brightness(1)}50%{filter:drop-shadow(0 12px 20px rgba(0,0,0,.55)) brightness(1.06)}}
 
-  /* Móvil: solo tipografías/espaciados, NO tocar tamaños de personajes */
+  /* Móvil: solo tipografías */
   @media (max-width:500px){
-    .anim-gradient{ font-size: clamp(22px, 6.2vw, 28px); }
-    .info{ font-size: clamp(12.5px, 3.8vw, 16px); line-height: 1.24; }
+    .anim-gradient{ font-size: clamp(18px, 5.2vw, 24px); }
+    .info{ font-size: clamp(12px, 3.6vw, 15px); }
     .btn{ font-size: clamp(12px, 3.6vw, 15px); padding: 10px 12px; }
+    .info .row{ white-space:nowrap; }
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -306,7 +294,7 @@
       <h1 class="anim-gradient">¡Acompáñanos a celebrar!</h1>
 
       <div class="info">
-        <div class="row">📅 <strong>8 de noviembre</strong> &nbsp;•&nbsp; ⏰ <strong>4:00–8:00 p.m.</strong></div>
+        <div class="row">📅 <strong>8 de noviembre</strong> • ⏰ <strong>4:00–8:00 p.m.</strong></div>
         <div class="addr">📍 <strong>Pinocchio Salón de Fiestas Infantiles, C. Mercurio 3742, Satélite, 31140 Chihuahua, Chih.</strong></div>
       </div>
 
@@ -324,16 +312,11 @@
 
   <!-- AUDIO -->
   <audio id="bgm" loop playsinline preload="auto">
-    <!-- Local (file://) -->
     <source src="./minecraft.mp3" type="audio/mpeg">
-    <!-- Web (GitHub Pages) con cache-busting -->
     <source src="./minecraft.mp3?v=3" type="audio/mpeg">
-    <!-- Respaldo opcional (pon tu URL RAW si quieres) -->
-    <!-- <source src="https://raw.githubusercontent.com/TU_USUARIO/TU_REPO/main/minecraft.mp3" type="audio/mpeg"> -->
   </audio>
 
 <script>
-  /* Autoplay suave + botón móviles */
   const audio = document.getElementById('bgm');
   const playBtn = document.getElementById('playBtn');
 
@@ -354,5 +337,6 @@
 </script>
 </body>
 </html>
+
 
 
