@@ -6,17 +6,20 @@
 <title>Invitación — Grecia</title>
 <style>
   :root{
+    /* ===== LOGO ===== */
     --logo-visible: 1;
     --logo-dy: -60px;
     --logo-w: 100%;
 
-    /* POSICIONES */
+    /* ===== POSICIONES ===== */
+    /* Títulos (debajo del logo) */
     --header-top: 14%;
     --header-left: 7.5%;
     --header-right: 7.5%;
     --header-bot: 65%;
 
-    --panel-top: 70%;
+    /* Panel verde (textos + botones) */
+    --panel-top: 72%;
     --panel-left: 10%;
     --panel-right: 10%;
     --panel-bot: 8.5%;
@@ -24,22 +27,23 @@
     --title-gap: 8px;
     --panel-gap: 10px;
 
-    /* TAMAÑOS para 1 renglón */
+    /* Tamaños de texto (1 renglón) */
     --size-title: clamp(20px, 5.6vw, 28px);
     --size-info:  clamp(13px, 3.9vw, 17px);
     --size-btn:   clamp(13px, 3.9vw, 16px);
     --lh-info:    1.22;
 
+    /* Títulos (IMÁGENES) */
     --title-img-w: 95%;
     --age-img-w:   72%;
 
-    /* Dennis */
+    /* Dennis (piso rosa) */
     --dennis-w: 32%;
     --dennis-right: 8%;
     --dennis-bottom: 32%;
     --dennis-beat: 1.35s;
 
-    /* Alex + Steve (si los usas) */
+    /* Alex + Steve (césped) */
     --actors-bottom: 36%;
     --alex-size: 19%;
     --steve-size: 26%;
@@ -52,9 +56,11 @@
     --cake-left: 50%;
     --cake-size: 20%;
 
+    /* Corazones (Dennis) */
     --L-top: 8%;  --L-right: 66%; --L-bottom: 72%; --L-left: 19%;
     --R-top: 14%; --R-right: 19%; --R-bottom: 79%; --R-left: 73%;
 
+    /* Colores */
     --btn:#22c55e; --btnh:#16a34a; --blue:#3b82f6; --blueh:#2563eb;
     --bg:#0b0f17;
   }
@@ -139,7 +145,6 @@
     line-height:var(--lh-info);
     margin:0; text-wrap:balance;
   }
-  /* Fecha + hora en un renglón */
   .info .row{ margin:2px 0 6px; white-space:nowrap; }
   .info .addr{ margin:0; }
 
@@ -172,7 +177,7 @@
   }
   .playbar-left .btn:hover{ background:var(--blueh); }
 
-  /* Dennis */
+  /* ===== Dennis (piso rosa) ===== */
   .dennis{
     position:absolute; right:var(--dennis-right); bottom:var(--dennis-bottom);
     width:var(--dennis-w); aspect-ratio:1/1; z-index:3; pointer-events:none;
@@ -184,35 +189,87 @@
   .dennis .wolf{ position:absolute; inset:0; width:100%; height:100%; object-fit:contain; }
   .dennis .hearts{
     position:absolute; inset:0; background:url('./DENNIS.png') center/contain no-repeat;
-    animation: heartbeat 1.35s ease-in-out infinite;
+    animation: heartbeat var(--dennis-beat) ease-in-out infinite;
   }
   .dennis .h-left{  clip-path: inset(var(--L-top) var(--L-right) var(--L-bottom) var(--L-left)); }
   .dennis .h-right{ clip-path: inset(var(--R-top) var(--R-right) var(--R-bottom) var(--R-left)); }
   .dennis .h-center{
     clip-path: polygon(1% 1%,78% 1%,78% 50%,60% 25%,28% 21%,30% 31%,32% 29%,1% 35%);
   }
+  @keyframes dennisEnter{0%{transform:translateX(120%)}100%{transform:translateX(0)}}
+  @keyframes dennisPatrol{0%{transform:translateX(0)}25%{transform:translateX(-6%)}50%{transform:translateX(0)}75%{transform:translateX(4%)}100%{transform:translateX(0)}}
+  @keyframes heartbeat{0%{transform:scale(1)}15%{transform:scale(1.12)}30%{transform:scale(1)}45%{transform:scale(1.06)}60%{transform:scale(1)}100%{transform:scale(1)}}
 
-  /* (Si usas Alex/Steve/pastel, sigue tu CSS actual para ellos) */
+  /* ===== Alex + Steve caminando y pastel ===== */
+  .actors{ position:absolute; inset:0; z-index:3; pointer-events:none; }
+  .alex,.steve{
+    position:absolute; bottom:var(--actors-bottom);
+    transform-origin:50% 100%;
+    image-rendering:pixelated;
+    filter: drop-shadow(0 8px 10px rgba(0,0,0,.35));
+  }
+  .alex{
+    width:var(--alex-size); left:-28%;
+    animation: walkLeft var(--walk-time) ease-out forwards,
+               bob 1.2s ease-in-out infinite var(--walk-time);
+  }
+  .steve{
+    width:var(--steve-size); left:110%;
+    animation: walkRight var(--walk-time) ease-out forwards,
+               bob 1.2s ease-in-out infinite var(--walk-time);
+  }
 
-  /* Móvil: solo texto */
+  .cake{
+    position:absolute;
+    left:var(--cake-left); bottom:var(--cake-bottom);
+    width:var(--cake-size); z-index:3; pointer-events:none;
+    transform:translate(-50%, 6%) scale(.1);
+    opacity:0;
+    filter: drop-shadow(0 14px 18px rgba(0,0,0,.45));
+    animation: cakePop .8s cubic-bezier(.2,1.4,.28,1) forwards;
+    animation-delay: calc(var(--walk-time) + .2s);
+  }
+
+  @keyframes walkLeft{
+    0%   { left:-28%; transform:translateY(0) }
+    30%  { left:10%;  transform:translateY(-2px) }
+    60%  { left:22%;  transform:translateY(0) }
+    100% { left:var(--meet-x); transform:translateY(0) }
+  }
+  @keyframes walkRight{
+    0%   { left:110%; transform:translateY(0) }
+    40%  { left:78%;  transform:translateY(-2px) }
+    70%  { left:62%;  transform:translateY(0) }
+    100% { left:var(--meet-x-steve); transform:translateY(0) }
+  }
+  @keyframes bob{ 0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)} }
+  @keyframes cakePop{
+    0%{opacity:0; transform:translate(-50%, 12%) scale(.1) rotate(-4deg)}
+    60%{opacity:1; transform:translate(-50%, 0) scale(1.06)}
+    100%{opacity:1; transform:translate(-50%, 0) scale(1)}
+  }
+
+  /* Móvil: solo textos */
   @media (max-width:500px){
     .anim-gradient{ font-size: clamp(18px, 5.2vw, 24px); }
     .info{ font-size: clamp(12px, 3.6vw, 15px); }
     .btn{ font-size: clamp(12px, 3.6vw, 15px); padding: 10px 12px; }
     .info .row{ white-space:nowrap; }
+    /* Importante: NO cambiamos tamaños/posiciones de los personajes aquí */
   }
 
   @media (prefers-reduced-motion: reduce){
-    .logo,.title-img,.age-img,.age-wrap::after,.dennis{ animation:none !important; }
+    .logo,.title-img,.age-img,.age-wrap::after,.dennis,.alex,.steve,.cake{ animation:none !important; }
   }
 </style>
 </head>
 <body>
   <div class="scene" role="img" aria-label="Invitación temática Minecraft">
+    <!-- Fondo y logo -->
     <img class="bg" src="./Plantilla.jpg" alt="Plantilla">
     <img class="logo" src="./minecraft.png" alt="Minecraft">
 
-    <!-- TÍTULOS -->
+    <!-- Títulos -->
     <div class="header">
       <img class="title-img" src="./grecia-lira-minecraft.png" alt="Grecia Lira">
       <div class="age-wrap">
@@ -220,7 +277,14 @@
       </div>
     </div>
 
-    <!-- Dennis -->
+    <!-- Alex, Steve y pastel -->
+    <div class="actors" aria-hidden="true">
+      <img class="alex"  src="./ALEX.png"  alt="">
+      <img class="steve" src="./STIVE.png" alt="">
+      <img class="cake"  src="./pastel.png" alt="Pastel">
+    </div>
+
+    <!-- Dennis en el piso rosa -->
     <div class="dennis" aria-hidden="true">
       <img class="wolf" src="./DENNIS.png" alt="">
       <div class="hearts h-left"></div>
@@ -228,7 +292,7 @@
       <div class="hearts h-right"></div>
     </div>
 
-    <!-- PANEL VERDE -->
+    <!-- Panel verde -->
     <div class="panel">
       <h1 class="anim-gradient">¡Acompáñanos a celebrar!</h1>
 
@@ -239,7 +303,6 @@
 
       <div class="btns">
         <a class="btn" href="https://maps.app.goo.gl/VBHEYq9buCPKmp9m6" target="_blank" rel="noopener">📍 Ver ubicación</a>
-        <!-- CAMBIO: botón que pregunta cuántas personas -->
         <button id="rsvpBtn" class="btn" type="button">✅ Confirmar asistencia</button>
       </div>
     </div>
@@ -252,7 +315,9 @@
 
   <!-- AUDIO -->
   <audio id="bgm" loop playsinline preload="auto">
+    <!-- Local (file://) -->
     <source src="./minecraft.mp3" type="audio/mpeg">
+    <!-- GitHub Pages con cache-busting -->
     <source src="./minecraft.mp3?v=3" type="audio/mpeg">
   </audio>
 
@@ -281,9 +346,8 @@
   rsvpBtn.addEventListener('click', () => {
     const base = 'https://wa.me/526143811528';
     const input = prompt('¿Cuántas personas asistirán? (incluyéndote)');
-    if (input === null) return; // cancelado
+    if (input === null) return;
 
-    // aceptamos número o texto; si es número lo normalizamos
     const t = (input || '').trim();
     const n = parseInt(t, 10);
     const cantidad = (Number.isFinite(n) && n > 0 && n < 100) ? n : t || '1';
@@ -291,9 +355,8 @@
 
     const msg = `Hola, confirmo asistencia al cumpleaños de Grecia 🎉.\nSeremos ${cantidad} ${plural}.`;
     const url = `${base}?text=${encodeURIComponent(msg)}`;
-    window.open(url, '_blank');  // abrir WhatsApp
+    window.open(url, '_blank');
   }, {passive:true});
 </script>
 </body>
 </html>
-
